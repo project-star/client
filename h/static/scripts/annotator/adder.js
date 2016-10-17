@@ -21,11 +21,53 @@ function toPx(pixels) {
 }
 
 var ARROW_HEIGHT = 10;
-
+var renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
 // The preferred gap between the end of the text selection and the adder's
 // arrow position.
 var ARROW_H_MARGIN = 20;
+function DOMtoString(document_root,renoted_id) {
+    var html = '',
+        node = document_root.firstChild;
+    while (node) {
+        switch (node.nodeType) {
+        case Node.ELEMENT_NODE:
+            html += node.outerHTML;
+            break;
+        case Node.TEXT_NODE:
+            html += node.nodeValue;
+            break;
+        case Node.CDATA_SECTION_NODE:
+            html += '<![CDATA[' + node.nodeValue + ']]>';
+            break;
+        case Node.COMMENT_NODE:
+            html += '<!--' + node.nodeValue + '-->';
+            break;
+        case Node.DOCUMENT_TYPE_NODE:
+            // (X)HTML documents are identified by public identifiers
+            html += "<!DOCTYPE " + node.name + (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') + (!node.publicId && node.systemId ? ' SYSTEM' : '') + (node.systemId ? ' "' + node.systemId + '"' : '') + '>\n';
+            break;
+        }
+        node = node.nextSibling;
+    }
 
+    var data = {"msg": html,"annot":renoted_id};
+    var data1 = JSON.stringify(data);
+//    console.log(data1);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://52.220.118.188:5010/sendmsg", true);
+    xhr.setRequestHeader("Content-type", "application/json");
+//    xhr.setRequestHeader("Content-length", data.length);
+//    xhr.setRequestHeader("Connection", "close");
+      xhr.setRequestHeader("Access-Control-Allow-Origin","*");
+    xhr.onreadystatechange = function() {
+       if (xhr.readyState == 4) {
+          console.log('xhr response: '+ xhr.responseText);
+      }
+    }
+    xhr.send(data1);
+    return xhr.responseText;
+ }
 function attachShadow(element) {
   if (element.attachShadow) {
     // Shadow DOM v1 (Chrome v53, Safari 10)
@@ -122,15 +164,31 @@ function Adder(container, options) {
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')
     .addEventListener('click', handleCommand.bind(this, 'highlight'));
-
+  element.querySelector('.js-search-btn')
+    .addEventListener('click', handleCommand.bind(this, 'search'));
   function handleCommand(command, event) {
     event.preventDefault();
     event.stopPropagation();
 
     if (command === 'annotate') {
-      options.onAnnotate();
+      renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
+      DOMtoString(document,renoted_id);
+      console.log("Renoted Begins Now")
+      console.log(renoted_id);
+      options.onAnnotate(renoted_id);
+    } else if (command === 'search'){
+      renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
+      DOMtoString(document,renoted_id)
+      console.log("Renoted Begins Now")
+      console.log(renoted_id);
+      options.onSearch(check2);
     } else {
-      options.onHighlight();
+      renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
+      DOMtoString(document,renoted_id);
+      console.log("Renoted Begins Now")
+      console.log(renoted_id);
+      options.onHighlight(renoted_id);
+  
     }
 
     this.hide();

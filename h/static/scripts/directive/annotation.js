@@ -46,7 +46,6 @@ function updateModel(annotation, changes, permissions) {
       permissions.private() : permissions.shared(annotation.group),
   });
 }
-
 // @ngInject
 function AnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
@@ -55,7 +54,7 @@ function AnnotationController(
 
   var vm = this;
   var newlyCreatedByHighlightButton;
-
+  var newlyCreatedSearchCustom;
   /** Save an annotation to the server. */
   function save(annot) {
     var saved;
@@ -73,6 +72,9 @@ function AnnotationController(
           savedAnnot[k] = annot[k];
         }
       });
+      //DOMtoString(document,savedAnnot.id);
+      console.log("in save function")
+      console.log(JSON.stringify(savedAnnot))
       return savedAnnot;
     });
   }
@@ -129,10 +131,14 @@ function AnnotationController(
     if (!vm.annotation.permissions) {
       vm.annotation.permissions = permissions.default(vm.annotation.group);
     }
+    vm.annotation.page_data = vm.annotation.text || '';
     vm.annotation.text = vm.annotation.text || '';
     if (!Array.isArray(vm.annotation.tags)) {
       vm.annotation.tags = [];
     }
+    vm.annotation.searchcustom = vm.annotation.$search || false
+    vm.annotation.renoted_id = vm.annotation.$renoted_id || vm.annotation.renoted_id;
+    newlyCreatedSearchCustom = vm.annotation.$search || false
 
     // Automatically save new highlights to the server when they're created.
     // Note that this line also gets called when the user logs in (since
@@ -175,6 +181,9 @@ function AnnotationController(
       // User is logged in, save to server.
       // Highlights are always private.
       vm.annotation.permissions = permissions.private();
+      
+      console.log(vm.annotation.text)
+      console.log(vm.annotation.page_data)
       save(vm.annotation).then(function(model) {
         model.$$tag = vm.annotation.$$tag;
         $rootScope.$broadcast(events.ANNOTATION_CREATED, model);
@@ -252,7 +261,9 @@ function AnnotationController(
   vm.group = function() {
     return groups.get(vm.annotation.group);
   };
-
+  vm.renoted_id = function() {
+    return vm.annotation.renoted_id;
+   }
   /**
     * @ngdoc method
     * @name annotation.AnnotaitonController#hasContent
@@ -298,7 +309,23 @@ function AnnotationController(
       return (!isPageNote && !isReply(vm.annotation) && !vm.hasContent());
     }
   };
-
+  vm.isSearchCustom = function() {
+    if (newlyCreatedSearchCustom) {
+      return true;
+    } else if (isNew(vm.annotation)) {
+      return false;
+    } else if (newlyCreatedByHighlightButton) {
+      return false;
+    } else {
+      // Once an annotation has been saved to the server there's no longer a
+      // simple property that says whether it's a highlight or not.  For
+      // example there's no vm.annotation.highlight: true.  Instead a highlight is
+      // defined as an annotation that isn't a page note or a reply and that
+      // has no text or tags.
+      var isPageNote = (vm.annotation.target || []).length === 0;
+      return (!isPageNote && !isReply(vm.annotation) && !vm.hasContent());
+    }
+  };
   /**
     * @ngdoc method
     * @name annotation.AnnotationController#isShared
@@ -412,12 +439,16 @@ function AnnotationController(
     drafts.update(vm.annotation, {
       tags: vm.state().tags,
       text: vm.state().text,
+      page_data: vm.state().text,
       isPrivate: privacy === 'private',
     });
   };
 
   vm.tagStreamURL = function(tag) {
     return serviceUrl('search.tag', {tag: tag});
+  };
+  vm.page_data = function() {
+    return vm.annotation.text;
   };
 
   vm.target = function() {
@@ -483,9 +514,17 @@ function AnnotationController(
       isPrivate: vm.state().isPrivate,
       tags: vm.state().tags,
       text: text,
+      page_data: text,
     });
   };
-
+  vm.setRenoted_id = function (renoted_id) {
+    drafts.update(vm.annotation, {
+      isPrivate: vm.state().isPrivate,
+      tags: tags,
+      text: text,
+      renoted_id: vm.state().renoted_id,
+    });
+  };
   vm.setTags = function (tags) {
     drafts.update(vm.annotation, {
       isPrivate: vm.state().isPrivate,
@@ -502,6 +541,8 @@ function AnnotationController(
     return {
       tags: vm.annotation.tags,
       text: vm.annotation.text,
+      renoted_id: vm.annotation.renoted_id,
+      page_data: vm.annotation.text,
       isPrivate: permissions.isPrivate(vm.annotation.permissions,
         vm.annotation.user),
     };

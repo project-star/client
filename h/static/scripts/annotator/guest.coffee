@@ -58,14 +58,19 @@ module.exports = class Guest extends Annotator
 
     self = this
     this.adderCtrl = new adder.Adder(@adder[0], {
-      onAnnotate: ->
-        self.createAnnotation()
+      onAnnotate: (renoted_id) ->
+        self.createAnnotation({$renoted_id: renoted_id})
         Annotator.Util.getGlobal().getSelection().removeAllRanges()
-      onHighlight: ->
+      onHighlight: (renoted_id) ->
         self.setVisibleHighlights(true)
-        self.createHighlight()
+        self.createHighlight(renoted_id)
+        Annotator.Util.getGlobal().getSelection().removeAllRanges()
+     onSearch: (renoted_id) ->
+        self.setVisibleHighlights(true)
+        self.createSearch(renoted_id)
         Annotator.Util.getGlobal().getSelection().removeAllRanges()
     })
+   
     this.selections = selections(document).subscribe
       next: (range) ->
         if range
@@ -292,18 +297,19 @@ module.exports = class Guest extends Annotator
       highlighter.removeHighlights(unhighlight)
       this.plugins.BucketBar?.update()
 
-  createAnnotation: (annotation = {}) ->
+  createAnnotation: (annotation = {$renoted_id: renoted_id}) ->
     self = this
     root = @element[0]
 
     ranges = @selectedRanges ? []
     @selectedRanges = null
-
+    
     getSelectors = (range) ->
       options = {
         cache: self.anchoringCache
         ignoreSelector: '[class^="annotator-"]'
       }
+#      @adder.DOMtoString(root,"1234")
       # Returns an array of selectors for the passed range.
       return self.anchoring.describe(root, range, options)
 
@@ -322,15 +328,17 @@ module.exports = class Guest extends Annotator
 
     metadata = info.then(setDocumentInfo)
     targets = Promise.all([info, selectors]).then(setTargets)
-
+    console.log("annotation")
+    console.log(JSON.stringify(annotation))
     targets.then(-> self.publish('beforeAnnotationCreated', [annotation]))
     targets.then(-> self.anchor(annotation))
 
     annotation
 
-  createHighlight: ->
-    return this.createAnnotation({$highlight: true})
-
+  createHighlight: (renoted_id) ->
+    return this.createAnnotation({$highlight: true, $renoted_id: renoted_id})
+  createSearch: (renoted_id)->
+    return this.createAnnotation({$search: true, $renoted_id: renoted_id})
   # Create a blank comment (AKA "page note")
   createComment: () ->
     annotation = {}

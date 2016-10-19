@@ -1,7 +1,11 @@
+<!-- Anshul: Commenting the Group functionality as this is not part of the Proto Rapalce XXX> with -->
+
+
+<!--
 <span ng-if="auth.status === 'logged-out'"
       ng-switch on="groups.focused().public">
   <i class="group-list-label__icon h-icon-public" ng-switch-when="true"></i><!-- nospace
-  !--><i class="group-list-label__icon h-icon-group" ng-switch-default></i>
+  !XXX><i class="group-list-label__icon h-icon-group" ng-switch-default></i>
   <span class="group-list-label__label">{{groups.focused().name}}</span>
 </span>
 
@@ -16,9 +20,9 @@
         ng-switch on="groups.focused().public"
         title="Change the selected group">
     <i class="group-list-label__icon h-icon-public" ng-switch-when="true"></i><!-- nospace
-    !--><i class="group-list-label__icon h-icon-group" ng-switch-default></i>
+    !XXX><i class="group-list-label__icon h-icon-group" ng-switch-default></i>
     <span class="group-list-label__label">{{groups.focused().name}}</span><!-- nospace
-    !--><i class="h-icon-arrow-drop-down"></i>
+    !XXX><i class="h-icon-arrow-drop-down"></i>
   </div>
   <div class="dropdown-menu__top-arrow"></div>
   <ul class="dropdown-menu pull-none" role="menu">
@@ -26,12 +30,12 @@
         ng-repeat="group in groups.all()">
       <div ng-class="{'group-item': true, selected: group.id == groups.focused().id}"
            ng-click="focusGroup(group.id)">
-        <!-- the group icon !-->
+        <!-- the group icon !XXX>
         <div class="group-icon-container" ng-switch on="group.public">
           <i class="h-icon-public" ng-switch-when="true"></i>
           <i class="h-icon-group" ng-switch-default></i>
         </div>
-        <!-- the group name and share link !-->
+        <!-- the group name and share link !XXX>
         <div class="group-details">
           <div class="group-name-container">
             <a class="group-name-link"
@@ -46,7 +50,7 @@
             </a>
           </div>
         </div>
-        <!-- the 'Leave group' icon !-->
+        <!-- the 'Leave group' icon !XXX>
         <div class="group-cancel-icon-container" ng-click="$event.stopPropagation()">
           <i class="h-icon-cancel-outline btn--cancel"
              ng-if="!group.public"
@@ -67,3 +71,4 @@
     </li>
   </ul>
 </div>
+-->

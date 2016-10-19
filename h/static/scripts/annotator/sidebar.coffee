@@ -154,7 +154,7 @@ module.exports = class Sidebar extends Host
 
   createAnnotation: (annotation = {}) ->
     super
-    this.show() unless annotation.$highlight
+    this.show() unless annotation.$highlight 
 
   showAnnotations: (annotations) ->
     super

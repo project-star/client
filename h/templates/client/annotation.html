@@ -4,12 +4,15 @@
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
   <header class="annotation-header">
-    <!-- User -->
+
+    <!-- User --> <!-- Anshul: ng-href replaced {{vm.serviceUrl('user',{user:vm.user()})}} 
+    {{vm.username()}}      Renoted IdSSSSSSS: {{vm.renoted_id()}} -->
+
     <span ng-if="vm.user()">
       <a class="annotation-header__user"
         target="_blank"
-        ng-href="{{vm.serviceUrl('user',{user:vm.user()})}}"
-        >{{vm.username()}}</a>
+        ng-href="{{vm.documentMeta().titleLink}}"
+        > {{vm.documentMeta().titleText}} </a>
       <span class="annotation-collapsed-replies">
         <a class="annotation-link" href=""
           ng-click="vm.onReplyCountClick()"
@@ -17,15 +20,18 @@
           when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
       </span>
       <br>
+
+      <!--
       <span class="annotation-header__share-info">
         <a class="annotation-header__group"
           target="_blank" ng-if="vm.group() && vm.group().url" href="{{vm.group().url}}">
-          <i class="h-icon-group"></i><span class="annotation-header__group-name">{{vm.group().name}}</span>
+          <i class="h-icon-group"></i><span class="annotation-header__group-name">{{vm.group().name}}</span> 
         </a>
         <span ng-show="vm.state().isPrivate"
           title="This annotation is visible only to you.">
-          <i class="h-icon-lock"></i><span class="annotation-header__group-name" ng-show="!vm.group().url">Only me</span>
+          <i class="h-icon-lock"></i><span class="annotation-header__group-name" ng-show="!vm.group().url">Only me </span>
         </span>
+
         <i class="h-icon-border-color" ng-show="vm.isHighlight() && !vm.editing()" title="This is a highlight. Click 'edit' to add a note or tag."></i>
         <span ng-if="::vm.showDocumentInfo">
           <span class="annotation-citation" ng-if="vm.documentMeta().titleLink">
@@ -38,6 +44,8 @@
                 ng-if="vm.documentMeta().domain">({{vm.documentMeta().domain}})</span>
         </span>
       </span>
+
+      -->
     </span>
 
     <span class="u-flex-spacer"></span>
@@ -150,6 +158,7 @@
         h-tooltip>
         <i class="h-icon-annotation-edit btn-icon "></i>
       </button>
+
       <button class="btn btn-clean annotation-action-btn"
         ng-show="vm.authorize('delete')"
         ng-click="vm.delete()"
@@ -158,6 +167,8 @@
         h-tooltip>
         <i class="h-icon-annotation-delete btn-icon "></i>
       </button>
+
+      <!--
       <button class="btn btn-clean annotation-action-btn"
         ng-click="vm.reply()"
         ng-disabled="vm.isDeleted()"
@@ -165,6 +176,9 @@
         h-tooltip>
         <i class="h-icon-annotation-reply btn-icon "></i>
       </button>
+
+      -->
+
       <span class="annotation-share-dialog-wrapper">
         <button class="btn btn-clean annotation-action-btn"
           ng-click="vm.showShareDialog = true"

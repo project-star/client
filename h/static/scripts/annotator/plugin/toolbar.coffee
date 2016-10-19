@@ -60,6 +60,43 @@ module.exports = class Toolbar extends Annotator.Plugin
           event.stopPropagation()
           @annotator.createAnnotation()
           @annotator.show()
+    ,
+      "title": "Bookmark Page"
+      "class": "h-icon-bookmark"
+      "name": "bookmark-page"
+      "on":
+        "click": (event) =>
+          event.preventDefault()
+          event.stopPropagation()
+          console.log "Clicked on the bookmark tool"
+          uri = document.location.href
+          title = document.title
+          jsondata = {
+                        "title":title,
+                        "uri":uri
+                     }
+          console.log jsondata
+          console.log uri
+          console.log title
+          #create a AJAX call to update the bookmark information in server
+          $.ajax
+            url: 'http://52.220.118.188:5010/addbookmark'
+            type: 'POST'
+            dataType: 'json'
+            data: JSON.stringify(jsondata)
+            headers: {
+                     'Content-Type': 'application/json'
+            }
+            error: (data, status, response) ->
+                console.log data
+                console.log status
+                console.log response
+            success: (data, status, response) ->
+                console.log data
+                console.log status
+                console.log response
+                console.log "success"
+
     ]
     @buttons = $(makeButton(item) for item in items)
 

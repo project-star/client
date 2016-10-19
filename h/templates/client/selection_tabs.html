@@ -10,6 +10,8 @@
       {{ vm.totalAnnotations }}
     </span>
   </a>
+  <!-- Anshul: Removing the Page Notes and Orphans functionality -->
+  <!-- 
   <a class="selection-tabs__type"
      href="#"
      ng-class="{'is-selected': vm.selectedTab === vm.TAB_NOTES}"
@@ -31,8 +33,12 @@
       {{ vm.totalOrphans }}
     </span>
   </a>
+  -->
 </div>
 <div ng-if="!vm.isLoading()" class="selection-tabs__empty-message">
+  
+  <!-- Anshul: Removing the Page Notes and Orphans functionality -->
+  <!--
   <div ng-if="vm.showNotesUnavailableMessage()"  class="annotation-unavailable-message">
     <p class="annotation-unavailable-message__label">
       There are no page notes in this group.
@@ -42,6 +48,7 @@
       button.
     </p>
   </div>
+  -->
   <div ng-if="vm.showAnnotationsUnavailableMessage()"  class="annotation-unavailable-message">
     <p class="annotation-unavailable-message__label">
       There are no annotations in this group.

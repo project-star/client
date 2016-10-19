@@ -50,16 +50,18 @@ module.exports = class Toolbar extends Annotator.Plugin
           event.stopPropagation()
           state = not @annotator.visibleHighlights
           @annotator.setVisibleHighlights state
-    ,
-      "title": "New Page Note"
-      "class": "h-icon-note"
-      "name": "insert-comment"
-      "on":
-        "click": (event) =>
-          event.preventDefault()
-          event.stopPropagation()
-          @annotator.createAnnotation()
-          @annotator.show()
+    #
+    # Anshul: Removing the Page Note functionality
+    #,
+    #  "title": "New Page Note"
+    #  "class": "h-icon-note"
+    #  "name": "insert-comment"
+    #  "on":
+    #    "click": (event) =>
+    #      event.preventDefault()
+    #      event.stopPropagation()
+    #      @annotator.createAnnotation()
+    #      @annotator.show()
     ,
       "title": "Bookmark Page"
       "class": "h-icon-bookmark"
@@ -80,7 +82,7 @@ module.exports = class Toolbar extends Annotator.Plugin
           console.log title
           #create a AJAX call to update the bookmark information in server
           $.ajax
-            url: 'http://52.220.118.188:5010/addbookmark'
+            url: 'http://52.220.118.188:5010/addbookmark' #put in config later
             type: 'POST'
             dataType: 'json'
             data: JSON.stringify(jsondata)

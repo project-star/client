@@ -1,4 +1,6 @@
 <div dropdown="" class="publish-annotation-btn__btn" is-open="vm.showDropdown" keyboard-nav>
+  
+<!--
   <dropdown-menu-btn
     label="'Post to ' + vm.publishDestination()"
     on-click="vm.onSave()"
@@ -7,6 +9,18 @@
     dropdown-menu-label="Change annotation sharing setting"
     is-disabled="!vm.canPost">
   </dropdown-menu-btn>
+
+-->
+  
+<!-- Anshul: Changing the Publish drop down to Save Button -->
+  <button ng-click="vm.onSave()"
+          title="Save Annotation"
+          class="btn btn-default btn-lg" 
+          >
+    Save
+  </button>
+
+<!--
   <div class="publish-annotation-btn__dropdown-container">
     <ul class="dropdown-menu pull-center group-list publish-annotation-btn__dropdown-menu" role="menu">
       <li class="dropdown-menu__row" ng-click="vm.setPrivacy('shared')">
@@ -36,6 +50,8 @@
     </ul>
   </div>
 </div>
+-->
+
 <button class="publish-annotation-cancel-btn btn-clean"
         ng-click="vm.onCancel()"
         title="Cancel changes to this annotation"

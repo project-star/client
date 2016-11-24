@@ -9,8 +9,8 @@ var angular = require('angular');
  */
 function fetchThread(store, id) {
   var annot;
-  console.log("+++++ in prefetch thread +++++")
-  return store.annotation.get({id: id}).then(function (annot) {
+  console.log("in prefetch thread")
+  return store.url({id: id}).then(function (annot) {
     console.log("in fetch thread")
     if (annot.references && annot.references.length) {
       // This is a reply, fetch the top-level annotation
@@ -26,8 +26,30 @@ function fetchThread(store, id) {
   });
 }
 
+
+function renotedfetchThread(store, id) {
+  var urlwise;
+  var annot;
+  var result;
+  var i=0;
+  result=[]
+  console.log("in prefetch thread")
+  return store.url({id: id}).then(function (urlwise) {
+    console.log("in renotedfetch thread")
+      for (i = 0; i < urlwise.rows.total; i++) { 
+          annot = urlwise.rows.annotations[i]
+          result = result.concat(annot)     
+    }
+         
+    return result 
+  });
+}
+
+
+
+
 // @ngInject
-function AnnotationViewerController (
+function RenotedAnnotationViewerController (
   $location, $routeParams, $scope,
   annotationUI, rootThread, streamer, store, streamFilter, annotationMapper
 ) {
@@ -51,9 +73,10 @@ function AnnotationViewerController (
     annotationUI.setCollapsed(id, collapsed);
   };
 
-  this.ready = fetchThread(store, id).then(function (annots) {
+  this.ready = renotedfetchThread(store, id).then(function (annots) {
+    console.log("++++++ in ready renoted annotation++++++") 
+    console.log(annots)
     annotationMapper.loadAnnotations(annots);
-
     var topLevelAnnot = annots.filter(function (annot) {
       return (annot.references || []).length === 0;
     })[0];
@@ -79,4 +102,4 @@ function AnnotationViewerController (
   });
 }
 
-module.exports = AnnotationViewerController;
+module.exports = RenotedAnnotationViewerController;

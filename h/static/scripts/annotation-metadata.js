@@ -80,8 +80,8 @@ function titleTextFromAnnotation(annotation) {
   var document = documentMetadata(annotation);
 
   var titleText = document.title;
-  if (titleText.length > 30) {
-    titleText = titleText.slice(0, 30) + '…';
+  if (titleText.length > 100) {
+    titleText = titleText.slice(0, 100) + '…';
   }
 
   return titleText;

@@ -1,6 +1,6 @@
 angular = require('angular')
 
-module.exports = class StreamController
+module.exports = class RenotedAnnotationController
   this.$inject = [
     '$scope', '$location', '$route', '$rootScope', '$routeParams',
     'annotationUI',
@@ -28,16 +28,6 @@ module.exports = class StreamController
 
     load = ({rows, replies}) ->
       offset += rows.length
-      console.log("++++in stream-filter-controller++++")
-      urllist=[]
-      console.log(rows)
-      for val in rows
-          console.log(val.uri_id)
-          if (val.uri_id) not in urllist
-              val.type='first'
-          else
-              val.type='second'
-          urllist.push(val.uri_id)
       annotationMapper.loadAnnotations(rows, replies)
 
     # Reload on query change (ignore hash change)

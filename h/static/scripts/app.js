@@ -54,12 +54,19 @@ function configureLocation($locationProvider) {
 
 // @ngInject
 var VIEWER_TEMPLATE = require('../../templates/client/viewer.html');
-
+var RENOTED_VIEWER_TEMPLATE = require('../../templates/client/renotedviewer.html');
 function configureRoutes($routeProvider) {
   $routeProvider.when('/a/:id',
     {
       controller: 'AnnotationViewerController',
       template: VIEWER_TEMPLATE,
+      reloadOnSearch: false,
+      resolve: resolve,
+    });
+    $routeProvider.when('/u/:id',
+    {
+      controller: 'RenotedAnnotationViewerController',
+      template: RENOTED_VIEWER_TEMPLATE,
       reloadOnSearch: false,
       resolve: resolve,
     });
@@ -73,6 +80,13 @@ function configureRoutes($routeProvider) {
   $routeProvider.when('/stream',
     {
       controller: 'StreamController',
+      template: RENOTED_VIEWER_TEMPLATE,
+      reloadOnSearch: false,
+      resolve: resolve,
+    });
+  $routeProvider.when('/showannotation',
+    {
+      controller: 'RenotedAnnotationController',
       template: VIEWER_TEMPLATE,
       reloadOnSearch: false,
       resolve: resolve,
@@ -124,7 +138,9 @@ module.exports = angular.module('h', [
 
   .controller('AnnotationUIController', require('./annotation-ui-controller'))
   .controller('AnnotationViewerController', require('./annotation-viewer-controller'))
+  .controller('RenotedAnnotationViewerController', require('./renotedannotation-viewer-controller'))
   .controller('StreamController', require('./stream-controller'))
+  .controller('RenotedAnnotationController', require('./renotedannotation-controller'))
   .controller('WidgetController', require('./widget-controller'))
 
   // The root component for the application
@@ -132,8 +148,10 @@ module.exports = angular.module('h', [
 
   // UI components and helpers
   .directive('annotation', require('./directive/annotation').directive)
+  .directive('renotedannotation', require('./directive/renotedannotation').directive)
   .directive('annotationShareDialog', require('./directive/annotation-share-dialog'))
   .directive('annotationThread', require('./directive/annotation-thread'))
+  .directive('renotedannotationThread', require('./directive/renotedannotation-thread'))
   .directive('dropdownMenuBtn', require('./directive/dropdown-menu-btn'))
   .directive('excerpt', require('./directive/excerpt').directive)
   .directive('formInput', require('./directive/form-input'))
@@ -160,6 +178,7 @@ module.exports = angular.module('h', [
   .directive('svgIcon', require('./directive/svg-icon'))
   .directive('tagEditor', require('./directive/tag-editor'))
   .directive('threadList', require('./directive/thread-list'))
+  .directive('renotedthreadList', require('./directive/renotedthread-list'))
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
   .directive('windowScroll', require('./directive/window-scroll'))

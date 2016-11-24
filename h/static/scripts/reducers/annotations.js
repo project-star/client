@@ -166,7 +166,9 @@ var actions = util.actionTypes(update);
 /** Add annotations to the currently displayed set. */
 function addAnnotations(annotations, now) {
   now = now || new Date();
-
+  console.log("+++++++++in reducers add annoation++++++++++")
+  console.log(now)
+  console.log("++++++++++++++++++++++++++++")
   // Add dates to new annotations. These are ignored by the server but used
   // when sorting unsaved annotation cards.
   annotations = annotations.map(function (annot) {

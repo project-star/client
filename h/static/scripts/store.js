@@ -88,6 +88,8 @@ function createAPICall($http, links, route) {
       var descriptor = get(links, route);
       var url = urlUtil.replaceURLParams(descriptor.url, params);
       console.log("before createAPI call");
+      console.log ("url in before createAPI call");
+      console.log(url)
       console.log(data);
       var req = {
         data: data ? stripInternalProperties(data) : null,
@@ -105,6 +107,32 @@ function createAPICall($http, links, route) {
   };
 }
 
+
+function renotedcreateAPICall($http, links, route) {
+  return function (params, data) {
+    return links.then(function (links) {
+      var descriptor = get(links, route);
+      var url = urlUtil.replaceURLParams(descriptor.url, params);
+      console.log("before createAPI call");
+      console.log ("url in before createAPI call");
+      console.log(url)
+      console.log(data);
+      var req = {
+        data: data ? stripInternalProperties(data) : null,
+        method: descriptor.method,
+        params: url.params,
+        paramSerializer: serializeParams,
+        url: url.url,
+      };
+      return $http(req);
+    }).then(function (result) {
+      console.log("in createAPI Call");
+      console.log (result.data);
+      return result.data.rows.annotations[0];
+    });
+  };
+}
+
 /**
  * API client for the Hypothesis REST API.
  *
@@ -116,6 +144,8 @@ function store($http, settings) {
   var links = retryUtil.retryPromiseOperation(function () {
     return $http.get(settings.apiUrl);
   }).then(function (response) {
+    console.log("+++ in store function +++")
+    console.log(response.data.links)
     return response.data.links;
   });
 
@@ -127,6 +157,8 @@ function store($http, settings) {
       get: createAPICall($http, links, 'annotation.read'),
       update: createAPICall($http, links, 'annotation.update'),
     },
+    url: createAPICall($http, links, 'url'),
+ 
   };
 }
 

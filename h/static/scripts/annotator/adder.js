@@ -54,19 +54,19 @@ function DOMtoString(document_root,renoted_id) {
     var data1 = JSON.stringify(data);
 //    console.log(data1);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://52.220.118.188:5010/sendmsg", true);
-    xhr.setRequestHeader("Content-type", "application/json");
+//    var xhr = new XMLHttpRequest();
+//    xhr.open("POST", "http://52.220.118.188:5010/sendmsg", true);
+//    xhr.setRequestHeader("Content-type", "application/json");
 //    xhr.setRequestHeader("Content-length", data.length);
 //    xhr.setRequestHeader("Connection", "close");
-      xhr.setRequestHeader("Access-Control-Allow-Origin","*");
-    xhr.onreadystatechange = function() {
-       if (xhr.readyState == 4) {
-          console.log('xhr response: '+ xhr.responseText);
-      }
-    }
-    xhr.send(data1);
-    return xhr.responseText;
+//      xhr.setRequestHeader("Access-Control-Allow-Origin","*");
+//    xhr.onreadystatechange = function() {
+ //      if (xhr.readyState == 4) {
+ //         console.log('xhr response: '+ xhr.responseText);
+ //     }
+ //   }
+ //   xhr.send(data1);
+    return "true";
  }
 function attachShadow(element) {
   if (element.attachShadow) {

@@ -47,7 +47,7 @@ function updateModel(annotation, changes, permissions) {
   });
 }
 // @ngInject
-function AnnotationController(
+function RenotedAnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
   session, store, streamer) {
@@ -80,12 +80,12 @@ function AnnotationController(
   }
 
   /**
-    * Initialize this AnnotationController instance.
+    * Initialize this RenotedAnnotationController instance.
     *
     * Initialize the `vm` object and any other variables that it needs,
     * register event listeners, etc.
     *
-    * All initialization code intended to run when a new AnnotationController
+    * All initialization code intended to run when a new RenotedAnnotationController
     * instance is instantiated should go into this function, except defining
     * methods on `vm`. This function is called on AnnotationController
     * instantiation after all of the methods have been defined on `vm`, so it
@@ -267,6 +267,10 @@ function AnnotationController(
   vm.typetodisplay = function() {
    return vm.annotation.type || "first";
   }
+ vm.displayTitle = function() {
+   return vm.annotation.document.title[0] || "";
+  }
+    
   /**
     * @ngdoc method
     * @name annotation.AnnotaitonController#hasContent
@@ -560,11 +564,11 @@ function AnnotationController(
 }
 
 // @ngInject
-function annotation() {
+function renotedannotation() {
   return {
     restrict: 'E',
     bindToController: true,
-    controller: AnnotationController,
+    controller: RenotedAnnotationController,
     controllerAs: 'vm',
     scope: {
       annotation: '<',
@@ -573,7 +577,7 @@ function annotation() {
       replyCount: '<',
       isCollapsed: '<',
     },
-    template: require('../../../templates/client/annotation.html'),
+    template: require('../../../templates/client/renotedannotation.html'),
   };
 }
 
@@ -586,6 +590,6 @@ module.exports = {
   updateModel: updateModel,
 
   // These are meant to be the public API of this module.
-  directive: annotation,
-  Controller: AnnotationController,
+  directive: renotedannotation,
+  Controller: RenotedAnnotationController,
 };

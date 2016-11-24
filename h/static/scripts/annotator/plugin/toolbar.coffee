@@ -50,16 +50,17 @@ module.exports = class Toolbar extends Annotator.Plugin
           event.stopPropagation()
           state = not @annotator.visibleHighlights
           @annotator.setVisibleHighlights state
-    ,
-      "title": "New Page Note"
-      "class": "h-icon-note"
+ 
+    ,    
+      "title": "New "
+      "class": "h-icon-bookmark"
       "name": "insert-comment"
       "on":
-        "click": (event) =>
+       "click": (event) =>
           event.preventDefault()
           event.stopPropagation()
-          @annotator.createAnnotation()
-          @annotator.show()
+#          @annotator.createAnnotation()
+#          @annotator.show()
     ]
     @buttons = $(makeButton(item) for item in items)
 

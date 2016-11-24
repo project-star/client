@@ -125,6 +125,9 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
                     events.ANNOTATIONS_LOADED];
   loadEvents.forEach(function (event) {
     $rootScope.$on(event, function (event, annotation) {
+      console.log("+++++++++++++++in root thread+++++++++++++")
+      console.log(event)
+      console.log("+++++++++++++++++++++++++++++")
       annotationUI.addAnnotations([].concat(annotation));
     });
   });

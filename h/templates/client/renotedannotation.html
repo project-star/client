@@ -3,61 +3,54 @@
 </header>
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
-  <header class="annotation-header">
+  <header class="annotation-header" ng-if="vm.typetodisplay()=='first'">
     <!-- User -->
+    <br>
+    <br>
     <span ng-if="vm.user()">
-      <a class="annotation-header__user"
-        target="_blank"
-      ng-href="{{vm.documentMeta().titleLink}}"
-        > {{vm.documentMeta().titleText}} </a>
       <span class="annotation-collapsed-replies">
         <a class="annotation-link" href=""
-          ng-click="vm.onReplyCountClick()"
+          ng-click="vm.onRepyCountClick()"
           ng-pluralize count="vm.replyCount"
           when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
       </span>
-      <br>
-      <!--
-      <span class="annotation-header__share-info">
+    </span>
+    <span ng-if="vm.typetodisplay()=='first'">
+    <br>
+    </span>
+    <br>
+      <span class="annotation-header__share-info" ng-if="vm.typetodisplay()=='first'">
         <a class="annotation-header__group"
           target="_blank" ng-if="vm.group() && vm.group().url" href="{{vm.group().url}}">
-          <i class="h-icon-group"></i><span class="annotation-header__group-name">{{vm.group().name}}</span> 
+          <i class="h-icon-group"></i><span class="annotation-header__group-name">{{vm.group().name}}</span>
         </a>
-        <span ng-show="vm.state().isPrivate"
-          title="This annotation is visible only to you.">
-          <i class="h-icon-lock"></i><span class="annotation-header__group-name" ng-show="!vm.group().url"></span>
-        </span>
-        <i class="h-icon-border-color" ng-show="vm.isHighlight() && !vm.editing()" title="This is a highlight. Click 'edit' to add a note or tag."></i>
         <span ng-if="::vm.showDocumentInfo">
           <span class="annotation-citation" ng-if="vm.documentMeta().titleLink">
-             "<a ng-href="{{vm.documentMeta().titleLink}}">{{vm.documentMeta().titleText}}</a>"
+            "<a ng-href="{{vm.documentMeta().titleLink}}">{{vm.displayTitle()}}</a>"
           </span>
           <span class="annotation-citation" ng-if="!vm.documentMeta().titleLink">
-             "{{vm.documentMeta().titleText}}"
+             "{{ vm.displayTitle() }}"
           </span>
           <span class="annotation-citation-domain"
                 ng-if="vm.documentMeta().domain">({{vm.documentMeta().domain}})</span>
         </span>
       </span>
-      -->
     </span>
-
     <span class="u-flex-spacer"></span>
-      
     <timestamp
       class-name="'annotation-header__timestamp'"
       timestamp="vm.updated()"
       href="vm.links().html"
       ng-if="!vm.editing() && vm.updated()"></timestamp>
-      
+    <hr>
   </header>
-  
+    <hr ng-if="vm.typetodisplay()=='first'"> 
   <!-- Excerpts -->
   <section class="annotation-quote-list"
     ng-class="{'is-orphan' : vm.isOrphan()}"
     ng-repeat="target in vm.target() track by $index"
     ng-if="vm.hasQuotes()">
-    <excerpt collapsed-height="80"
+    <excerpt collapsed-height="35"
       inline-controls="true"
       overflow-hysteresis="20"
       content-data="selector.exact">
@@ -68,15 +61,15 @@
           track by $index"></blockquote>
     </excerpt>
   </section>
-
   <!-- / Excerpts -->
+
   <!-- Body -->
   <section name="text" class="annotation-body">
     <excerpt enabled="!vm.editing()"
       inline-controls="false"
       on-collapsible-changed="vm.setBodyCollapsible(collapsible)"
       collapse="vm.collapseBody"
-      collapsed-height="400"
+      collapsed-height="100"
       overflow-hysteresis="20"
       content-data="vm.state().text">
       <markdown text="vm.state().text"
@@ -86,7 +79,6 @@
     </excerpt>
   </section>
   <!-- / Body -->
-
   <!-- Tags -->
   <div class="annotation-body form-field" ng-if="vm.editing()">
     <tag-editor tags="vm.state().tags"
@@ -108,7 +100,7 @@
   </div>
   <!-- / Tags -->
 
-  <footer class="annotation-footer">
+  <footer class="annotation-footer" ng-if="vm.typetodisplay()=='second'">
     <div class="annotation-form-actions" ng-if="vm.editing()">
       <publish-annotation-btn
         class="publish-annotation-btn"
@@ -144,7 +136,6 @@
 
     <div class="annotation-actions" ng-if="!vm.isSaving && !vm.editing() && vm.id()">
       <div ng-show="vm.isSaving">Saving…</div>
-      <!--
       <button class="btn btn-clean annotation-action-btn"
         ng-show="vm.authorize('update') && !vm.isSaving"
         ng-click="vm.edit()"
@@ -168,7 +159,6 @@
         h-tooltip>
         <i class="h-icon-annotation-reply btn-icon "></i>
       </button>
-      -->
       <span class="annotation-share-dialog-wrapper">
         <button class="btn btn-clean annotation-action-btn"
           ng-click="vm.showShareDialog = true"

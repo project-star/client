@@ -8,4 +8,5 @@ module.exports = {
   TAB_ANNOTATIONS: 'annotation',
   TAB_NOTES: 'note',
   TAB_ORPHANS: 'orphan',
+  TAB_VIDANNOTS: 'videos',
 };

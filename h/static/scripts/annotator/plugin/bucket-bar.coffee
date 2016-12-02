@@ -283,8 +283,8 @@ module.exports = class BucketBar extends Annotator.Plugin
       })
 
       if bucket
-        el.html("<div class='label'>#{bucketLength}</div>")
-
+#        el.html("<div class='label'>#{bucketLength}</div>")
+        el.html("<div class='label'></div>")
   isUpper:   (i) -> i == 1
   isLower:   (i) -> i == @index.length - 2
 

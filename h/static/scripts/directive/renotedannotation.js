@@ -49,7 +49,7 @@ function updateModel(annotation, changes, permissions) {
 // @ngInject
 function RenotedAnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
-  annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
+  annotationMapper, drafts, urldrafts, flash, features, groups, permissions, serviceUrl,
   session, store, streamer) {
 
   var vm = this;
@@ -242,6 +242,16 @@ function RenotedAnnotationController(
       drafts.update(vm.annotation, vm.state());
     }
   };
+  vm.urledit = function() {
+    console.log("+++++in urledit function++++")
+    console.log(urldrafts)
+    if (!urldrafts.get(vm.annotation)) {
+       console.log("+++++in urledit function++++")
+       console.log(vm.annotation)
+       urldrafts.urlupdate(vm.annotation,vm.state());
+    }
+  };
+  
 
   /**
    * @ngdoc method
@@ -251,6 +261,9 @@ function RenotedAnnotationController(
    */
   vm.editing = function() {
     return drafts.get(vm.annotation) && !vm.isSaving;
+  };
+  vm.urlediting = function() {
+    return true; 
   };
 
   /**
@@ -264,6 +277,34 @@ function RenotedAnnotationController(
   vm.renoted_id = function() {
     return vm.annotation.renoted_id;
    }
+  vm.isVideo = function() {
+    if (vm.annotation.hasOwnProperty('viddata')){
+       return "success";
+       }
+    else
+       return "failure";
+   }
+  $scope.trustSrcurl = function(data)
+  {
+    return $sce.trustAsResourceUrl(data);
+  }
+  vm.videoembedurl = function() {
+     if (vm.annotation.hasOwnProperty('viddata')){
+       console.log(vm.annotation.viddata)
+       var urival=vm.annotation.viddata
+       console.log(urival)
+       var annotateduri=urival[0].uri
+       var id=annotateduri.split('v=')[1]
+       var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
+       var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
+       var val="http://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
+       console.log(val)
+       return val
+      }
+     else {
+       return "success"
+      }
+ }
   vm.typetodisplay = function() {
    return vm.annotation.type || "first";
   }

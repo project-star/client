@@ -10,7 +10,6 @@
     <div class="annotation-thread__thread-line"></div>
   </div>
   <div class="annotation-thread__content">
-    <renotedurl> </renotedurl>
     <renotedannotation ng-class="vm.annotationClasses()"
              annotation="vm.thread.annotation"
              is-collapsed="vm.thread.collapsed"
@@ -23,7 +22,8 @@
              ng-show="vm.thread.visible"
              show-document-info="vm.showDocumentInfo"
              on-reply-count-click="vm.toggleCollapsed()"
-             reply-count="vm.thread.replyCount">
+             reply-count="vm.thread.replyCount"
+             uri_id="vm.uri_id()">
     </renotedannotation>
 
     <div ng-if="!vm.thread.annotation" class="thread-deleted">

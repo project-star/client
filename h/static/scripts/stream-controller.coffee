@@ -26,19 +26,34 @@ module.exports = class StreamController
         .then(load)
         .catch((err) -> console.error err)
 
+
     load = ({rows, replies}) ->
       offset += rows.length
       console.log("++++in stream-filter-controller++++")
       urllist=[]
+      rowsnew=[]
       console.log(rows)
       for val in rows
           console.log(val.uri_id)
           if (val.uri_id) not in urllist
               val.type='first'
+              urllist.push(val.uri_id)
           else
               val.type='second'
-          urllist.push(val.uri_id)
-      annotationMapper.loadAnnotations(rows, replies)
+      console.log("printing the urllist")
+      console.log(urllist)
+      
+      for urlvalue in urllist
+          fakeannot=store.annotation.get({id: urlvalue})
+         
+          console.log(fakeannot)
+          for val1 in rows
+              if val1.uri_id == urlvalue
+                  console.log("+++++in load function in stream controller++++++")
+                  console.log(val1.uri_id)
+                  rowsnew.push(val1)
+      console.log(rowsnew)
+      annotationMapper.loadAnnotations(rowsnew, replies)
 
     # Reload on query change (ignore hash change)
     lastQuery = $routeParams.q

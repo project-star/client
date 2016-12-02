@@ -109,9 +109,10 @@ function isNew(annotation) {
  * which refers to another annotation.
  */
 function hasSelector(annotation) {
-  return !!(annotation.target &&
-            annotation.target.length > 0 &&
-            annotation.target[0].selector);
+//  return !!(annotation.target &&
+//            annotation.target.length > 0 &&
+//            annotation.target[0].selector);
+    return true;
 }
 
 /** Return `true` if the given annotation is not yet anchored. */
@@ -142,6 +143,8 @@ function isAnnotation(annotation) {
  */
 function location(annotation) {
   if (annotation) {
+    console.log("+++in location finder++++")
+    console.log(annotation)
     var targets = annotation.target || [];
     for (var i = 0; i < targets.length; i++) {
       var selectors = targets[i].selector || [];

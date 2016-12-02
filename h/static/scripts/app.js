@@ -142,6 +142,15 @@ module.exports = angular.module('h', [
   .controller('StreamController', require('./stream-controller'))
   .controller('RenotedAnnotationController', require('./renotedannotation-controller'))
   .controller('WidgetController', require('./widget-controller'))
+  .controller("YouTubeCtrl", function($scope) {
+    //initial settings
+    $scope.yt = {
+      width: 600, 
+      height: 480, 
+      videoid: "v=kDiS1Tg6Ldw",
+    };
+
+  })
 
   // The root component for the application
   .directive('hypothesisApp', require('./directive/app'))
@@ -151,6 +160,7 @@ module.exports = angular.module('h', [
   .directive('renotedannotation', require('./directive/renotedannotation').directive)
   .directive('annotationShareDialog', require('./directive/annotation-share-dialog'))
   .directive('annotationThread', require('./directive/annotation-thread'))
+  .directive('videoThread', require('./directive/video-thread'))
   .directive('renotedannotationThread', require('./directive/renotedannotation-thread'))
   .directive('dropdownMenuBtn', require('./directive/dropdown-menu-btn'))
   .directive('excerpt', require('./directive/excerpt').directive)
@@ -182,12 +192,73 @@ module.exports = angular.module('h', [
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
   .directive('windowScroll', require('./directive/window-scroll'))
+  .directive('youtube', function($window) {
+  return {
+    restrict: "E",
+
+    scope: {
+      height: "@",
+      width: "@",
+      videoid: "@"
+    },
+
+    template: '<div></div>',
+
+    link: function(scope, element) {
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      var player;
+
+      $window.onYouTubeIframeAPIReady = function() {
+
+        player = new YT.Player(element.children()[0], {
+          playerVars: {
+            autoplay: 0,
+            html5: 1,
+            theme: "light",
+            modesbranding: 0,
+            color: "white",
+            iv_load_policy: 3,
+            showinfo: 1,
+            controls: 1
+          },
+
+          height: scope.height,
+          width: scope.width,
+          videoId: scope.videoid, 
+        });
+      }
+
+      scope.$watch('videoid', function(newValue, oldValue) {
+        if (newValue == oldValue) {
+          return;
+        }
+
+        player.cueVideoById(scope.videoid);
+
+      }); 
+
+      scope.$watch('height + width', function(newValue, oldValue) {
+        if (newValue == oldValue) {
+          return;
+        }
+
+        player.setSize(scope.width, scope.height);
+
+      });
+    }  
+  };
+})
 
   .service('annotationMapper', require('./annotation-mapper'))
   .service('annotationUI', require('./annotation-ui'))
   .service('auth', require('./auth').service)
   .service('bridge', require('./bridge'))
   .service('drafts', require('./drafts'))
+  .service('urldrafts',require('./urldrafts'))
   .service('features', require('./features'))
   .service('flash', require('./flash'))
   .service('formRespond', require('./form-respond'))
@@ -217,11 +288,13 @@ module.exports = angular.module('h', [
   .value('settings', settings)
   .value('time', require('./time'))
   .value('urlEncodeFilter', require('./filter/url').encode)
-
+  .config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist(['**']);
+   })
   .config(configureHttp)
   .config(configureLocation)
   .config(configureRoutes)
-
+  
   .run(setupHttp);
 
 processAppOpts();

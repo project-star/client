@@ -1,6 +1,6 @@
+
 Annotator = require('annotator')
 $ = Annotator.$
-
 makeButton = (item) ->
   anchor = $('<button></button>')
   .attr('href', '')
@@ -14,7 +14,8 @@ makeButton = (item) ->
 
 module.exports = class Toolbar extends Annotator.Plugin
   HIDE_CLASS = 'annotator-hide'
-
+  IDLIST = []
+  
   events:
     'setVisibleHighlights': 'onSetVisibleHighlights'
 
@@ -41,24 +42,91 @@ module.exports = class Toolbar extends Annotator.Plugin
           else
             @annotator.hide()
     ,
-      "title": "Hide Highlights"
-      "class": "h-icon-visibility"
-      "name": "highlight-visibility"
-      "on":
-        "click": (event) =>
-          event.preventDefault()
-          event.stopPropagation()
-          state = not @annotator.visibleHighlights
-          @annotator.setVisibleHighlights state
+#      "title": "Hide Highlights"
+#      "class": "h-icon-visibility"
+#      "name": "highlight-visibility"
+#      "on":
+#        "click": (event) =>
+#          event.preventDefault()
+#          event.stopPropagation()
+#          state = not @annotator.visibleHighlights
+#          @annotator.setVisibleHighlights state
+# 
+#    ,    
+#      "title": "New Bookmark"
+#      "class": "h-icon-bookmark"
+#      "name": "insert-comment"
+#      "on":
+#       "click": (event) =>
+#          event.preventDefault()
+#          event.stopPropagation()
+#          ytplayer = new YT.Player("") 
+#          ytplayer=document.getElementById("movie_player")
+#          console.log "Clicked on the bookmark tool"
+#          uri = document.location.href
+#          console.log(ytplayer.getCurrentTime())
+#          console.log (uri)
  
-    ,    
-      "title": "New "
-      "class": "h-icon-bookmark"
-      "name": "insert-comment"
+#          @annotator.createAnnotation()
+#          @annotator.show()
+#
+#    ,
+      "title": "New Video Clip Start"
+      "class": "h-icon-chevron-left"
+      "name": "insert-video-clip-start"
       "on":
        "click": (event) =>
           event.preventDefault()
           event.stopPropagation()
+          uri = document.location.href
+          console.log (uri)
+          match = uri.includes("youtube.com")
+          console.log(match)
+          renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
+          val={}
+          if not match
+              alert("only works with youtube for now")
+          else
+              ytplayer=document.getElementById("movie_player")
+              
+              console.log("already on youtube")
+              if IDLIST.length > 0
+                   endtime=ytplayer.getCurrentTime()
+                   console.log("+++++endtime+++++")
+                   IDLIST[0].endtime=endtime
+                   console.log(IDLIST)
+                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   IDLIST=[]
+                   
+              else
+                   starttime=ytplayer.getCurrentTime()
+                   
+                   val.id =renoted_id
+                   val.starttime=starttime
+                   val.uri=uri
+                   IDLIST.push(val) 
+                   console.log(IDLIST)
+                   console.log("+++++starttime+++++")
+                   console.log(starttime)
+              
+#          @annotator.createAnnotation($renoted_id : "hel1234")
+#          @annotator.show()
+#
+#    ,
+#      "title": "New Video Clip Stop"
+#      "class": "h-icon-chevron-right"
+#      "name": "insert-video-clip-stop"
+#      "on":
+#       "click": (event) =>
+#          event.preventDefault()
+#          event.stopPropagation()
+#          ytplayer = new YT.Player("")
+#          ytplayer=document.getElementById("movie_player")
+#          console.log "Clicked on the bookmark tool"
+          uri = document.location.href
+#          console.log(ytplayer.getCurrentTime())
+#          console.log (uri)
+
 #          @annotator.createAnnotation()
 #          @annotator.show()
     ]

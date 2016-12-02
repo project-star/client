@@ -120,7 +120,7 @@ var update = {
   SELECT_TAB: function (state, action) {
     // Do nothing if the "new tab" is not a valid tab.
     if ([uiConstants.TAB_ANNOTATIONS,
-        uiConstants.TAB_NOTES,
+        uiConstants.TAB_NOTES,uiConstants.TAB_VIDANNOTS,
         uiConstants.TAB_ORPHANS].indexOf(action.tab) === -1) {
       return {};
     }

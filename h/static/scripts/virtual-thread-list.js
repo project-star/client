@@ -90,7 +90,7 @@ VirtualThreadList.prototype.setThreadHeight = function (id, height) {
 VirtualThreadList.prototype._height = function (id) {
   // Default guess of the height required for a threads that have not been
   // measured
-  var DEFAULT_HEIGHT = 200;
+  var DEFAULT_HEIGHT = 500;
   return this._heights[id] || DEFAULT_HEIGHT;
 };
 
@@ -137,9 +137,38 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
   var visibleHeight = this.window.innerHeight;
   var usedHeight = 0;
   var thread;
-
+  var urllist=[]
+  var newallThreads = []
   for (var i = 0; i < allThreads.length; i++) {
-    thread = allThreads[i];
+      thread=allThreads[i];
+      console.log("++++in first for loop virtual thread list++++")
+
+      console.log(thread.annotation.uri_id)
+      if (urllist.indexOf(thread.annotation.uri_id) == -1){
+          thread.annotation.type="first";
+          urllist.push(thread.annotation.uri_id);
+       }
+      else {
+          thread.annotation.type="second";
+      }
+   }
+  
+  for (var j = 0; j < urllist.length; j++){
+    var  urllistval =  urllist[j];
+    for (var i = 0; i < allThreads.length; i++) {
+      thread=allThreads[i];
+      if (urllistval == thread.annotation.uri_id){
+            newallThreads.push(thread)
+      }
+     }
+   }
+    
+
+  for (var i = 0; i < newallThreads.length; i++) {
+    thread = newallThreads[i];
+    console.log("++++in virtual thread list++++")
+    
+    console.log(thread)
     var threadHeight = this._height(thread.id);
 
     if (usedHeight + threadHeight < this.window.pageYOffset - MARGIN_ABOVE) {
@@ -148,7 +177,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
     } else if (usedHeight <
       this.window.pageYOffset + visibleHeight + MARGIN_BELOW) {
       // Thread is either in or close to the viewport
-      visibleThreads.push(allThreads[i]);
+      visibleThreads.push(newallThreads[i]);
     } else {
       // Thread is below viewport
       offscreenLowerHeight += threadHeight;

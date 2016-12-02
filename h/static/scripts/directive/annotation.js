@@ -10,6 +10,8 @@ var persona = require('../filter/persona');
 var isNew = annotationMetadata.isNew;
 var isReply = annotationMetadata.isReply;
 
+
+
 /** Return a human-readable error message for the given server error.
  *
  * @param {object} reason The error object from the server. Should have
@@ -264,6 +266,35 @@ function AnnotationController(
   vm.renoted_id = function() {
     return vm.annotation.renoted_id;
    }
+  vm.isVideo = function() {
+    if (vm.annotation.hasOwnProperty('viddata')){
+       return "success";
+       }
+    else
+       return "failure";
+   } 
+  $scope.trustSrcurl = function(data) 
+  {
+    return $sce.trustAsResourceUrl(data);
+  }
+  vm.videoembedurl = function() {
+     if (vm.annotation.hasOwnProperty('viddata')){
+       console.log(vm.annotation.viddata)
+       var urival=vm.annotation.viddata
+       console.log(urival)
+       var annotateduri=urival[0].uri
+       var id=annotateduri.split('v=')[1]
+       var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
+       var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
+       var val="http://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
+       console.log(val)
+       return val
+      }
+     else {
+       return "success"
+      }
+ }
+
   vm.typetodisplay = function() {
    return vm.annotation.type || "first";
   }

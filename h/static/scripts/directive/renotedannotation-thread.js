@@ -43,15 +43,15 @@ function RenotedAnnotationThreadController() {
 
   this.threadClasses = function () {
     return {
-      'renotedannotation-thread': true,
-      'renotedannotation-thread--reply': this.thread.depth > 0,
-      'renotedannotation-thread--top-reply': this.thread.depth === 1,
+      'annotation-thread': true,
+      'annotation-thread--reply': this.thread.depth > 0,
+      'annotation-thread--top-reply': this.thread.depth === 1,
     };
   };
 
   this.threadToggleClasses = function () {
     return {
-      'renotedannotation-thread__collapse-toggle': true,
+      'annotation-thread__collapse-toggle': true,
       'is-open': !this.thread.collapsed,
       'is-hovered': this.annotationHovered,
     };
@@ -81,7 +81,10 @@ function RenotedAnnotationThreadController() {
     console.log(this.thread)
     return !this.thread.parent;
   };
-
+  this.uri_id = function() {
+    console.log("+++++ in uri_id returning functoion++++")
+    return this.thread.annotation.uri_id;
+  };
   /**
    * Return the total number of annotations in the current
    * thread which have been hidden because they do not match the current

@@ -30,7 +30,8 @@ function getThreadHeight(id) {
   var marginHeight = parseFloat(style.marginTop) +
                      parseFloat(style.marginBottom);
 
-  return elementHeight + marginHeight;
+  return elementHeight + marginHeight+200;
+
 }
 
 // @ngInject
@@ -41,6 +42,8 @@ function RenotedThreadListController($scope, VirtualThreadList) {
   // to reserve space for threads which are not actually rendered.
   var self = this;
   var visibleThreads = new VirtualThreadList($scope, window, this.thread);
+  console.log("+++++ visibleThreads +++++")
+  console.log(visibleThreads)
   visibleThreads.on('changed', function (state) {
     self.virtualThreadList = {
       visibleThreads: state.visibleThreads,
@@ -112,9 +115,6 @@ function RenotedThreadListController($scope, VirtualThreadList) {
 
   this.$onDestroy = function () {
     visibleThreads.detach();
-  };
-  this.type = function () {
-    return "first";
   };
 }
 

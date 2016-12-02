@@ -1,4 +1,4 @@
-<ul class="renotedthread-list">
+<ul class="thread-list">
   <li class="thread-list__spacer"
       ng-style="{height: vm.virtualThreadList.offscreenUpperHeight}"></li>
    <li id="{{child.id}}"
@@ -6,7 +6,7 @@
       ng-mouseenter="vm.onFocus({annotation: child.annotation})"
       ng-click="vm.onSelect({annotation: child.annotation})"
       ng-mouseleave="vm.onFocus({annotation: null})"
-      ng-repeat="child in vm.virtualThreadList.visibleThreads track by child.id" ng-if="vm.type()=='first'">
+      ng-repeat="child in vm.virtualThreadList.visibleThreads track by child.id | orderBy: child.annotation.uri_id">
       <renotedannotation-thread
         thread="child"
         show-document-info="vm.showDocumentInfo"

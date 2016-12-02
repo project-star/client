@@ -294,7 +294,88 @@ function AnnotationController(
        return "success"
       }
  }
+   vm.videostarttime = function() {
+     if (vm.annotation.hasOwnProperty('viddata')){
+       console.log(vm.annotation.viddata)
+       var urival=vm.annotation.viddata
+       console.log(urival)
+       var annotateduri=urival[0].uri
+       var id=annotateduri.split('v=')[1]
+       var starttime=(vm.annotation.viddata[0].starttime)
+       var date = new Date(starttime * 1000);
+       var hh = date.getUTCHours();
+       var mm = date.getUTCMinutes();
+       var ss = date.getSeconds();
+       if (hh < 10) {hh = "0"+hh;}
+       if (mm < 10) {mm = "0"+mm;}
+       if (ss < 10) {ss = "0"+ss;}
+// This formats your string to HH:MM:SS
+       var t = hh+":"+mm+":"+ss;
+       if (hh=="00") {
+         t=mm+":"+ss;}
+       return t
+      }
+     else {
+       return "success"
+      }
+ }
+    vm.videoendtime = function() {
+     if (vm.annotation.hasOwnProperty('viddata')){
+       console.log(vm.annotation.viddata)
+       var urival=vm.annotation.viddata
+       console.log(urival)
+       var annotateduri=urival[0].uri
+       var id=annotateduri.split('v=')[1]
+       var endtime=(vm.annotation.viddata[0].endtime)
+       var date = new Date(endtime * 1000);
+       var hh = date.getUTCHours();
+       var mm = date.getUTCMinutes();
+       var ss = date.getSeconds();
+       if (hh < 10) {hh = "0"+hh;}
+       if (mm < 10) {mm = "0"+mm;}
+       if (ss < 10) {ss = "0"+ss;}
+// This formats your string to HH:MM:SS
+       var t = hh+":"+mm+":"+ss;
+       if (hh=="00") {
+         t=mm+":"+ss;}
+       return t
+      }
+     else {
+       return "success"
+      }
+ }
+     vm.videoduration = function() {
+     if (vm.annotation.hasOwnProperty('viddata')){
+       console.log(vm.annotation.viddata)
+       var urival=vm.annotation.viddata
+       console.log(urival)
+       var annotateduri=urival[0].uri
+       var id=annotateduri.split('v=')[1]
+       var starttime=(vm.annotation.viddata[0].starttime)
+       var endtime=(vm.annotation.viddata[0].endtime)
 
+       var val = (endtime-starttime)
+       var date = new Date(val * 1000);
+       var hh = date.getUTCHours();
+       var mm = date.getUTCMinutes();
+       var ss = date.getSeconds();
+       if (hh < 10) {hh = "0"+hh;}
+       if (mm < 10) {mm = "0"+mm;}
+       if (ss < 10) {ss = "0"+ss;}
+// This formats your string to HH:MM:SS
+       var t = hh+":"+mm+":"+ss;
+       if (hh=="00") {
+         t=mm+":"+ss;}
+       return t
+      }
+     else {
+       return "success"
+      }
+ }
+
+
+
+   
   vm.typetodisplay = function() {
    return vm.annotation.type || "first";
   }

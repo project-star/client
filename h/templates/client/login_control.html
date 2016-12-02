@@ -25,12 +25,14 @@
          title="View all your annotations"
          target="_blank">{{vm.auth.username}}</a>
     </li>
+    <!--
     <li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">
       <a class="dropdown-menu__link" href="{{vm.serviceUrl('account.settings')}}" target="_blank">Account settings</a>
     </li>
     <li class="dropdown-menu__row">
       <a class="dropdown-menu__link" ng-click="vm.onShowHelpPanel()">Help</a>
     </li>
+    -->
     <li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">
       <a class="dropdown-menu__link dropdown-menu__link--subtle"
          href="" ng-click="vm.onLogout()">Log out</a>

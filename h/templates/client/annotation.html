@@ -40,9 +40,13 @@
         </span>
       </span>
       -->
-    <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}'
+    <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}' ng-style="float:right"
                 frameborder='0'
                 allowfullscreen ></iframe >
+     <span ng-if="vm.isVideo()=='success'">
+     <br>
+     <b> Start Time: {{ vm.videostarttime() }} &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
+     </span>
     </span>
 
     <span class="u-flex-spacer"></span>
@@ -52,6 +56,7 @@
       timestamp="vm.updated()"
       href="vm.links().html"
       ng-if="!vm.editing() && vm.updated()"></timestamp>
+ 
       -->
   </header>
   

@@ -654,9 +654,17 @@ function AnnotationController(
   vm.setStarttime = function (starttime) {
     console.log ("++++in starttime+++")
     console.log (starttime)
+    var val = starttime.split(":");
+    var retstarttime=0
+    if (val.length == 2){
+        retstarttime = (parseInt(val[0])*60 + parseInt(val[1])).toString()
+     }
+    if (val.length == 3){
+        retstarttime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString()
+     }
     var viddata=vm.annotation.viddata
     console.log(viddata)
-    viddata[0].starttime = starttime    
+    viddata[0].starttime = retstarttime    
     drafts.update(vm.annotation, {
       isPrivate: vm.state().isPrivate,
       tags: vm.state().tags,
@@ -668,9 +676,17 @@ function AnnotationController(
   vm.setEndtime = function (endtime) {
     console.log ("++++in starttime+++")
     console.log (endtime)
+    var val = endtime.split(":");
+    var retendtime=0
+    if (val.length == 2){
+        retendtime = (parseInt(val[0])*60 + parseInt(val[1])).toString()
+     }
+    if (val.length == 3){
+        retendtime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString()
+     }
     var viddata=vm.annotation.viddata
     console.log(viddata)
-    viddata[0].endtime = endtime
+    viddata[0].endtime = retendtime
     drafts.update(vm.annotation, {
       isPrivate: vm.state().isPrivate,
       tags: vm.state().tags,

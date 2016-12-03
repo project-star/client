@@ -43,9 +43,19 @@
     <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}' ng-style="float:right"
                 frameborder='0'
                 allowfullscreen ></iframe >
-     <span ng-if="vm.isVideo()=='success'">
+     <span ng-if="vm.isVideo()=='success' && vm.editing()">
      <br>
-     <b> Start Time: {{ vm.videostarttime() }} &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
+     <b> Start Time: <vidmarkdown text="vm.videostarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> End Time:<vidmarkdown text="vm.videoendtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> </b>
+     </span>
+     <span ng-if="vm.isVideo()=='success' && !vm.editing()">
+     <br>
+     <b> Start Time: {{ vm.videostarttime() }}  &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
      </span>
     </span>
 
@@ -93,6 +103,34 @@
       </markdown>
     </excerpt>
   </section>
+  <!--
+  <section name="starttime" class="annotation-body" ng-if="vm.isVideo()=='success'">
+    <excerpt enabled="!vm.editing()"
+      inline-controls="false"
+      on-collapsible-changed="vm.setBodyCollapsible(collapsible)"
+      collapse="vm.collapseBody"
+      collapsed-height="10"
+      overflow-hysteresis="30"
+      content-data="vm.videostarttime()">
+      <vidmarkdown text="vm.videostarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown>
+    </excerpt>
+    <excerpt enabled="!vm.editing()"
+      inline-controls="false"
+      on-collapsible-changed="vm.setBodyCollapsible(collapsible)"
+      collapse="vm.collapseBody"
+      collapsed-height="10"
+      overflow-hysteresis="30"
+      content-data="vm.videoendtime()">
+      <vidmarkdown text="vm.videoendtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown>
+    </excerpt>
+  </section>
+  -->
   <!-- / Body -->
 
   <!-- Tags -->
@@ -115,6 +153,7 @@
       ng-bind="vm.collapseBody ? 'More' : 'Less'"></a>
   </div>
   <!-- / Tags -->
+
 
   <footer class="annotation-footer">
     <div class="annotation-form-actions" ng-if="vm.editing()">

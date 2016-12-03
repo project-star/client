@@ -507,7 +507,7 @@ function AnnotationController(
       flash.info('Please add text or a tag before publishing.');
       return Promise.resolve();
     }
-
+    console.log(vm.state())
     var updatedModel = updateModel(vm.annotation, vm.state(), permissions);
 
     // Optimistically switch back to view mode and display the saving
@@ -551,6 +551,7 @@ function AnnotationController(
     if (!isReply(vm.annotation)) {
       permissions.setDefault(privacy);
     }
+
     drafts.update(vm.annotation, {
       tags: vm.state().tags,
       text: vm.state().text,
@@ -629,6 +630,7 @@ function AnnotationController(
       isPrivate: vm.state().isPrivate,
       tags: vm.state().tags,
       text: text,
+      viddata: vm.state().viddata,
       page_data: text,
     });
   };
@@ -645,9 +647,38 @@ function AnnotationController(
       isPrivate: vm.state().isPrivate,
       tags: tags,
       text: vm.state().text,
+      viddata: vm.state().viddata,
     });
+  
   };
+  vm.setStarttime = function (starttime) {
+    console.log ("++++in starttime+++")
+    console.log (starttime)
+    var viddata=vm.annotation.viddata
+    console.log(viddata)
+    viddata[0].starttime = starttime    
+    drafts.update(vm.annotation, {
+      isPrivate: vm.state().isPrivate,
+      tags: vm.state().tags,
+      text: vm.state().text,
+      viddata: viddata,
+    });
+   
+  };
+  vm.setEndtime = function (endtime) {
+    console.log ("++++in starttime+++")
+    console.log (endtime)
+    var viddata=vm.annotation.viddata
+    console.log(viddata)
+    viddata[0].endtime = endtime
+    drafts.update(vm.annotation, {
+      isPrivate: vm.state().isPrivate,
+      tags: vm.state().tags,
+      text: vm.state().text,
+      viddata: viddata,
+    });
 
+  };
   vm.state = function () {
     var draft = drafts.get(vm.annotation);
     if (draft) {
@@ -657,6 +688,7 @@ function AnnotationController(
       tags: vm.annotation.tags,
       text: vm.annotation.text,
       renoted_id: vm.annotation.renoted_id,
+      viddata: vm.annotation.viddata,
       page_data: vm.annotation.text,
       isPrivate: permissions.isPrivate(vm.annotation.permissions,
         vm.annotation.user),

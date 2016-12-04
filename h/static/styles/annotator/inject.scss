@@ -140,8 +140,43 @@ $base-font-size: 14px;
     // the height of the sidebar toggle is set
     // to match the height of the top bar
     height: 40px;
+  
+
+  &:active {
+      transition: background-color .25s;
+      background-color: $gray-light;
+    }
+
+    &:focus, &:hover {
+      outline: 0;
+      color: $text-color;
+    }
+  }
+  .annotator-frame-button--media_bar {
+    box-shadow: none;
+    border-radius: 0px;
+    border-style: none none solid solid;
+    padding-right: 6px;
+    width: 36px;
+    margin-bottom: 10px;
+
+    // the height of the sidebar toggle is set
+    // to match the height of the top bar
+    height: 40px;
+  
+
+  &:active {
+      transition: background-color .25s;
+      background-color: $gray-light;
+    }
+
+    &:focus, &:hover, &:after {
+      outline: 0;
+      color: red;
+    }
   }
 }
+
 
 .annotator-placeholder {
   opacity: 0;

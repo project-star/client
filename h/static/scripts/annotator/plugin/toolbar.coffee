@@ -72,7 +72,7 @@ module.exports = class Toolbar extends Annotator.Plugin
 #
 #    ,
       "title": "New Video Clip Start"
-      "class": "h-icon-chevron-left"
+      "class": "annotator-frame-button--media_bar h-icon-media-record"
       "name": "insert-video-clip-start"
       "on":
        "click": (event) =>

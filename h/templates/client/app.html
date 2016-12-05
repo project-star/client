@@ -15,10 +15,12 @@
 
 <div class="create-account-banner" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
   To annotate this document
+  <!--
   <a href="{{ serviceUrl('signup') }}" target="_blank">
-    create a free account
+    Please log in
   </a>
-  or <a href="" ng-click="login()">log in</a>
+  -->
+  <a href="" ng-click="login()">log in</a>
 </div>
 
 <div class="content" ng-cloak>

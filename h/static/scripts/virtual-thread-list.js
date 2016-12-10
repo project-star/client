@@ -138,6 +138,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
   var usedHeight = 0;
   var thread;
   var urllist=[]
+  var newurllist=[]
   var newallThreads = []
   for (var i = 0; i < allThreads.length; i++) {
       thread=allThreads[i];
@@ -155,12 +156,55 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
   
   for (var j = 0; j < urllist.length; j++){
     var  urllistval =  urllist[j];
+    var medievalallThreads=[]
     for (var i = 0; i < allThreads.length; i++) {
       thread=allThreads[i];
       if (urllistval == thread.annotation.uri_id){
-            newallThreads.push(thread)
+            medievalallThreads.push(thread)
       }
      }
+    var sortArr = []
+    var sortval = {};
+    for (var k=0; k < medievalallThreads.length; k++){
+        sortval={}
+        thread=medievalallThreads[k];
+        if (thread.annotation.target[0].hasOwnProperty("selector")){
+           var selector = thread.annotation.target[0].selector;
+           for (var m=0; m<selector.length; m++){
+               if (selector[m].type=="TextPositionSelector"){
+                var startposition = selector[m].start;
+                }
+             }
+           }
+         else { var startposition= 0;}
+       sortval.key=thread.annotation.id
+       sortval.value=startposition
+       sortArr.push(sortval)
+  }
+    console.log("+++in extended virtualthreadlist+++++")
+    console.log(sortArr)
+    sortArr.sort(function(a, b) { return a.value - b.value; });
+    console.log("+++in extended virtualthreadlist+++++")
+    console.log(sortArr)
+    console.log(urllist)
+    
+    for (var m=0; m< sortArr.length; m++) {
+         for (var k=0; k < medievalallThreads.length; k++){
+         if (sortArr[m].key == medievalallThreads[k].annotation.id){ 
+             if (newurllist.indexOf(medievalallThreads[k].annotation.uri_id) == -1){
+          medievalallThreads[k].annotation.type="first";
+          newurllist.push(medievalallThreads[k].annotation.uri_id);
+       }
+      else {
+          medievalallThreads[k].annotation.type="second";
+      }
+      newallThreads.push(medievalallThreads[k])
+
+   }
+   }
+
+   }
+
    }
     
 

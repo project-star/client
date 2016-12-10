@@ -25,8 +25,16 @@ module.exports = class StreamController
       store.search(query)
         .then(load)
         .catch((err) -> console.error err)
+    
 
 
+    fetchurl = (urlid) ->
+       store.url({id: urlid}).then(loadurl).catch((err) -> console.error err)
+
+    loadurl = ({rows,replies}) ->
+       console.log("+++in new loadurl function++++")
+       console.log(rows)
+     
     load = ({rows, replies}) ->
       offset += rows.length
       console.log("++++in stream-filter-controller++++")
@@ -44,9 +52,8 @@ module.exports = class StreamController
       console.log(urllist)
       
       for urlvalue in urllist
-          fakeannot=store.annotation.get({id: urlvalue})
-         
-          console.log(fakeannot)
+          
+          fetchurl(urlvalue)         
           for val1 in rows
               if val1.uri_id == urlvalue
                   console.log("+++++in load function in stream controller++++++")

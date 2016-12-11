@@ -168,6 +168,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
     for (var k=0; k < medievalallThreads.length; k++){
         sortval={}
         thread=medievalallThreads[k];
+      if (thread.annotation.target.length > 0){
         if (thread.annotation.target[0].hasOwnProperty("selector")){
            var selector = thread.annotation.target[0].selector;
            for (var m=0; m<selector.length; m++){
@@ -176,6 +177,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
                 }
              }
            }
+        }
          else { var startposition= 0;}
        sortval.key=thread.annotation.id
        sortval.value=startposition

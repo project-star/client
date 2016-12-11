@@ -45,6 +45,7 @@ module.exports = class StreamController
           console.log(val.uri_id)
           if (val.uri_id) not in urllist
               val.type='first'
+              val.recall='first'
               urllist.push(val.uri_id)
           else
               val.type='second'

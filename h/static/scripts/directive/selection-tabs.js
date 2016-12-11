@@ -11,7 +11,7 @@ module.exports = function () {
       this.TAB_ANNOTATIONS = uiConstants.TAB_ANNOTATIONS;
       this.TAB_NOTES = uiConstants.TAB_NOTES;
       this.TAB_ORPHANS = uiConstants.TAB_ORPHANS;
-      this.TAB_VIDANNOTS = uiConstants.TAB_VIDANNOTS;
+      this.TAB_RECALL = uiConstants.TAB_RECALL;
 
       this.selectTab = function (type) {
         annotationUI.clearSelectedAnnotations();
@@ -20,6 +20,9 @@ module.exports = function () {
 
       this.orphansTabFlagEnabled = function () {
         return features.flagEnabled('orphans_tab');
+      };
+      this.recallTabFlagEnabled = function () {
+        return features.flagEnabled('recall_tab');
       };
 
       this.showAnnotationsUnavailableMessage = function () {

@@ -16,7 +16,7 @@ function annotationMapper($rootScope, annotationUI, store) {
   function loadAnnotations(annotations, replies) {
     console.log("in annotation mpper load annotations")
     annotations = annotations.concat(replies || []);
-
+    console.log (annotations)
     var loaded = [];
     annotations.forEach(function (annotation) {
       var existing = getExistingAnnotation(annotationUI, annotation.id);

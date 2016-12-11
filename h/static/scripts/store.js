@@ -158,7 +158,7 @@ function store($http, settings) {
       update: createAPICall($http, links, 'annotation.update'),
     },
     url: createAPICall($http, links, 'url'),
- 
+    recall: createAPICall($http, links, 'recall'), 
   };
 }
 

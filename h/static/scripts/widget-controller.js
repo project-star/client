@@ -141,9 +141,25 @@ module.exports = function WidgetController(
         });
         groups.focus(groupID);
       }
-
+      var recalleddata;
+      var data={}
+      data.url=uris[0]
+      store.recall({},data).then(function (resultrecall) { 
+         console.log (resultrecall)
+         for (var i=0; i< resultrecall.total; i++){
+             if (resultrecall.annotations[i].uri != data.url){
+             resultrecall.annotations[i].recall="first"
+             results.push(resultrecall.annotations[i])
+          }
+          }
+         console.log (results)
+         annotationMapper.loadAnnotations(results);
+         return results
+                  });
       if (results.length) {
-        annotationMapper.loadAnnotations(results);
+        console.log("+++ in widget controller load annotations+++")
+        console.log(results.length)
+//        annotationMapper.loadAnnotations(results);
       }
     });
     searchClient.on('end', function () {
@@ -156,6 +172,8 @@ module.exports = function WidgetController(
         searchClients.splice(searchClients.indexOf(searchClient), 1);
       });
     });
+    console.log("+++in widget controller search++++")
+    console.log(uris)
     searchClient.get({uri: uris, group: group});
   }
 

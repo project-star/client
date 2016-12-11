@@ -115,26 +115,32 @@ function hasSelector(annotation) {
     return true;
 }
 
+function hasRecall(annotation) {
+    return !!(annotation.hasOwnProperty('recall'));
+
+}
+
+
 /** Return `true` if the given annotation is not yet anchored. */
 function isWaitingToAnchor(annotation) {
   return hasSelector(annotation) && (typeof annotation.$orphan === 'undefined');
 }
 
-/** Return `true` if the given annotation is an orphan. */
 function isOrphan(annotation) {
-  return hasSelector(annotation) && annotation.$orphan;
+//  return hasSelector(annotation) && annotation.$orphan && !!hasRecall(annotation);
+    return false;   
 }
 
 /** Return `true` if the given annotation is a page note. */
 function isPageNote(annotation) {
-  return !hasSelector(annotation) && !isReply(annotation);
+  return !hasSelector(annotation) && !isReply(annotation) || !!hasRecall(annotation);
 }
 
 /** Return `true` if the given annotation is a top level annotation, `false` otherwise. */
 function isAnnotation(annotation) {
-  return !!(hasSelector(annotation) && !isOrphan(annotation));
+//  return (!!(hasSelector(annotation) && !isOrphan(annotation)) && hasRecall(annotation);
+    return !(annotation.hasOwnProperty('recall'));
 }
-
 /** Return a numeric key that can be used to sort annotations by location.
  *
  * @return {number} - A key representing the location of the annotation in

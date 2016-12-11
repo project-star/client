@@ -10,6 +10,16 @@
       {{ vm.totalAnnotations }}
     </span>
   </a>
+
+  <a class="selection-tabs__type"
+     href="#"
+     ng-class="{'is-selected': vm.selectedTab === vm.TAB_NOTES}"
+     h-on-touch="vm.selectTab(vm.TAB_NOTES)">
+    Recall
+    <span class="selection-tabs__count">
+       3
+    </span>
+  </a>
   <!-- Anshul: Removing the Page Notes and Orphans functionality -->
   <!--
   <a class="selection-tabs__type"

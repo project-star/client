@@ -146,7 +146,11 @@ module.exports = function WidgetController(
       data.url=uris[0]
       store.recall({},data).then(function (resultrecall) { 
          console.log (resultrecall)
-         for (var i=0; i< resultrecall.total; i++){
+         var todisplay = resultrecall.annotations.length
+         if (resultrecall.annotations.length > 6){
+             todisplay= 6
+          }
+         for (var i=0; i< todisplay; i++){
              if (resultrecall.annotations[i].uri != data.url){
              resultrecall.annotations[i].recall="first"
              results.push(resultrecall.annotations[i])

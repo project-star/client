@@ -28,12 +28,6 @@ module.exports = class StreamController
     
 
 
-    fetchurl = (urlid) ->
-       store.url({id: urlid}).then(loadurl).catch((err) -> console.error err)
-
-    loadurl = ({rows,replies}) ->
-       console.log("+++in new loadurl function++++")
-       console.log(rows)
      
     load = ({rows, replies}) ->
       offset += rows.length
@@ -53,8 +47,6 @@ module.exports = class StreamController
       console.log(urllist)
       
       for urlvalue in urllist
-          
-          fetchurl(urlvalue)         
           for val1 in rows
               if val1.uri_id == urlvalue
                   console.log("+++++in load function in stream controller++++++")

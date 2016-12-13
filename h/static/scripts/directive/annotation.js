@@ -284,6 +284,7 @@ function AnnotationController(
        console.log(urival)
        var annotateduri=urival[0].uri
        var id=annotateduri.split('v=')[1]
+       id = id.split('&')[0]
        var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
        var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
        var val="http://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime

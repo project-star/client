@@ -71,7 +71,7 @@ module.exports = class Toolbar extends Annotator.Plugin
 #          @annotator.show()
 #
 #    ,
-      "title": "New Video Clip Start"
+      "title": "Start Snippet Recording"
       "class": "annotator-frame-button--media_bar h-icon-media-record"
       "name": "insert-video-clip-start"
       "on":
@@ -93,11 +93,14 @@ module.exports = class Toolbar extends Annotator.Plugin
               if IDLIST.length > 0
                    endtime=ytplayer.getCurrentTime()
                    console.log("+++++endtime+++++")
+                   console.log(endtime)
                    IDLIST[0].endtime=endtime
                    console.log(IDLIST)
                    @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
                    IDLIST=[]
-                   
+                   state = false
+                   this.setVideoSnippetButton state
+              
               else
                    starttime=ytplayer.getCurrentTime()
                    
@@ -108,6 +111,8 @@ module.exports = class Toolbar extends Annotator.Plugin
                    console.log(IDLIST)
                    console.log("+++++starttime+++++")
                    console.log(starttime)
+                   state = true
+                   this.setVideoSnippetButton state
               
 #          @annotator.createAnnotation($renoted_id : "hel1234")
 #          @annotator.show()
@@ -152,3 +157,13 @@ module.exports = class Toolbar extends Annotator.Plugin
       .removeClass('h-icon-visibility')
       .addClass('h-icon-visibility-off')
       .prop('title', 'Show Highlights');
+
+  setVideoSnippetButton: (state) ->
+    if state
+      $('[name=insert-video-clip-start]')
+      .prop('title', 'End Snippet Recording')
+      .css('color', 'red');
+    else
+      $('[name=insert-video-clip-start]')
+      .prop('title', 'Start Snippet Recording')
+      .css('color', '#969696');

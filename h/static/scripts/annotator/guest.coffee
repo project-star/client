@@ -100,12 +100,22 @@ module.exports = class Guest extends Annotator
 
   # Get the document info
   getDocumentInfo: ->
+    
     if @plugins.PDF?
       metadataPromise = Promise.resolve(@plugins.PDF.getMetadata())
       uriPromise = Promise.resolve(@plugins.PDF.uri())
     else if @plugins.Document?
-      uriPromise = Promise.resolve(@plugins.Document.uri())
-      metadataPromise = Promise.resolve(@plugins.Document.metadata)
+      temp = document.location.href.includes("youtube.com")
+      if temp
+        uriPromise = Promise.resolve(decodeURIComponent(window.location.href))
+        metadataPromise = Promise.resolve({
+          title: document.title
+          link: [{href: decodeURIComponent(window.location.href)}]
+        })
+        console.log("=-=-=-=- inside the Youtube condition =-=-=-=-")
+      else
+        uriPromise = Promise.resolve(@plugins.Document.uri())
+        metadataPromise = Promise.resolve(@plugins.Document.metadata)
     else
       uriPromise = Promise.reject()
       metadataPromise = Promise.reject()
@@ -117,6 +127,7 @@ module.exports = class Guest extends Annotator
     })
 
     return Promise.all([metadataPromise, uriPromise]).then ([metadata, href]) ->
+      console.log(" URI promise: " + JSON.stringify(metadata) + " Metadata promise: " + JSON.stringify(href))
       return {uri: normalizeURI(href, baseURI), metadata}
 
   _connectAnnotationSync: (crossframe) ->
@@ -301,6 +312,9 @@ module.exports = class Guest extends Annotator
     self = this
     root = @element[0]
 
+    console.log("Entering into createAnnotation with : " + JSON.stringify(annotation))
+    console.log("//////TITLE: " + document.title + " URL: " + window.location.href)
+
     ranges = @selectedRanges ? []
     @selectedRanges = null
     
@@ -316,6 +330,7 @@ module.exports = class Guest extends Annotator
     setDocumentInfo = (info) ->
       annotation.document = info.metadata
       annotation.uri = info.uri
+      console.log("In setDocumentInfor annotation " + JSON.stringify(annotation.document) + " URI " + annotation.uri)
 
     setTargets = ([info, selectors]) ->
       # `selectors` is an array of arrays: each item is an array of selectors
@@ -328,8 +343,9 @@ module.exports = class Guest extends Annotator
 
     metadata = info.then(setDocumentInfo)
     targets = Promise.all([info, selectors]).then(setTargets)
-    console.log("annotation")
+    console.log("annotation" + annotation.document + "URI " + annotation.uri)
     console.log(JSON.stringify(annotation))
+    console.log("------ METADATA ---- " + metadata)
     targets.then(-> self.publish('beforeAnnotationCreated', [annotation]))
     targets.then(-> self.anchor(annotation))
 

@@ -6,6 +6,7 @@ var annotationMetadata = require('../annotation-metadata');
 var events = require('../events');
 var memoize = require('../util/memoize');
 var persona = require('../filter/persona');
+//require('https://w.soundcloud.com/player/api.js');
 
 var isNew = annotationMetadata.isNew;
 var isReply = annotationMetadata.isReply;
@@ -52,7 +53,7 @@ function updateModel(annotation, changes, permissions) {
 function AnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
-  session, store, streamer) {
+  session, store, streamer, soundcloudWidgetUtils) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -266,6 +267,17 @@ function AnnotationController(
   vm.renoted_id = function() {
     return vm.annotation.renoted_id;
    }
+
+  //Audio related methods
+  vm.isAudio = function() {
+    if (vm.annotation.hasOwnProperty('auddata')){
+       return "success";
+       }
+    else
+       return "failure";
+  }
+
+  // Video related methods
   vm.isVideo = function() {
     if (vm.annotation.hasOwnProperty('viddata')){
        return "success";
@@ -273,10 +285,58 @@ function AnnotationController(
     else
        return "failure";
    } 
+
   $scope.trustSrcurl = function(data) 
   {
     return $sce.trustAsResourceUrl(data);
   }
+
+  //URL to be embedded into Audio Widget
+  vm.audioEmbedUrl = function() {
+    if(vm.annotation.hasOwnProperty('auddata')) {
+      var soundURL = vm.annotation.auddata[0].uri;
+      return soundURL;
+    }
+    else
+      return "success";
+
+  }
+
+  //Load the soundcloud Widget with correct settings
+  vm.loadAudioWidget = function() {
+    //Get the start and end times from the auddata
+    var startTime = vm.annotation.auddata[0].starttime;
+    var endTime = vm.annotation.auddata[0].endtime;
+
+    //var audioFrame = $scope.getElementById("renotedSCWidget");
+    //console.log("Audio Frame successfully found " + audioFrame);
+    var vmWidget = SC.Widget("renotedSCWidget");
+    console.log("Widget created");
+
+    vmWidget.bind(SC.Widget.Events.READY, function() {
+      vmWidget.play();
+    });
+
+    vmWidget.bind(SC.Widget.Events.PLAY, function() {
+      vmWidget.seekTo(startTime);
+      vmWidget.pause();
+      vmWidget.unbind(SC.Widget.Events.PLAY);
+    });
+  
+    vmWidget.bind(SC.Widget.Events.PLAY_PROGRESS, function() {
+      vmWidget.getPosition(function (audioPos) {
+        //console.log("Playing! at " + audioPos);
+        if ( audioPos <= endTime )
+        console.log("Keep playing as position is: " + audioPos);
+        else {
+          vmWidget.pause();
+          vmWidget.unbind(SC.Widget.Events.PLAY_PROGRESS);
+        }
+      });   
+    });
+  }
+
+  //URL to be embedded into Video player
   vm.videoembedurl = function() {
      if (vm.annotation.hasOwnProperty('viddata')){
        console.log(vm.annotation.viddata)

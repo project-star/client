@@ -99,20 +99,37 @@ module.exports = class Guest extends Annotator
         this.addPlugin(name, opts)
 
   # Get the document info
-  getDocumentInfo: ->
+  getDocumentInfo: (annotation) ->
     
     if @plugins.PDF?
       metadataPromise = Promise.resolve(@plugins.PDF.getMetadata())
       uriPromise = Promise.resolve(@plugins.PDF.uri())
     else if @plugins.Document?
-      temp = document.location.href.includes("youtube.com")
-      if temp
+      docURI = document.location.href
+      tempYT = docURI.includes("youtube.com")
+      tempSC = docURI.includes("soundcloud.com")
+
+      if tempYT
+        console.log("=-=-=-=- inside the Youtube condition =-=-=-=-")
         uriPromise = Promise.resolve(decodeURIComponent(window.location.href))
         metadataPromise = Promise.resolve({
           title: document.title
           link: [{href: decodeURIComponent(window.location.href)}]
         })
-        console.log("=-=-=-=- inside the Youtube condition =-=-=-=-")
+        
+      else if tempSC
+        console.log "inside the Soundcloud condition"
+        
+        if annotation?
+          uriPromise = Promise.resolve(annotation.auddata[0].uri)
+          metadataPromise = Promise.resolve({
+            title: annotation.auddata[0].title
+            link: [{href: annotation.auddata[0].uri}]
+          })
+        else
+          uriPromise = Promise.reject()
+          metadataPromise = Promise.reject()
+
       else
         uriPromise = Promise.resolve(@plugins.Document.uri())
         metadataPromise = Promise.resolve(@plugins.Document.metadata)
@@ -312,8 +329,8 @@ module.exports = class Guest extends Annotator
     self = this
     root = @element[0]
 
-    console.log("Entering into createAnnotation with : " + JSON.stringify(annotation))
-    console.log("//////TITLE: " + document.title + " URL: " + window.location.href)
+    console.log "Entering into createAnnotation with : " + annotation.auddata
+    #console.log("//////TITLE: " + document.title + " URL: " + window.location.href)
 
     ranges = @selectedRanges ? []
     @selectedRanges = null
@@ -330,7 +347,7 @@ module.exports = class Guest extends Annotator
     setDocumentInfo = (info) ->
       annotation.document = info.metadata
       annotation.uri = info.uri
-      console.log("In setDocumentInfor annotation " + JSON.stringify(annotation.document) + " URI " + annotation.uri)
+      console.log("In setDocumentInfor annotation " + JSON.stringify(annotation))
 
     setTargets = ([info, selectors]) ->
       # `selectors` is an array of arrays: each item is an array of selectors
@@ -338,14 +355,12 @@ module.exports = class Guest extends Annotator
       source = info.uri
       annotation.target = ({source, selector} for selector in selectors)
 
-    info = this.getDocumentInfo()
+    info = this.getDocumentInfo(annotation)
     selectors = Promise.all(ranges.map(getSelectors))
 
     metadata = info.then(setDocumentInfo)
     targets = Promise.all([info, selectors]).then(setTargets)
-    console.log("annotation" + annotation.document + "URI " + annotation.uri)
-    console.log(JSON.stringify(annotation))
-    console.log("------ METADATA ---- " + metadata)
+
     targets.then(-> self.publish('beforeAnnotationCreated', [annotation]))
     targets.then(-> self.anchor(annotation))
 

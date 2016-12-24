@@ -1,14 +1,14 @@
 'use strict';
 
 function hiddenCount(thread) {
-  var isHidden = thread.annotation && !thread.visible;
+  var isHidden = !thread.visible;
   return thread.children.reduce(function (count, reply) {
     return count + hiddenCount(reply);
   }, isHidden ? 1 : 0);
 }
 
 function visibleCount(thread) {
-  var isVisible = thread.annotation && thread.visible;
+  var isVisible = thread.visible;
   return thread.children.reduce(function (count, reply) {
     return count + visibleCount(reply);
   }, isVisible ? 1 : 0);
@@ -22,7 +22,7 @@ function showAllChildren(thread, showFn) {
 }
 
 function showAllParents(thread, showFn) {
-  while (thread.parent && thread.parent.annotation) {
+  while (thread.parent && thread.parent.url) {
     showFn({thread: thread.parent});
     thread = thread.parent;
   }
@@ -32,7 +32,7 @@ function showAllParents(thread, showFn) {
 function RenotedUrlThreadController() {
   // Flag that tracks whether the content of the annotation is hovered,
   // excluding any replies.
-  this.annotationHovered = false;
+  this.urlHovered = false;
   
   this.toggleCollapsed = function () {
     this.onChangeCollapsed({
@@ -43,24 +43,24 @@ function RenotedUrlThreadController() {
 
   this.threadClasses = function () {
     return {
-      'renotedannotation-thread': true,
-      'renotedannotation-thread--reply': this.thread.depth > 0,
-      'renotedannotation-thread--top-reply': this.thread.depth === 1,
+      'renotedurl-thread': true,
+      'renotedurl-thread--reply': this.thread.depth > 0,
+      'renotedurlthread--top-reply': this.thread.depth === 1,
     };
   };
 
   this.threadToggleClasses = function () {
     return {
-      'renotedannotation-thread__collapse-toggle': true,
+      'renotedurl-thread__collapse-toggle': true,
       'is-open': !this.thread.collapsed,
       'is-hovered': this.annotationHovered,
     };
   };
 
-  this.annotationClasses = function () {
+  this.urlClasses = function () {
     return {
-      annotation: true,
-      'annotation--reply': this.thread.depth > 0,
+      url: true,
+      'url--reply': this.thread.depth > 0,
       'is-collapsed': this.thread.collapsed,
       'is-highlighted': this.thread.highlightState === 'highlight',
       'is-dimmed': this.thread.highlightState === 'dim',

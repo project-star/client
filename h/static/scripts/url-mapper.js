@@ -2,67 +2,64 @@
 
 var angular = require('angular');
 
-var events = require('./events');
+var urlevents = require('./urlevents');
 
-function getExistingAnnotation(annotationUI, id) {
-  return annotationUI.getState().annotations.find(function (annot) {
-    return annot.id === id;
+function getExistingUrl(urlUI, id) {
+  return urlUI.getState().urls.find(function (url) {
+    return url.id === id;
   });
 }
 
 // Wraps the annotation store to trigger events for the CRUD actions
 // @ngInject
-function annotationMapper($rootScope, annotationUI, store) {
-  function loadAnnotations(annotations, replies) {
-    console.log("in annotation mpper load annotations")
-    annotations = annotations.concat(replies || []);
-
+function urlMapper($rootScope, urlUI, store) {
+  function loadUrls(urls) {
+    console.log("in url mpper load annotations")
     var loaded = [];
-    annotations.forEach(function (annotation) {
-      var existing = getExistingAnnotation(annotationUI, annotation.id);
+    urls.forEach(function (url) {
+      var existing = getExistingUrl(urlUI, url.id);
       if (existing) {
-        console.log("in annotation mpper load annotations")
-        $rootScope.$broadcast(events.ANNOTATION_UPDATED, annotation);
+        console.log("in url mpper load annotations")
+        $rootScope.$broadcast(urlevents.URL_UPDATED, url);
         return;
       }
-      loaded.push(annotation);
+      loaded.push(url);
     });
 
-    $rootScope.$broadcast(events.ANNOTATIONS_LOADED, loaded);
+    $rootScope.$broadcast(urlevents.URLS_LOADED, loaded);
   }
 
-  function unloadAnnotations(annotations) {
-    var unloaded = annotations.map(function (annotation) {
-      var existing = getExistingAnnotation(annotationUI, annotation.id);
-      if (existing && annotation !== existing) {
-        annotation = angular.copy(annotation, existing);
+  function unloadUrls(urls) {
+    var unloaded = urls.map(function (url) {
+      var existing = getExistingUrl(urlUI, url.id);
+      if (existing && url !== existing) {
+        url = angular.copy(url, existing);
       }
-      return annotation;
+      return url;
     });
-    $rootScope.$broadcast(events.ANNOTATIONS_UNLOADED, unloaded);
+    $rootScope.$broadcast(urlevents.URLS_UNLOADED, unloaded);
   }
 
-  function createAnnotation(annotation) {
-    $rootScope.$broadcast(events.BEFORE_ANNOTATION_CREATED, annotation);
-    return annotation;
+  function createUrl(url) {
+    $rootScope.$broadcast(urlevents.BEFORE_URL_CREATED, url);
+    return url;
   }
 
-  function deleteAnnotation(annotation) {
-    return store.annotation.delete({
-      id: annotation.id,
-    }).then(function () {
-      $rootScope.$broadcast(events.ANNOTATION_DELETED, annotation);
-      return annotation;
-    });
-  }
+ // function deleteUrl(url) {
+ //   return store.annotation.delete({
+ //     id: annotation.id,
+ //   }).then(function () {
+ //     $rootScope.$broadcast(urlevents.ANNOTATION_DELETED, annotation);
+ //     return annotation;
+ //   });
+ // }
 
   return {
-    loadAnnotations: loadAnnotations,
-    unloadAnnotations: unloadAnnotations,
-    createAnnotation: createAnnotation,
-    deleteAnnotation: deleteAnnotation,
+    loadUrls: loadUrls,
+    unloadUrls: unloadUrls,
+    createUrl: createUrl,
   };
 }
 
 
-module.exports = annotationMapper;
+module.exports = urlMapper;

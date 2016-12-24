@@ -1,7 +1,13 @@
-'use strict';
+
+
+
+
+
+
+
+use strict';
 
 var buildThread = require('./build-thread');
-var urlbuildThread = require('./urlbuild-thread');
 var events = require('./events');
 var urlevents = require('./urlevents');
 var memoize = require('./util/memoize');
@@ -64,7 +70,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
     if (state.isSidebar && !state.filterQuery) {
       if (!features.flagEnabled('orphans_tab')) {
         threadFilterFn = function (thread) {
-          
           if (!thread.annotation) {
             return false;
           }
@@ -76,8 +81,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
         };
       } else {
         threadFilterFn = function (thread) {
-          console.log("+++in root thread threadFilterFn ++++")
-          console.log(thread)
           if (!thread.annotation) {
             return false;
           }
@@ -105,75 +108,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
       expanded: state.expanded,
       highlighted: state.highlighted,
       selected: truthyKeys(state.selectedAnnotationMap || {}),
-      sortCompareFn: sortFn,
-      filterFn: filterFn,
-      threadFilterFn: threadFilterFn,
-    });
-  }
-
-
-   /**
-   * Build the root conversation thread from the given UI state.
-   *
-   * @param state - The current UI state (loaded annotations, sort mode,
-   *        filter settings etc.)
-   */
-  function urlbuildRootThread(state) {
-    var sortFn = sortFns[state.sortKey];
-
-    var filterFn;
-    if (state.filterQuery) {
-      var filters = searchFilter.generateFacetedFilter(state.filterQuery);
-      filterFn = function (url) {
-        return viewFilter.filter([url], filters).length > 0;
-      };
-    }
-
-    var threadFilterFn;
-    if (state.isSidebar && !state.filterQuery) {
-      if (!features.flagEnabled('orphans_tab')) {
-        threadFilterFn = function (thread) {
-          
-          if (!thread.annotation) {
-            return false;
-          }
-          if (state.selectedTab === uiConstants.TAB_NOTES) {
-            return metadata.isPageNote(thread.annotation);
-          } else {
-            return metadata.isAnnotation(thread.annotation) || metadata.isOrphan(thread.annotation);
-          }
-        };
-      } else {
-        threadFilterFn = function (thread) {
-          console.log("+++in root thread threadFilterFn ++++")
-          console.log(thread)
-          if (!thread.url) {
-            return false;
-          }
-          if (metadata.isWaitingToAnchor(thread.url)) {
-            return false;
-          }
-          switch (state.selectedTab) {
-          case uiConstants.TAB_ANNOTATIONS:
-            return metadata.isAnnotation(thread.url);
-          case uiConstants.TAB_ORPHANS:
-            return metadata.isOrphan(thread.url);
-          case uiConstants.TAB_NOTES:
-            return metadata.isPageNote(thread.url);
-          default:
-            throw new Error('Invalid selected tab');
-          }
-        };
-      }
-    }
-
-    // Get the currently loaded annotations and the set of inputs which
-    // determines what is visible and build the visible thread structure
-    return urlbuildThread(state.urls, {
-      forceVisible: truthyKeys(state.forceVisible),
-      expanded: state.expanded,
-      highlighted: state.highlighted,
-      selected: truthyKeys(state.selectedUrlMap || {}),
       sortCompareFn: sortFn,
       filterFn: filterFn,
       threadFilterFn: threadFilterFn,
@@ -265,7 +199,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
    * @return {Thread}
    */
   this.thread = memoize(buildRootThread);
-  this.thread = memoize(urlbuildRootThread);
 }
 
 module.exports = RootThread;

@@ -201,7 +201,7 @@ function addAnnotations(annotations, now) {
       type: actions.ADD_ANNOTATIONS,
       annotations: annotations,
     });
-
+    console.log(!getState().isSidebar)
     if (!getState().isSidebar) {
       return;
     }
@@ -212,6 +212,7 @@ function addAnnotations(annotations, now) {
     var ANCHORING_TIMEOUT = 500;
 
     var anchoringAnnots = added.filter(metadata.isWaitingToAnchor);
+    console.log("+++++is anchoring annots+++")
     if (anchoringAnnots.length) {
       setTimeout(function () {
         arrayUtil

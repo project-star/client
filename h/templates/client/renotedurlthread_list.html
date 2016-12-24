@@ -1,0 +1,12 @@
+<ul class="thread-list">
+ 
+   <li id="{{child.id}}"
+      class="thread-list__card"
+      ng-mouseenter="vm.onFocus({url: child.url})"
+      ng-click="vm.onSelect({url: child.url})"
+      ng-mouseleave="vm.onFocus({url: null})"
+      ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads track by child.id">
+      {{child.id}} {{child.url.uriaddress}}
+      hello1234
+  </li>
+</ul>

@@ -27,18 +27,18 @@ function fetchThread(store, id) {
 }
 
 
-function renotedfetchThread(store, id) {
+function renotedfetchThread(store) {
   var urlwise;
-  var annot;
+  var urlvalue;
   var result;
   var i=0;
   result=[]
   console.log("in prefetch thread")
-  return store.url({id: id}).then(function (urlwise) {
-    console.log("in renotedfetch thread")
-      for (i = 0; i < urlwise.rows.total; i++) { 
-          annot = urlwise.rows.annotations[i]
-          result = result.concat(annot)     
+  return store.urls().then(function (urlwise) {
+    console.log("in urlfetch thread")
+      for (i = 0; i < urlwise.total; i++) { 
+          urlvalue = urlwise.urllist[i]
+          result = result.concat(urlvalue)     
     }
          
     return result 
@@ -49,7 +49,7 @@ function renotedfetchThread(store, id) {
 
 
 // @ngInject
-function RenotedAnnotationViewerController (
+function UrlViewerController (
   $location, $routeParams, $scope,
   annotationUI, rootThread, streamer, store, streamFilter, annotationMapper
 ) {
@@ -73,9 +73,9 @@ function RenotedAnnotationViewerController (
     annotationUI.setCollapsed(id, collapsed);
   };
 
-  this.ready = renotedfetchThread(store, id).then(function (annots) {
+  this.ready = renotedfetchThread(store).then(function (urls) {
     console.log("++++++ in ready renoted annotation++++++") 
-    console.log(annots)
+    console.log(urls)
     annotationMapper.loadAnnotations(annots);
     var topLevelAnnot = annots.filter(function (annot) {
       return (annot.references || []).length === 0;
@@ -102,4 +102,4 @@ function RenotedAnnotationViewerController (
   });
 }
 
-module.exports = RenotedAnnotationViewerController;
+module.exports = UrlViewerController;

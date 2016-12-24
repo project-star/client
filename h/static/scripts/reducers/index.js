@@ -19,21 +19,26 @@
 
 var annotations = require('./annotations');
 var selection = require('./selection');
+var urlselection = require('./urlselection');
 var viewer = require('./viewer');
 var util = require('./util');
-
+var urls = require('./urls');
 function init(settings) {
   return Object.assign(
     {},
     annotations.init(),
+    urls.init(),
     selection.init(settings),
+    urlselection.init(settings),
     viewer.init()
   );
 }
 
 var update = util.createReducer(Object.assign(
+  urls.update,
   annotations.update,
   selection.update,
+  urlselection.update,
   viewer.update
 ));
 

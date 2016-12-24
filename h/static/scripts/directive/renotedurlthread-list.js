@@ -1,16 +1,16 @@
 'use strict';
 
-var events = require('../events');
+var events = require('../urlevents');
 var metadata = require('../annotation-metadata');
 
 /**
- * Component which displays a virtualized list of annotation threads.
+ * Component which displays a virtualized list of url threads.
  */
 
 var scopeTimeout = require('../util/scope-timeout');
 
 /**
- * Returns the height of the thread for an annotation if it exists in the view
+ * Returns the height of the thread for a url thread if it exists in the view
  * or undefined otherwise.
  */
 function getThreadHeight(id) {
@@ -30,22 +30,22 @@ function getThreadHeight(id) {
   var marginHeight = parseFloat(style.marginTop) +
                      parseFloat(style.marginBottom);
 
-  return elementHeight + marginHeight+200;
+  return elementHeight + marginHeight;
 
 }
 
 // @ngInject
-function RenotedThreadListController($scope, VirtualThreadList) {
+function RenotedUrlThreadListController($scope, UrlVirtualThreadList) {
   // `visibleThreads` keeps track of the subset of all threads matching the
   // current filters which are in or near the viewport and the view then renders
   // only those threads, using placeholders above and below the visible threads
   // to reserve space for threads which are not actually rendered.
   var self = this;
-  var visibleThreads = new VirtualThreadList($scope, window, this.thread);
+  var visibleThreads = new UrlVirtualThreadList($scope, window, this.thread);
   console.log("+++++ visibleThreads +++++")
   console.log(visibleThreads)
   visibleThreads.on('changed', function (state) {
-    self.virtualThreadList = {
+    self.UrlVirtualThreadList = {
       visibleThreads: state.visibleThreads,
       offscreenUpperHeight: state.offscreenUpperHeight + 'px',
       offscreenLowerHeight: state.offscreenLowerHeight + 'px',
@@ -99,12 +99,9 @@ function RenotedThreadListController($scope, VirtualThreadList) {
     }, 200);
   }
 
-  $scope.$on(events.BEFORE_ANNOTATION_CREATED, function (event, annotation) {
-    if (annotation.$highlight || metadata.isReply(annotation)) {
-      return;
-    }
+  $scope.$on(events.BEFORE_URL_CREATED, function (event, url) {
     self.onClearSelection();
-    scrollIntoView(annotation.$$tag);
+    scrollIntoView(url.$$tag);
   });
 
   this.$onChanges = function (changes) {
@@ -121,7 +118,7 @@ function RenotedThreadListController($scope, VirtualThreadList) {
 module.exports = function () {
   return {
     bindToController: true,
-    controller: RenotedThreadListController,
+    controller: RenotedUrlThreadListController,
     controllerAs: 'vm',
     restrict: 'E',
     scope: {
@@ -143,6 +140,6 @@ module.exports = function () {
       /** Called to clear the current selection. */
       onClearSelection: '&',
     },
-    template: require('../../../templates/client/newrenotedthread_list.html'),
+    template: require('../../../templates/client/renotedurlthread_list.html'),
   };
 };

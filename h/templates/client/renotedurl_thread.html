@@ -10,22 +10,22 @@
     <div class="annotation-thread__thread-line"></div>
   </div>
   <div class="annotation-thread__content">
-    <annotation ng-class="vm.annotationClasses()"
-             annotation="vm.thread.annotation"
+    <url ng-class="vm.urlClasses()"
+             url="vm.thread"
              is-collapsed="vm.thread.collapsed"
              is-last-reply="$last"
              is-sidebar="::vm.isSidebar"
-             name="annotation"
-             ng-mouseenter="vm.annotationHovered = true"
-             ng-mouseleave="vm.annotationHovered = false"
-             ng-if="vm.thread.annotation"
+             name="url"
+             ng-mouseenter="vm.urlHovered = true"
+             ng-mouseleave="vm.urlHovered = false"
+             ng-if="vm.thread"
              ng-show="vm.thread.visible"
              show-document-info="vm.showDocumentInfo"
              on-reply-count-click="vm.toggleCollapsed()"
              reply-count="vm.thread.replyCount">
-    </annotation>
+    </url>
 
-    <div ng-if="!vm.thread.annotation" class="thread-deleted">
+    <div ng-if="!vm.thread" class="thread-deleted">
       <p><em>Message not available.</em></p>
     </div>
 
@@ -45,12 +45,12 @@
     <ul ng-show="!vm.thread.collapsed">
       <li ng-repeat="child in vm.thread.children track by child.id"
           ng-show="vm.shouldShowReply(child)">
-        <renotedannotation-thread
+        <renotedurl-thread
           show-document-info="false"
           thread="child"
           on-change-collapsed="vm.onChangeCollapsed({id:id, collapsed:collapsed})"
           on-force-visible="vm.onForceVisible({thread:thread})">
-        </renotedannotation-thread>
+        </renotedurl-thread>
       </li>
     </ul>
   </div>

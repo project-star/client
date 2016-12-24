@@ -55,6 +55,7 @@ function configureLocation($locationProvider) {
 // @ngInject
 var VIEWER_TEMPLATE = require('../../templates/client/viewer.html');
 var RENOTED_VIEWER_TEMPLATE = require('../../templates/client/renotedviewer.html');
+var NEW_VIEWER_TEMPLATE = require('../../templates/client/newviewer.html');
 function configureRoutes($routeProvider) {
   $routeProvider.when('/a/:id',
     {
@@ -81,6 +82,13 @@ function configureRoutes($routeProvider) {
     {
       controller: 'StreamController',
       template: RENOTED_VIEWER_TEMPLATE,
+      reloadOnSearch: false,
+      resolve: resolve,
+    });
+  $routeProvider.when('/renote',
+    {
+      controller: 'NewStreamController',
+      template: NEW_VIEWER_TEMPLATE,
       reloadOnSearch: false,
       resolve: resolve,
     });
@@ -137,9 +145,11 @@ module.exports = angular.module('h', [
 ])
 
   .controller('AnnotationUIController', require('./annotation-ui-controller'))
+  .controller('UrlUIController', require('./url-ui-controller'))
   .controller('AnnotationViewerController', require('./annotation-viewer-controller'))
   .controller('RenotedAnnotationViewerController', require('./renotedannotation-viewer-controller'))
   .controller('StreamController', require('./stream-controller'))
+  .controller('NewStreamController', require('./newstream-controller'))
   .controller('RenotedAnnotationController', require('./renotedannotation-controller'))
   .controller('WidgetController', require('./widget-controller'))
   .controller("YouTubeCtrl", function($scope) {
@@ -157,9 +167,11 @@ module.exports = angular.module('h', [
 
   // UI components and helpers
   .directive('annotation', require('./directive/annotation').directive)
+  .directive('url', require('./directive/url').directive)
   .directive('renotedannotation', require('./directive/renotedannotation').directive)
   .directive('annotationShareDialog', require('./directive/annotation-share-dialog'))
   .directive('annotationThread', require('./directive/annotation-thread'))
+  .directive('renotedurlThread', require('./directive/renotedurl-thread'))
   .directive('videoThread', require('./directive/video-thread'))
   .directive('renotedannotationThread', require('./directive/renotedannotation-thread'))
   .directive('dropdownMenuBtn', require('./directive/dropdown-menu-btn'))
@@ -191,6 +203,7 @@ module.exports = angular.module('h', [
   .directive('videotimeEditor', require('./directive/videotime-editor'))
   .directive('threadList', require('./directive/thread-list'))
   .directive('renotedthreadList', require('./directive/renotedthread-list'))
+  .directive('renotedurlthreadList', require('./directive/renotedurlthread-list'))
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
   .directive('windowScroll', require('./directive/window-scroll'))
@@ -257,6 +270,8 @@ module.exports = angular.module('h', [
 
   .service('annotationMapper', require('./annotation-mapper'))
   .service('annotationUI', require('./annotation-ui'))
+  .service('urlUI',require('./url-ui'))
+  .service('urlMapper',require('./url-mapper'))
   .service('auth', require('./auth').service)
   .service('bridge', require('./bridge'))
   .service('drafts', require('./drafts'))
@@ -286,6 +301,7 @@ module.exports = angular.module('h', [
   .value('Discovery', require('./discovery'))
   .value('ExcerptOverflowMonitor', require('./directive/excerpt-overflow-monitor'))
   .value('VirtualThreadList', require('./virtual-thread-list'))
+  .value('UrlVirtualThreadList', require('./url-virtual-thread-list'))
   .value('raven', require('./raven'))
   .value('settings', settings)
   .value('time', require('./time'))

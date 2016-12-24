@@ -40,7 +40,7 @@
 </div>
 <!--
 <span window-scroll="loadMore(20)">
-  <renotedthread-list
+  <renotedurlthread-list
     on-change-collapsed="setCollapsed(id, collapsed)"
     on-clear-selection="clearSelection()"
     on-focus="focus(annotation)"
@@ -48,20 +48,20 @@
     on-select="scrollTo(annotation)"
     show-document-info="::!isSidebar"
     thread="rootThread">
-  </renotedthread-list>
+  </renotedurlthread-list>
 </span>
 -->
 
 <span>
-  <renotedthread-list
+  <renotedurlthread-list
     on-change-collapsed="setCollapsed(id, collapsed)"
     on-clear-selection="clearSelection()"
-    on-focus="focus(annotation)"
+    on-focus="focus(url)"
     on-force-visible="forceVisible(thread)"
-    on-select="scrollTo(annotation)"
+    on-select="scrollTo(url)"
     show-document-info="::!isSidebar"
     thread="rootThread">
-  </renotedthread-list>
+  </renotedurlthread-list>
 </span>
 
 <loggedout-message ng-if="isSidebar && shouldShowLoggedOutMessage()"

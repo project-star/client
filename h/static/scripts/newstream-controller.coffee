@@ -27,7 +27,9 @@ module.exports = class NewStreamController
      
 
     fetchurllist = () ->
-        store.urls().then(loadurllist).catch((err) -> console.error err)
+        searchParams = searchFilter.toObject($routeParams.q)
+        query = angular.extend(searchParams)
+        store.urls(query).then(loadurllist).catch((err) -> console.error err)
 
     loadurllist = ({total,urllist}) ->
         console.log("+++in new loadurllist function++++")

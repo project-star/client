@@ -8,8 +8,8 @@
     <span ng-if="vm.user()">
       <a class="annotation-header__user"
         target="_blank"
-      ng-href="{{vm.documentMeta().titleLink}}"
-        > {{vm.documentMeta().titleText}} </a>
+      ng-href="{{vm.titleLink()}}"
+        > {{vm.titleText()}} </a>
       <span class="annotation-collapsed-replies">
         <a class="annotation-link" href=""
           ng-click="vm.onReplyCountClick()"
@@ -69,7 +69,62 @@
  
       -->
   </header>
-  
+  <br>
+  <div class="annotation-body form-field" ng-if="vm.editing()">
+    <tag-editor tags="vm.state().tags"
+                on-edit-tags="vm.setTags(tags)"></tag-editor>
+  </div>
+
+  <div class="annotation-body u-layout-row tags tags-read-only">
+    <ul class="tag-list">
+      <li class="tag-item" ng-repeat="tag in vm.state().tags">
+        <a ng-href="{{vm.tagStreamURL(tag)}}" target="_blank">{{tag}}</a>
+      </li>
+    </ul>
+    <div class="u-stretch"></div>
+  </div>  
+
+
+  <div class="annotation-actions" ng-if="vm.id()">
+      <button class="btn btn-clean annotation-action-btn"
+       ng-click="vm.receivedAnnotlist(vm.url.id)"
+       ng-show="!vm.showAnnotations"
+       aria-label="Expand"
+       h-tooltip>
+        <i class="h-icon-chevron-right">More</i>
+      </button>
+      <button class="btn btn-clean annotation-action-btn"
+       ng-click="vm.collapse()"
+       ng-show="vm.showAnnotations"
+       aria-label="Collapse"
+       h-tooltip>
+        <i class="h-icon-chevron-left">Less</i>
+      </button>
+  </div>
+<section class="annotation-quote-list" ng-if="!vm.showAnnotations" ng-repeat="thread in vm.annotation() track by thread.id">
+
+<renotedannotation ng-class="vm.annotationClasses()"
+             annotation="thread"
+             name="annotation">
+    </renotedannotation>
+</section>
+<section class="annotation-quote-list" ng-if="vm.showAnnotations" ng-repeat="thread in vm.List.rows.annotations track by thread.id">
+
+<renotedannotation ng-class="vm.annotationClasses()"
+             annotation="thread"
+             name="annotation">
+    </renotedannotation>
+</section>
+
+
+
+
+
+
+
+
+
+
   <!-- Excerpts -->
   <section class="annotation-quote-list"
     ng-class="{'is-orphan' : vm.isOrphan()}"
@@ -133,26 +188,6 @@
   -->
   <!-- / Body -->
 
-  <!-- Tags -->
-  <div class="annotation-body form-field" ng-if="vm.editing()">
-    <tag-editor tags="vm.state().tags"
-                on-edit-tags="vm.setTags(tags)"></tag-editor>
-  </div>
-
-  <div class="annotation-body u-layout-row tags tags-read-only"
-       ng-if="(vm.canCollapseBody || vm.state().tags.length) && !vm.editing()">
-    <ul class="tag-list">
-      <li class="tag-item" ng-repeat="tag in vm.state().tags">
-        <a ng-href="{{vm.tagStreamURL(tag)}}" target="_blank">{{tag}}</a>
-      </li>
-    </ul>
-    <div class="u-stretch"></div>
-    <a class="annotation-link u-strong" ng-show="vm.canCollapseBody"
-      ng-click="vm.toggleCollapseBody($event)"
-      ng-title="vm.collapseBody ? 'Show the full annotation text' : 'Show the first few lines only'"
-      ng-bind="vm.collapseBody ? 'More' : 'Less'"></a>
-  </div>
-  <!-- / Tags -->
 
 
   <footer class="annotation-footer">

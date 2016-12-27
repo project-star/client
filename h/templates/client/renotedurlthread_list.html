@@ -6,7 +6,11 @@
       ng-click="vm.onSelect({url: child.url})"
       ng-mouseleave="vm.onFocus({url: null})"
       ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads track by child.id">
-      {{child.id}} {{child.url.uriaddress}}
-      hello1234
+      <url ng-class="vm.urlClasses()"
+             url="child.url">    </url>
+
+      
+
+
   </li>
 </ul>

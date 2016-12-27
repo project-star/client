@@ -3,13 +3,14 @@
 </header>
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
+  
   <header class="annotation-header">
     <!-- User -->
     <span ng-if="vm.user()">
       <a class="annotation-header__user"
         target="_blank"
       ng-href="{{vm.documentMeta().titleLink}}" ng-if="vm.typetodisplay()=='first'"
-        > {{vm.documentMeta().titleText}} </a>
+        > </a>
      
 
       
@@ -53,7 +54,7 @@
       timestamp="vm.updated()"
       href="vm.links().html"
       ng-if="!vm.editing() && vm.updated()"></timestamp>
-  <hr>      
+        
   </header>
 
     
@@ -140,7 +141,6 @@
       </span>
       -->
     </div>
-   <hr style="height:3px;border:none;color:#333;background-color:#333;" ng-if="vm.typetodisplay()=='first'"/> 
   </footer>
   
   <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}'

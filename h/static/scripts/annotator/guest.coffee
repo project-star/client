@@ -329,9 +329,6 @@ module.exports = class Guest extends Annotator
     self = this
     root = @element[0]
 
-    console.log "Entering into createAnnotation with : " + annotation.auddata
-    #console.log("//////TITLE: " + document.title + " URL: " + window.location.href)
-
     ranges = @selectedRanges ? []
     @selectedRanges = null
     
@@ -397,6 +394,7 @@ module.exports = class Guest extends Annotator
   updateAnnotations: (annotations) ->
     tags = (a.$$tag for a in annotations)
     @crossframe?.call('updateAnnotations', tags)
+    
 
   focusAnnotations: (annotations) ->
     tags = (a.$$tag for a in annotations)

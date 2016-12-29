@@ -70,12 +70,12 @@
       -->
   </header>
   <br>
-  <div class="annotation-body form-field" ng-if="vm.editing()">
+  <div class="annotation-body form-field" ng-if="vm.isurlediting">
     <tag-editor tags="vm.state().tags"
                 on-edit-tags="vm.setTags(tags)"></tag-editor>
   </div>
 
-  <div class="annotation-body u-layout-row tags tags-read-only">
+  <div class="annotation-body u-layout-row tags tags-read-only" ng-if="!vm.isurlediting">
     <ul class="tag-list">
       <li class="tag-item" ng-repeat="tag in vm.state().tags">
         <a ng-href="{{vm.tagStreamURL(tag)}}" target="_blank">{{tag}}</a>
@@ -84,8 +84,31 @@
     <div class="u-stretch"></div>
   </div>  
 
-
+<section>
   <div class="annotation-actions" ng-if="vm.id()">
+      <button class="btn btn-clean annotation-action-btn"
+       ng-click="vm.urledit()"
+       ng-show="!vm.isurlediting"
+       aria-label="Edit tags"
+       h-tooltip>
+        <i class="h-icon-annotation-edit"></i>
+      </button>
+   </div>
+   <div class="annotation-form-actions" ng-if="vm.isurlediting">
+    <button ng-click="vm.save()"
+          title="Save Changes"
+          class="btn btn-default btn-lg"
+          >
+    Save
+  </button>
+  <button class="publish-annotation-cancel-btn btn-clean"
+        ng-click="vm.revert()"
+        title="Cancel changes to this url"
+        >
+  <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon"></i> Cancel
+</button>  
+    </div>
+    <div class="annotation-actions" ng-if="vm.id()">
       <button class="btn btn-clean annotation-action-btn"
        ng-click="vm.receivedAnnotlist(vm.url.id)"
        ng-show="!vm.showAnnotations"
@@ -101,6 +124,8 @@
         <i class="h-icon-chevron-left">Less</i>
       </button>
   </div>
+</section>
+<br>
 <section class="annotation-quote-list" ng-if="!vm.showAnnotations" ng-repeat="thread in vm.annotation() track by thread.id">
 
 <renotedannotation ng-class="vm.annotationClasses()"

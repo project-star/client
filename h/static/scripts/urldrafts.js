@@ -36,7 +36,7 @@ function UrlDraftStore() {
    * Annotations are matched by urlID or local tag.
    */
   function match(urldraft, urlmodel) {
-    return (urldraft.urlmodel.uri_id && urlmodel.uri_id === urldraft.urlmodel.uri_id) ||
+    return (urldraft.urlmodel.id && urlmodel.id === urldraft.urlmodel.id) ||
     (urldraft.urlmodel.$$tag && urlmodel.$$tag === urldraft.urlmodel.$$tag)
   }
 
@@ -56,7 +56,7 @@ function UrlDraftStore() {
    */
   this.unsaved = function unsaved() {
     return this._urldrafts.filter(function(urldraft) {
-      return !urldraft.urlmodel.uri_id;
+      return !urldraft.urlmodel.id;
     }).map(function(urldraft) {
       return urldraft.urlmodel;
     });
@@ -92,12 +92,13 @@ function UrlDraftStore() {
    */
   this.urlupdate = function urlupdate(urlmodel, changes) {
     var newurlDraft = {
-      urlmodel: {uri_id: urlmodel.uri_id, $$tag: urlmodel.$$tag},
+      urlmodel: {id: urlmodel.id, $$tag: urlmodel.$$tag},
       tags: changes.tags,
     };
     console.log(newurlDraft)
-    //this.remove(urlmodel);
-    //this._urldrafts.push(newurlDraft);
+    this.remove(urlmodel);
+    this._urldrafts.push(newurlDraft);
+    console.log(this._urldrafts)
   };
 
   /** Remove the draft version of an annotation. */

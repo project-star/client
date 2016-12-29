@@ -196,7 +196,7 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
   // the Redux store in annotationUI.
   var loadEvents = [events.ANNOTATION_CREATED,
                     events.ANNOTATION_UPDATED,
-                    events.ANNOTATIONS_LOADED,urlevents.URLS_LOADED,urlevents.URLS_UPDATED];
+                    events.ANNOTATIONS_LOADED,urlevents.URLS_LOADED,urlevents.URL_UPDATED];
   loadEvents.forEach(function (event) {
     $rootScope.$on(event, function (event, annotation) {
       console.log("+++++++++++++++in root thread+++++++++++++")

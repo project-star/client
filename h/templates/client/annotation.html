@@ -40,30 +40,19 @@
         </span>
       </span>
       -->
-    <soundcloud-track
-      ng-if="vm.isAudio()=='success'"
-      track-url="https://soundcloud.com/user-198125870/sawaar-loon-by-afshan-fawad"
-      create-player>
-    </soundcloud-track>
 
-    <!-- SOUNDCLOUD WIDGET EMBEDDING CODE
-
-    <sc-widget-script-load></sc-widget-script-load>
-
-    <iframe ng-if="vm.isAudio()=='success'" id="renotedSCWidget" src='{{ vm.audioEmbedUrl() }}' 
-            frameborder='0' width="400" height="200" ng-init="vm.loadAudioWidget()">
-    </iframe>
-
-    <span ng-if="vm.isAudio()=='success' && !vm.editing()">
+  <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.playerId()">  
+  </sc-widget>
+  <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Play</button>
+  <span ng-if=vm.isAudio()>
      <br>
-     <b> Start Time: {{ vm.audioStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.audioEndtime() }} &nbsp; &nbsp; Duration: {{ vm.audioDuration() }}</b>
-    </span>
-    -->
+     <b> Start Time: {{ vm.videostarttime() }}  &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
+  </span>
     <!-- YOUTUBE EMBEDDING CODE -->
-    <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}' ng-style="float:right"
+    <iframe ng-if=vm.isVideo() src='{{ vm.videoembedurl() }}'
                 frameborder='0'
                 allowfullscreen ></iframe >
-     <span ng-if="vm.isVideo()=='success' && vm.editing()">
+     <span ng-if="vm.isVideo() && vm.editing()">
      <br>
      <b> Start Time: <vidmarkdown text="vm.videostarttime()"
         on-edit-text="vm.setStarttime(text)"
@@ -73,7 +62,7 @@
         read-only="!vm.editing()">
       </vidmarkdown> </b>
      </span>
-     <span ng-if="vm.isVideo()=='success' && !vm.editing()">
+     <span ng-if="vm.isVideo() && !vm.editing()">
      <br>
      <b> Start Time: {{ vm.videostarttime() }}  &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
      </span>

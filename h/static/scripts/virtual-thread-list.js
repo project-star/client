@@ -144,23 +144,24 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
       thread=allThreads[i];
       console.log("++++in first for loop virtual thread list++++")
 
-      console.log(thread.annotation.uri_id)
+      console.log("This is uri_id for the annotation: " + thread.annotation.uri_id)
       if (urllist.indexOf(thread.annotation.uri_id) == -1){
           thread.annotation.type="first";
-          urllist.push(thread.annotation.uri_id);
+          urllist.push(thread.annotation.uri_id); //this is pushing each unique URI into the urllist object
        }
       else {
-          thread.annotation.type="second";
+          thread.annotation.type="second"; //What is this for? Why is it setting type as "second" for all >2 annotations 
       }
    }
   
+  //first loop is traversing through all the unique URLs
   for (var j = 0; j < urllist.length; j++){
     var  urllistval =  urllist[j];
     var medievalallThreads=[]
     for (var i = 0; i < allThreads.length; i++) {
       thread=allThreads[i];
       if (urllistval == thread.annotation.uri_id){
-            medievalallThreads.push(thread)
+            medievalallThreads.push(thread); //associating all the annotations for a url into a single URL
       }
      }
     var sortArr = []

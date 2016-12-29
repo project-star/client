@@ -53,7 +53,7 @@ function updateModel(annotation, changes, permissions) {
 function AnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
-  session, store, streamer, soundcloudWidgetUtils) {
+  session, store, streamer, scService) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -271,19 +271,19 @@ function AnnotationController(
   //Audio related methods
   vm.isAudio = function() {
     if (vm.annotation.hasOwnProperty('auddata')){
-       return "success";
+       return true;
        }
     else
-       return "failure";
+       return false;
   }
 
   // Video related methods
   vm.isVideo = function() {
     if (vm.annotation.hasOwnProperty('viddata')){
-       return "success";
+       return true;
        }
     else
-       return "failure";
+       return false;
    } 
 
   $scope.trustSrcurl = function(data) 
@@ -291,27 +291,41 @@ function AnnotationController(
     return $sce.trustAsResourceUrl(data);
   }
 
+  //Generates unique Id for the sc player
+  vm.playerId = function() {
+    var playerId = vm.annotation.renoted_id;
+    console.log("Creating playerId: " + playerId);
+    return playerId;
+  }
+
   //URL to be embedded into Audio Widget
   vm.audioEmbedUrl = function() {
+    
+    var scUrl = "https://w.soundcloud.com/player/?url=";
+
     if(vm.annotation.hasOwnProperty('auddata')) {
-      var soundURL = vm.annotation.auddata[0].uri;
+      var soundURL = scUrl + vm.annotation.auddata[0].uri;
+      console.log("This is the URL: " + soundURL);
       return soundURL;
     }
     else
-      return "success";
-
+      return "error";
   }
 
   //Load the soundcloud Widget with correct settings
   vm.loadAudioWidget = function() {
+    var playerId = vm.annotation.renoted_id;
+    console.log("Loading Widget with playerId as " + playerId);
     //Get the start and end times from the auddata
     var startTime = vm.annotation.auddata[0].starttime;
     var endTime = vm.annotation.auddata[0].endtime;
-
+    //var audUrl = "http://w.soundcloud.com/player/?url=" + vm.annotation.auddata[0].uri;
     //var audioFrame = $scope.getElementById("renotedSCWidget");
     //console.log("Audio Frame successfully found " + audioFrame);
-    var vmWidget = SC.Widget("renotedSCWidget");
+    var vmWidget = SC.Widget(playerId);
+    //vmWidget.load(vm.annotation.auddata[0].uri);
     console.log("Widget created");
+
 
     vmWidget.bind(SC.Widget.Events.READY, function() {
       vmWidget.play();
@@ -355,83 +369,128 @@ function AnnotationController(
        return "success"
       }
  }
-   vm.videostarttime = function() {
-     if (vm.annotation.hasOwnProperty('viddata')){
-       console.log(vm.annotation.viddata)
-       var urival=vm.annotation.viddata
-       console.log(urival)
-       var annotateduri=urival[0].uri
-       var id=annotateduri.split('v=')[1]
-       var starttime=(vm.annotation.viddata[0].starttime)
-       var date = new Date(starttime * 1000);
-       var hh = date.getUTCHours();
-       var mm = date.getUTCMinutes();
-       var ss = date.getSeconds();
-       if (hh < 10) {hh = "0"+hh;}
-       if (mm < 10) {mm = "0"+mm;}
-       if (ss < 10) {ss = "0"+ss;}
-// This formats your string to HH:MM:SS
-       var t = hh+":"+mm+":"+ss;
-       if (hh=="00") {
-         t=mm+":"+ss;}
-       return t
-      }
-     else {
-       return "success"
-      }
- }
-    vm.videoendtime = function() {
-     if (vm.annotation.hasOwnProperty('viddata')){
-       console.log(vm.annotation.viddata)
-       var urival=vm.annotation.viddata
-       console.log(urival)
-       var annotateduri=urival[0].uri
-       var id=annotateduri.split('v=')[1]
-       var endtime=(vm.annotation.viddata[0].endtime)
-       var date = new Date(endtime * 1000);
-       var hh = date.getUTCHours();
-       var mm = date.getUTCMinutes();
-       var ss = date.getSeconds();
-       if (hh < 10) {hh = "0"+hh;}
-       if (mm < 10) {mm = "0"+mm;}
-       if (ss < 10) {ss = "0"+ss;}
-// This formats your string to HH:MM:SS
-       var t = hh+":"+mm+":"+ss;
-       if (hh=="00") {
-         t=mm+":"+ss;}
-       return t
-      }
-     else {
-       return "success"
-      }
- }
-     vm.videoduration = function() {
-     if (vm.annotation.hasOwnProperty('viddata')){
-       console.log(vm.annotation.viddata)
-       var urival=vm.annotation.viddata
-       console.log(urival)
-       var annotateduri=urival[0].uri
-       var id=annotateduri.split('v=')[1]
-       var starttime=(vm.annotation.viddata[0].starttime)
-       var endtime=(vm.annotation.viddata[0].endtime)
 
-       var val = (endtime-starttime)
-       var date = new Date(val * 1000);
-       var hh = date.getUTCHours();
-       var mm = date.getUTCMinutes();
-       var ss = date.getSeconds();
-       if (hh < 10) {hh = "0"+hh;}
-       if (mm < 10) {mm = "0"+mm;}
-       if (ss < 10) {ss = "0"+ss;}
-// This formats your string to HH:MM:SS
-       var t = hh+":"+mm+":"+ss;
-       if (hh=="00") {
-         t=mm+":"+ss;}
-       return t
-      }
-     else {
-       return "success"
-      }
+ //Modifying the function to keep it generic - handling any media - Audio OR Video
+   vm.videostarttime = function() {
+    //Process only if audio or video
+    if(!vm.isVideo() && !vm.isAudio())
+      return "success";
+
+     var starttime = 0;
+
+     if (vm.annotation.hasOwnProperty('viddata')) {
+       console.log(vm.annotation.viddata);
+       starttime=(vm.annotation.viddata[0].starttime);
+     }
+     else if (vm.annotation.hasOwnProperty('auddata')) {
+      
+      starttime=(vm.annotation.auddata[0].starttime);
+      starttime = starttime / 1000; //converting to seconds
+     }
+
+     starttime = Math.floor(starttime);
+     var hr = Math.floor(starttime/3600);
+     var hr_mod = starttime % 3600;
+     var min = Math.floor(hr_mod/60);
+     var sec = hr_mod % 60;
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+
+      // This formats your string to HH:MM:SS
+      var t = hr+":"+min+":"+sec;
+      if (hr=="00") {
+        t=min+":"+sec;}
+      return t;
+      
+ }
+
+//Modifying the function to keep it generic - handling any media - Audio OR Video
+    vm.videoendtime = function() {
+
+      //Process only if audio or video
+      if(!vm.isVideo() && !vm.isAudio())
+        return "success";
+
+      var endtime = 0;
+
+     if (vm.annotation.hasOwnProperty('viddata')) {
+       console.log(vm.annotation.viddata);
+       endtime=(vm.annotation.viddata[0].endtime);
+      
+     }
+     else if (vm.annotation.hasOwnProperty('auddata')) {
+       endtime=(vm.annotation.auddata[0].endtime);
+       endtime = endtime / 1000; //convert to seconds
+     }
+      
+      endtime = Math.floor(endtime);
+      var hr = Math.floor(endtime/3600);
+      var hr_mod = endtime % 3600;
+      var min = Math.floor(hr_mod/60);
+      var sec = hr_mod % 60;
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+      // This formats your string to HH:MM:SS
+       var t = hr+":"+min+":"+sec;
+       if (hr=="00") {
+         t=min+":"+sec;
+       }
+       return t;
+      
+ }
+
+ //Modifying the function to keep it generic - handling any media - Audio OR Video
+     vm.videoduration = function() {
+
+      //Process only if audio or video
+      if(!vm.isVideo() && !vm.isAudio())
+        return "success";
+
+      var starttime = 0;
+      var endtime = 0;
+      var val;
+     if (vm.annotation.hasOwnProperty('viddata')){
+
+       starttime=(vm.annotation.viddata[0].starttime);
+       endtime=(vm.annotation.viddata[0].endtime);
+       val = (endtime-starttime);
+     }
+     else if (vm.annotation.hasOwnProperty('auddata')) {
+       starttime=(vm.annotation.auddata[0].starttime);
+       endtime=(vm.annotation.auddata[0].endtime);  
+       val = (endtime-starttime) / 1000;    
+     }
+
+      val = Math.floor(val);
+      var hr = Math.floor(val/3600);
+      var hr_mod = val % 3600;
+      var min = Math.floor(hr_mod/60);
+      var sec = hr_mod % 60;
+
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+
+      // This formats your string to HH:MM:SS
+       var t = hr+":"+min+":"+sec;
+       if (hr=="00") {
+         t=min+":"+sec;}
+       return t;
+      
  }
 
 
@@ -568,6 +627,17 @@ function AnnotationController(
       flash.info('Please add text or a tag before publishing.');
       return Promise.resolve();
     }
+    /*
+    if (vm.isVideo()) {
+      var ytPlayer = document.getElementById("movie_player");
+      endtime = ytPlayer.getCurrentTime();
+      console.log("Endtime is : "+endtime)
+
+//      var recordButton = document.getElementsByName("insert-video-clip-start");
+//      recordButton[0].disabled = false;
+//      console.log("Enabled the record button on saving" + recordButton[0]);
+    }
+    */
     console.log(vm.state())
     var updatedModel = updateModel(vm.annotation, vm.state(), permissions);
 
@@ -735,7 +805,7 @@ function AnnotationController(
    
   };
   vm.setEndtime = function (endtime) {
-    console.log ("++++in starttime+++")
+    console.log ("++++in endtime+++")
     console.log (endtime)
     var val = endtime.split(":");
     var retendtime=0

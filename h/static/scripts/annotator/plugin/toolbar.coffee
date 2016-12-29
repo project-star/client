@@ -15,6 +15,7 @@ makeButton = (item) ->
 module.exports = class Toolbar extends Annotator.Plugin
   HIDE_CLASS = 'annotator-hide'
   IDLIST = []
+  #ytAnnot = []
   
   events:
     'setVisibleHighlights': 'onSetVisibleHighlights'
@@ -37,6 +38,7 @@ module.exports = class Toolbar extends Annotator.Plugin
           event.preventDefault()
           event.stopPropagation()
           collapsed = @annotator.frame.hasClass('annotator-collapsed')
+#         console.log "chevron icon clicked!"
           if collapsed
             @annotator.show()
           else
@@ -103,17 +105,22 @@ module.exports = class Toolbar extends Annotator.Plugin
               else
                 if not IDLIST.length > 0
                   starttime=scPlayer[0].getAttribute('aria-valuenow')
+                  endtime=scPlayer[0].getAttribute('aria-valuemax')
                   val.id =renoted_id
                   val.starttime=starttime
+                  val.endtime = endtime
                   val.uri = scDomainURI + scPlayerURI
                   val.title = scPlayerTitle
                   IDLIST.push(val) 
                   console.log(IDLIST)
                   console.log("+++++starttime+++++")
-                  console.log(starttime)
+                  console.log "Start time " + starttime + "End time " + endtime
+                  @annotator.createAnnotation($renoted_id : IDLIST[0].id, auddata: IDLIST)
+                  IDLIST = []
                   state = true
                   this.setVideoSnippetButton state
 
+                # Else block will never hit in this implementation
                 else
                   newURI = scDomainURI + scPlayerURI
 
@@ -136,13 +143,20 @@ module.exports = class Toolbar extends Annotator.Plugin
               ytplayer=document.getElementById("movie_player")
               
               console.log("already on youtube")
+              # Currently the below condition will never be hit as we are capturing the endtime in a single click
               if IDLIST.length > 0
                    endtime=ytplayer.getCurrentTime()
                    console.log("+++++endtime+++++")
                    console.log(endtime)
                    IDLIST[0].endtime=endtime
                    console.log(IDLIST)
-                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   
+                   #ytAnnot[0].viddata[0].endtime = endtime
+                   #console.log "Checking access to annot properties(2) start: " + annot.viddata[0].starttime + " end: " + annot.viddata[0].endtime
+                   #@annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+
+                   # FIX ME:Reset the endtime on clicking the end recording button
+                   #@annotator.updateAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
                    IDLIST=[]
                    state = false
                    this.setVideoSnippetButton state
@@ -150,15 +164,28 @@ module.exports = class Toolbar extends Annotator.Plugin
               else
                    starttime=ytplayer.getCurrentTime()
                    
+                   #set end time to duration by default
+                   endtime = ytplayer.getDuration()
+                   
                    val.id =renoted_id
                    val.starttime=starttime
+                   
+                   # resolving Bug#33
+                   val.endtime = endtime
                    val.uri=uri
                    IDLIST.push(val) 
                    console.log(IDLIST)
                    console.log("+++++starttime+++++")
                    console.log(starttime)
-                   state = true
-                   this.setVideoSnippetButton state
+                   console.log "default endtime or duration" + endtime
+                   
+                   # Create a new annotation and get its reference
+                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   IDLIST =[]
+
+                   # Not toggling the state to keep the button color consistent throughout
+                   #state = true
+                   #this.setVideoSnippetButton state
           else
               alert("only works with Youtube and SoundCloud for now")
 
@@ -209,8 +236,10 @@ module.exports = class Toolbar extends Annotator.Plugin
   setVideoSnippetButton: (state) ->
     if state
       $('[name=insert-video-clip-start]')
-      .prop('title', 'End Snippet Recording')
+      .prop('title', 'Please save the current Snip!')
+      #.prop('disabled', 'true')
       .css('color', 'red');
+
     else
       $('[name=insert-video-clip-start]')
       .prop('title', 'Start Snippet Recording')

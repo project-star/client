@@ -371,7 +371,7 @@ function AnnotationController(
  }
 
  //Modifying the function to keep it generic - handling any media - Audio OR Video
-   vm.videostarttime = function() {
+   vm.getStarttime = function() {
     //Process only if audio or video
     if(!vm.isVideo() && !vm.isAudio())
       return "success";
@@ -410,7 +410,7 @@ function AnnotationController(
  }
 
 //Modifying the function to keep it generic - handling any media - Audio OR Video
-    vm.videoendtime = function() {
+    vm.getEndtime = function() {
 
       //Process only if audio or video
       if(!vm.isVideo() && !vm.isAudio())
@@ -450,7 +450,7 @@ function AnnotationController(
  }
 
  //Modifying the function to keep it generic - handling any media - Audio OR Video
-     vm.videoduration = function() {
+     vm.getDuration = function() {
 
       //Process only if audio or video
       if(!vm.isVideo() && !vm.isAudio())
@@ -782,28 +782,46 @@ function AnnotationController(
     });
   
   };
+
+
   vm.setStarttime = function (starttime) {
-    console.log ("++++in starttime+++")
-    console.log (starttime)
+    console.log ("++++in starttime+++");
+    console.log (starttime);
     var val = starttime.split(":");
-    var retstarttime=0
+    var retstarttime=0;
     if (val.length == 2){
-        retstarttime = (parseInt(val[0])*60 + parseInt(val[1])).toString()
+        retstarttime = (parseInt(val[0])*60 + parseInt(val[1])).toString();
      }
     if (val.length == 3){
-        retstarttime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString()
+        retstarttime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString();
      }
-    var viddata=vm.annotation.viddata
-    console.log(viddata)
-    viddata[0].starttime = retstarttime    
-    drafts.update(vm.annotation, {
-      isPrivate: vm.state().isPrivate,
-      tags: vm.state().tags,
-      text: vm.state().text,
-      viddata: viddata,
-    });
-   
+
+     if(vm.isVideo()) {
+
+      var viddata=vm.annotation.viddata;
+      console.log(viddata);
+      viddata[0].starttime = retstarttime ;   
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        viddata: viddata,
+      });
+    }
+    else if(vm.isAudio()) {
+      var auddata=vm.annotation.auddata;
+      console.log(auddata);
+      auddata[0].starttime = retstarttime*1000; //Convert to milliseconds for SC
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        auddata: auddata,
+      });
+    }   
   };
+
+
   vm.setEndtime = function (endtime) {
     console.log ("++++in endtime+++")
     console.log (endtime)
@@ -815,17 +833,33 @@ function AnnotationController(
     if (val.length == 3){
         retendtime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString()
      }
-    var viddata=vm.annotation.viddata
-    console.log(viddata)
-    viddata[0].endtime = retendtime
-    drafts.update(vm.annotation, {
-      isPrivate: vm.state().isPrivate,
-      tags: vm.state().tags,
-      text: vm.state().text,
-      viddata: viddata,
-    });
+
+     if(vm.isVideo()) {
+
+      var viddata=vm.annotation.viddata;
+      console.log(viddata);
+      viddata[0].endtime = retendtime;
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        viddata: viddata,
+      });
+    }
+    else if(vm.isAudio()) {
+      var auddata=vm.annotation.auddata;
+      console.log(auddata);
+      auddata[0].endtime = retendtime*1000; //Convert to milliseconds for SC
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        auddata: auddata,
+      });
+    }
 
   };
+
   vm.state = function () {
     var draft = drafts.get(vm.annotation);
     if (draft) {

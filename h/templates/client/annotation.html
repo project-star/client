@@ -43,10 +43,22 @@
 
   <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.playerId()">  
   </sc-widget>
-  <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Play</button>
-  <span ng-if=vm.isAudio()>
+  <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load</button>
+
+  <span ng-if="vm.isAudio() && vm.editing()">
      <br>
-     <b> Start Time: {{ vm.videostarttime() }}  &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
+     <b> Start Time: <vidmarkdown text="vm.getStarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> </b>
+  </span>
+
+  <span ng-if="vm.isAudio() && !vm.editing()">
+     <br>
+     <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
   </span>
     <!-- YOUTUBE EMBEDDING CODE -->
     <iframe ng-if=vm.isVideo() src='{{ vm.videoembedurl() }}'
@@ -54,17 +66,17 @@
                 allowfullscreen ></iframe >
      <span ng-if="vm.isVideo() && vm.editing()">
      <br>
-     <b> Start Time: <vidmarkdown text="vm.videostarttime()"
+     <b> Start Time: <vidmarkdown text="vm.getStarttime()"
         on-edit-text="vm.setStarttime(text)"
         read-only="!vm.editing()">
-      </vidmarkdown> End Time:<vidmarkdown text="vm.videoendtime()"
+      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
         on-edit-text="vm.setEndtime(text)"
         read-only="!vm.editing()">
       </vidmarkdown> </b>
      </span>
      <span ng-if="vm.isVideo() && !vm.editing()">
      <br>
-     <b> Start Time: {{ vm.videostarttime() }}  &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
+     <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
      </span>
     
 
@@ -120,8 +132,8 @@
       collapse="vm.collapseBody"
       collapsed-height="10"
       overflow-hysteresis="30"
-      content-data="vm.videostarttime()">
-      <vidmarkdown text="vm.videostarttime()"
+      content-data="vm.getStarttime()">
+      <vidmarkdown text="vm.getStarttime()"
         on-edit-text="vm.setStarttime(text)"
         read-only="!vm.editing()">
       </vidmarkdown>
@@ -132,8 +144,8 @@
       collapse="vm.collapseBody"
       collapsed-height="10"
       overflow-hysteresis="30"
-      content-data="vm.videoendtime()">
-      <vidmarkdown text="vm.videoendtime()"
+      content-data="vm.getEndtime()">
+      <vidmarkdown text="vm.getEndtime()"
         on-edit-text="vm.setEndtime(text)"
         read-only="!vm.editing()">
       </vidmarkdown>

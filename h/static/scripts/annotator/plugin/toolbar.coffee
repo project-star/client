@@ -1,6 +1,17 @@
 
 Annotator = require('annotator')
 $ = Annotator.$
+
+isMedia = ->
+  uri = document.location.href
+  matchYT = uri.includes("youtube.com")
+  matchSC = uri.includes("soundcloud.com")
+
+  if matchYT or matchSC
+    return true
+  
+  return false
+
 makeButton = (item) ->
   anchor = $('<button></button>')
   .attr('href', '')
@@ -9,8 +20,18 @@ makeButton = (item) ->
   .on(item.on)
   .addClass('annotator-frame-button')
   .addClass(item.class)
+
+  if item.name.includes("insert-video-clip")
+    if not isMedia()
+      anchor.attr('disabled', 'true')
+      anchor.css('color', '#969696')
+      console.log ("Disabling the button!")
+    else
+      anchor.css('color', 'red')
+  
   button = $('<li></li>').append(anchor)
   return button[0]
+
 
 module.exports = class Toolbar extends Annotator.Plugin
   HIDE_CLASS = 'annotator-hide'
@@ -19,6 +40,7 @@ module.exports = class Toolbar extends Annotator.Plugin
   
   events:
     'setVisibleHighlights': 'onSetVisibleHighlights'
+#    'setVideoSnippetButton': 'onSetVideoSnippetButton'
 
   html: '<div class="annotator-toolbar"></div>'
 
@@ -53,29 +75,11 @@ module.exports = class Toolbar extends Annotator.Plugin
 #          event.stopPropagation()
 #          state = not @annotator.visibleHighlights
 #          @annotator.setVisibleHighlights state
-# 
 #    ,    
-#      "title": "New Bookmark"
-#      "class": "h-icon-bookmark"
-#      "name": "insert-comment"
-#      "on":
-#       "click": (event) =>
-#          event.preventDefault()
-#          event.stopPropagation()
-#          ytplayer = new YT.Player("") 
-#          ytplayer=document.getElementById("movie_player")
-#          console.log "Clicked on the bookmark tool"
-#          uri = document.location.href
-#          console.log(ytplayer.getCurrentTime())
-#          console.log (uri)
- 
-#          @annotator.createAnnotation()
-#          @annotator.show()
 #
-#    ,
       "title": "Start Snippet Recording"
       "class": "annotator-frame-button--media_bar h-icon-media-record"
-      "name": "insert-video-clip-start"
+      "name": "insert-video-clip"
       "on":
        "click": (event) =>
           event.preventDefault()
@@ -85,7 +89,6 @@ module.exports = class Toolbar extends Annotator.Plugin
           matchSC = uri.includes("soundcloud.com")
           renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
           val={}
-
           
           if matchSC
               console.log("inside SoundCloud")
@@ -116,11 +119,12 @@ module.exports = class Toolbar extends Annotator.Plugin
                   console.log("+++++starttime+++++")
                   console.log "Start time " + starttime + "End time " + endtime
                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, auddata: IDLIST)
+                  
                   IDLIST = []
-                  state = true
-                  this.setVideoSnippetButton state
+                  #state = true
+                  #@toolbar.setVideoSnippetButton state
 
-                # Else block will never hit in this implementation
+                # Else block will never hit in @annotator implementation
                 else
                   newURI = scDomainURI + scPlayerURI
 
@@ -136,8 +140,8 @@ module.exports = class Toolbar extends Annotator.Plugin
                     @annotator.createAnnotation($renoted_id : IDLIST[0].id, auddata: IDLIST)
                   
                   IDLIST=[]
-                  state = false
-                  this.setVideoSnippetButton state
+                  #state = false
+                  #@toolbar.setVideoSnippetButton state
 
           else if matchYT
               ytplayer=document.getElementById("movie_player")
@@ -150,16 +154,12 @@ module.exports = class Toolbar extends Annotator.Plugin
                    console.log(endtime)
                    IDLIST[0].endtime=endtime
                    console.log(IDLIST)
-                   
-                   #ytAnnot[0].viddata[0].endtime = endtime
-                   #console.log "Checking access to annot properties(2) start: " + annot.viddata[0].starttime + " end: " + annot.viddata[0].endtime
-                   #@annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
 
                    # FIX ME:Reset the endtime on clicking the end recording button
-                   #@annotator.updateAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
                    IDLIST=[]
-                   state = false
-                   this.setVideoSnippetButton state
+                   #state = false
+                   #@toolbar.setVideoSnippetButton state
               
               else
                    starttime=ytplayer.getCurrentTime()
@@ -181,34 +181,13 @@ module.exports = class Toolbar extends Annotator.Plugin
                    
                    # Create a new annotation and get its reference
                    @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
-                   IDLIST =[]
+                   IDLIST = []
 
-                   # Not toggling the state to keep the button color consistent throughout
                    #state = true
-                   #this.setVideoSnippetButton state
+                   #@toolbar.setVideoSnippetButton state
           else
               alert("only works with Youtube and SoundCloud for now")
 
-#          @annotator.createAnnotation($renoted_id : "hel1234")
-#          @annotator.show()
-#
-#    ,
-#      "title": "New Video Clip Stop"
-#      "class": "h-icon-chevron-right"
-#      "name": "insert-video-clip-stop"
-#      "on":
-#       "click": (event) =>
-#          event.preventDefault()
-#          event.stopPropagation()
-#          ytplayer = new YT.Player("")
-#          ytplayer=document.getElementById("movie_player")
-#          console.log "Clicked on the bookmark tool"
-          uri = document.location.href
-#          console.log(ytplayer.getCurrentTime())
-#          console.log (uri)
-
-#          @annotator.createAnnotation()
-#          @annotator.show()
     ]
     @buttons = $(makeButton(item) for item in items)
 
@@ -227,13 +206,19 @@ module.exports = class Toolbar extends Annotator.Plugin
       .removeClass('h-icon-visibility-off')
       .addClass('h-icon-visibility')
       .prop('title', 'Hide Highlights');
+      console.log "Visible highlights call server in toolbar.coffee"
+
     else
       $('[name=highlight-visibility]')
       .removeClass('h-icon-visibility')
       .addClass('h-icon-visibility-off')
       .prop('title', 'Show Highlights');
+      console.log "Visible highlights call server in toolbar.coffee"
 
-  setVideoSnippetButton: (state) ->
+
+  onSetVideoSnippetButton: (state) ->
+    console.log "Video snippets button call in toolbar.coffee"
+    
     if state
       $('[name=insert-video-clip-start]')
       .prop('title', 'Please save the current Snip!')

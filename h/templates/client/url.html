@@ -93,6 +93,14 @@
        h-tooltip>
         <i class="h-icon-annotation-edit"></i>
       </button>
+      <button class="btn btn-clean annotation-action-btn"
+        ng-show="!vm.isurlediting"
+        ng-click="vm.urldelete()"
+        ng-disabled="vm.isurlediting"
+        aria-label="Delete"
+        h-tooltip>
+        <i class="h-icon-annotation-delete btn-icon "></i>
+      </button>
    </div>
    <div class="annotation-form-actions" ng-if="vm.isurlediting">
     <button ng-click="vm.save()"
@@ -126,13 +134,14 @@
   </div>
 </section>
 <br>
-<section class="annotation-quote-list" ng-if="!vm.showAnnotations" ng-repeat="thread in vm.annotation() track by thread.id">
+<section class="annotation-quote-list" ng-if="!vm.showAnnotations"  ng-repeat="thread in vm.annotation() track by thread.id">
 
 <renotedannotation ng-class="vm.annotationClasses()"
              annotation="thread"
              name="annotation">
     </renotedannotation>
 </section>
+
 <section class="annotation-quote-list" ng-if="vm.showAnnotations" ng-repeat="thread in vm.List.rows.annotations track by thread.id">
 
 <renotedannotation ng-class="vm.annotationClasses()"

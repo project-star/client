@@ -45,19 +45,20 @@ function urlMapper($rootScope, urlUI, store) {
     return url;
   }
 
- // function deleteUrl(url) {
- //   return store.annotation.delete({
- //     id: annotation.id,
- //   }).then(function () {
- //     $rootScope.$broadcast(urlevents.ANNOTATION_DELETED, annotation);
- //     return annotation;
- //   });
- // }
+  function deleteUrl(url) {
+    return store.urlupdate.delete({
+      id: url.id,
+    }).then(function () {
+      $rootScope.$broadcast(urlevents.URL_DELETED, url);
+      return url;
+    });
+  }
 
   return {
     loadUrls: loadUrls,
     unloadUrls: unloadUrls,
     createUrl: createUrl,
+    deleteUrl: deleteUrl,
   };
 }
 

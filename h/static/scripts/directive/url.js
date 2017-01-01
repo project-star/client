@@ -61,7 +61,7 @@ function UrlController(
     console.log("+++before sending to save+++")
     console.log(url)
     var saved;
-    saved = store.urlupdate({id: url.id}, url);
+    saved = store.urlupdate.update({id: url.id}, url);
     return saved.then(function (savedUrl) {
       // Copy across internal properties which are not part of the annotation
       // model saved on the server
@@ -110,10 +110,11 @@ function UrlController(
     console.log(vm)
     console.log(vm.url.annotation)
     vm.serviceUrl = serviceUrl;
-  }
+ }
+
   var loadEvents = [events.ANNOTATION_CREATED,
                     events.ANNOTATION_UPDATED,
-                    events.ANNOTATIONS_LOADED,urlevents.URLS_LOADED];
+                    events.ANNOTATIONS_LOADED,events.ANNOTATION_DELETED,urlevents.URLS_LOADED];
   var counter = 0;
   loadEvents.forEach(function (event) {
     $rootScope.$on(event, function (event, annotation) {
@@ -144,7 +145,7 @@ function UrlController(
    }
 
   vm.annotation = function() {
-     return vm.url.annotation;
+     return vm.url.annotation
    }
   vm.titleText = function() {
      return vm.url.title;
@@ -240,9 +241,22 @@ function UrlController(
     urldrafts.remove(vm.url);
   };
 
-
  
-    
+    vm.urldelete = function() {
+    return $timeout(function() {  // Don't use confirm inside the digest cycle.
+      var msg = 'Are you sure you want to delete this url?';
+      if ($window.confirm(msg)) {
+        var onRejected = function(reason) {
+          flash.error(
+            errorMessage(reason), 'Deleting url failed');
+        };
+        $scope.$apply(function() {
+          urlMapper.deleteUrl(vm.url).then(
+            null, onRejected);
+        });
+      }
+    }, true);
+  };    
   init();
 }
 

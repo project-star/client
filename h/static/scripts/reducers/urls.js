@@ -216,7 +216,7 @@ function addUrls(urls, now) {
 }
 
 /** Remove annotations from the currently displayed set. */
-function removeUrls(annotations) {
+function removeUrls(urls) {
   return {
     type: actions.REMOVE_URLS,
     urls: urls,

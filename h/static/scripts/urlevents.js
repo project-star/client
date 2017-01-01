@@ -37,4 +37,8 @@ module.exports = {
 
   /** An annotation is unloaded. */
   URLS_UNLOADED: 'urlsUnloaded',
+ 
+  /** An annotation was either deleted or unloaded. */
+  URL_DELETED: 'urlDeleted',
+
 };

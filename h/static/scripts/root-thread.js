@@ -241,6 +241,12 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
   $rootScope.$on(events.ANNOTATIONS_UNLOADED, function (event, annotations) {
     annotationUI.removeAnnotations(annotations);
   });
+  
+
+  $rootScope.$on(urlevents.URL_DELETED, function (event, url) {
+    urlUI.removeUrls([url]);
+    urlUI.removeSelectedUrl(url);
+  });
 
   // Once the focused group state is moved to the app state store, then the
   // logic in this event handler can be moved to the annotations reducer.

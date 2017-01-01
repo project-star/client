@@ -160,7 +160,10 @@ function store($http, settings) {
     url: createAPICall($http, links, 'url'),
     recall: createAPICall($http, links, 'recall'), 
     urls: createAPICall($http, links, 'urls'),
-    urlupdate: createAPICall($http, links, 'urlupdate'),
+    urlupdate: {
+      update: createAPICall($http, links, 'urlupdate.update'),
+      delete: createAPICall($http, links, 'urlupdate.delete')
+    }
   };
 }
 

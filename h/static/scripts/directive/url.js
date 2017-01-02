@@ -156,13 +156,31 @@ function UrlController(
    }
 
 
+  vm.deduplicatetags = function() {
+     var allannots=[]
+     allannots = vm.url.allannotation
+     var urltags;
+     urltags = vm.url.tags
+     for (var i=0; i< allannots.length; i++) {
+       console.log ("in deduplicatetags")
+       console.log (allannots[i].tags)
+       urltags=urltags.concat(allannots[i].tags)
+     }
+     urltags=urltags.filter(function (item, pos) {return urltags.indexOf(item) == pos});
+     console.log("+++printing urltags++++")
+     console.log(urltags)
+     return urltags
+
+   }
+
+
    vm.state = function () {
     var urldraft = urldrafts.get(vm.url);
     if (urldraft) {
       return urldraft;
     }
     return {
-      tags: vm.url.tags,
+      tags: vm.deduplicatetags(),
     };
   };
 
@@ -245,7 +263,9 @@ function UrlController(
     urldrafts.remove(vm.url);
   };
 
- 
+    vm.tagStreamURL = function(tag) {
+    return serviceUrl('search.tag', {tag: tag});
+  }; 
     vm.urldelete = function() {
     return $timeout(function() {  // Don't use confirm inside the digest cycle.
       var msg = 'Are you sure you want to delete this url?';

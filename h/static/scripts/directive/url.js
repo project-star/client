@@ -145,6 +145,10 @@ function UrlController(
    }
 
   vm.annotation = function() {
+     if (vm.showAnnotations){
+     return vm.url.allannotation
+       }
+     else 
      return vm.url.annotation
    }
   vm.titleText = function() {

@@ -118,7 +118,7 @@
     </div>
     <div class="annotation-actions" ng-if="vm.id()">
       <button class="btn btn-clean annotation-action-btn"
-       ng-click="vm.receivedAnnotlist(vm.url.id)"
+       ng-click="vm.expand()"
        ng-show="!vm.showAnnotations"
        aria-label="Expand"
        h-tooltip>
@@ -134,14 +134,14 @@
   </div>
 </section>
 <br>
-<section class="annotation-quote-list" ng-if="!vm.showAnnotations"  ng-repeat="thread in vm.annotation() track by thread.id">
+<section class="annotation-quote-list"   ng-repeat="thread in vm.annotation() track by thread.id">
 
 <renotedannotation ng-class="vm.annotationClasses()"
              annotation="thread"
              name="annotation">
     </renotedannotation>
 </section>
-
+<!--
 <section class="annotation-quote-list" ng-if="vm.showAnnotations" ng-repeat="thread in vm.List.rows.annotations track by thread.id">
 
 <renotedannotation ng-class="vm.annotationClasses()"
@@ -149,7 +149,7 @@
              name="annotation">
     </renotedannotation>
 </section>
-
+-->
 
 
 

@@ -141,7 +141,10 @@ module.exports = function WidgetController(
         });
         groups.focus(groupID);
       }
-      var recalleddata;
+
+      //RECALL CODE HAS BEEN COMMENTED HERE TEMPORARILY
+
+/*      var recalleddata;
       var data={}
       data.url=uris[0]
       store.recall({},data).then(function (resultrecall) { 
@@ -160,10 +163,10 @@ module.exports = function WidgetController(
          annotationMapper.loadAnnotations(results);
          return results
                   });
-      if (results.length) {
-        console.log("+++ in widget controller load annotations+++")
-        console.log(results.length)
-//        annotationMapper.loadAnnotations(results);
+*/      if (results.length) {
+        // console.log("+++ in widget controller load annotations+++")
+        // console.log(results.length)
+        annotationMapper.loadAnnotations(results); //COMMENT THIS OUT WHEN RECALL IS ENABLED AGAIN
       }
     });
     searchClient.on('end', function () {

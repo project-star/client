@@ -164,8 +164,8 @@ function Adder(container, options) {
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')
     .addEventListener('click', handleCommand.bind(this, 'highlight'));
-  element.querySelector('.js-search-btn')
-    .addEventListener('click', handleCommand.bind(this, 'search'));
+  //element.querySelector('.js-search-btn')
+  //  .addEventListener('click', handleCommand.bind(this, 'search'));
   function handleCommand(command, event) {
     event.preventDefault();
     event.stopPropagation();

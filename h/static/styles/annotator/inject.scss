@@ -106,26 +106,26 @@ $base-font-size: 14px;
 
   .annotator-frame-button {
     transition: background-color .25s .25s;
-    @include smallshadow;
-    background: $white;
-    border: solid 1px $gray-lighter;
+    //@include smallshadow;
+    background: $topbar-background-dark;
+    border: solid 1px $topbar-background-dark;
     border-radius: 4px;
-    color: $gray-light;
+    color: $gray-dark;
     text-decoration: none;
     height: 30px;
     width: 30px;
     padding: 0;
-    font-size: 16px;
+    font-size: 24px;
     margin-bottom: 5px;
 
     &:active {
       transition: background-color .25s;
-      background-color: $gray-light;
+      background-color: $topbar-background-dark;
     }
 
     &:focus, &:hover {
       outline: 0;
-      color: $text-color;
+      color: $gray-light;
     }
   }
 
@@ -139,17 +139,17 @@ $base-font-size: 14px;
 
     // the height of the sidebar toggle is set
     // to match the height of the top bar
-    height: 40px;
+    height: 39px;
   
 
   &:active {
       transition: background-color .25s;
-      background-color: $gray-light;
+      background-color: $topbar-background-dark;
     }
 
     &:focus, &:hover {
       outline: 0;
-      color: $text-color;
+      color: $gray-light;
     }
   }
   .annotator-frame-button--media_bar {

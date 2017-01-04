@@ -2,7 +2,8 @@
 @import 'mixins/responsive';
 
 .top-bar {
-  background: rgb(97, 87, 87);
+  background: $topbar-background-dark;
+  color: $gray-light;
   border-bottom: solid 1px $gray-lighter;
   height: $top-bar-height;
   font-size: 15px;

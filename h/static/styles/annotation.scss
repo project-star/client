@@ -96,8 +96,8 @@
   color: $grey-6;
   // Margin between top of ascent of annotation body and
   // bottom of ascent of annotation-quote should be ~15px.
-  margin-top: $layout-h-margin - 5px;
-  margin-bottom: $layout-h-margin;
+  margin-top: $layout-h-margin - 10px;
+  margin-bottom: $layout-h-margin - 10px;
   margin-right: 0px;
   margin-left: 0px;
 }
@@ -107,7 +107,7 @@
 .annotation-footer {
   @include font-normal;
   color: $grey-5;
-  margin-top: $layout-h-margin;
+  margin-top: $layout-h-margin - 10px;
 }
 
 .u-flex-spacer {
@@ -242,8 +242,8 @@
 
   .annotation-footer {
     // Margin between bottom of ascent of annotation body and
-    // top of annotation footer should be ~15px
-    margin-top: $layout-h-margin - 8px;
+    // top of annotation footer should be ~5px
+    margin-top: $layout-h-margin - 13px;
   }
 
   .annotation-header {
@@ -254,10 +254,10 @@
 
   .annotation-body {
     // Margin between top of ascent of annotation body and
-    // bottom of ascent of username should be ~15px
-    margin-top: $layout-h-margin - 8px;
+    // bottom of ascent of username should be ~5px
+    margin-top: $layout-h-margin - 13px;
     // Margin between bottom of ascent of annotation body and
-    // top of annotation footer labels should be ~15px
-    margin-bottom: $layout-h-margin - 3px;
+    // top of annotation footer labels should be ~5px
+    margin-bottom: $layout-h-margin - 13px;
   }
 }

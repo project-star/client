@@ -75,11 +75,11 @@ $adder-transition-duration: 80ms;
 }
 
 .annotator-adder-actions:hover .annotator-adder-actions__button {
-  color: $gray-light !important;
+  color: $topbar-background-light !important;
 }
 
 .annotator-adder-actions:hover .annotator-adder-actions__label {
-  color: $gray-light !important;
+  color: $topbar-background-light !important;
 }
 
 .annotator-adder-actions__button {
@@ -87,7 +87,7 @@ $adder-transition-duration: 80ms;
   font-family: h;
   font-size: 18px;
   background: transparent !important;
-  color: $gray-dark !important;
+  color: $topbar-background-dark !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,10 +103,10 @@ $adder-transition-duration: 80ms;
 }
 
 .annotator-adder-actions .annotator-adder-actions__button:hover {
-  color: $gray-dark !important;
+  color: $topbar-background-dark !important;
 
   .annotator-adder-actions__label {
-    color: $gray-dark !important;
+    color: $topbar-background-dark !important;
   }
 }
 
@@ -114,6 +114,6 @@ $adder-transition-duration: 80ms;
   font-size: 11px;
   margin: 2px 0px;
   font-family: sans-serif;
-  color: $gray-dark !important;
+  color: $topbar-background-dark !important;
   transition: color $adder-transition-duration;
 }

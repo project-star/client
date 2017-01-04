@@ -9,7 +9,7 @@
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.10);
   border-radius: 2px;
   cursor: pointer;
-  padding: $layout-h-margin;
+  padding: $layout-h-margin ($layout-h-margin / 2) ($layout-h-margin / 2) $layout-h-margin;
   background-color: $white;
 
   &:hover {

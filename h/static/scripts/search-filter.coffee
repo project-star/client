@@ -13,7 +13,7 @@ module.exports = class SearchFilter
       return [null, term]
 
     if filter in ['group', 'quote', 'result', 'since',
-                  'tag', 'text', 'uri', 'user']
+                  'tag', 'text', 'uri', 'user','type','title']
       data = term[filter.length+1..]
       return [filter, data]
     else
@@ -106,6 +106,8 @@ module.exports = class SearchFilter
     text = []
     uri = []
     user = []
+    title = []
+    type = []
 
     if searchtext
       terms = @_tokenize(searchtext)
@@ -153,6 +155,8 @@ module.exports = class SearchFilter
           when 'text' then text.push term[5..]
           when 'uri' then uri.push term[4..]
           when 'user' then user.push term[5..]
+          when 'title' then title.push term[6..]
+          when 'type' then type.push term[5..]
           else any.push term
 
     any:
@@ -178,4 +182,10 @@ module.exports = class SearchFilter
       operator: 'or'
     user:
       terms: user
+      operator: 'or'
+    title:
+      terms: title
+      operator: 'or'
+    type:
+      terms: type
       operator: 'or'

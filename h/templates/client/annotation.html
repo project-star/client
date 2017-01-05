@@ -40,10 +40,13 @@
         </span>
       </span>
       -->
-
-  <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.playerId()">  
-  </sc-widget>
-  <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load</button>
+  <span ng-if=vm.isAudio()>
+    <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
+    </sc-widget>
+    <div>
+      <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
+    </div>
+  </span>
 
   <span ng-if="vm.isAudio() && vm.editing()">
      <br>
@@ -61,9 +64,13 @@
      <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
   </span>
     <!-- YOUTUBE EMBEDDING CODE -->
-    <iframe ng-if=vm.isVideo() src='{{ vm.videoembedurl() }}'
+    <iframe ng-if="vm.isVideo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
                 frameborder='0'
                 allowfullscreen ></iframe >
+    <div>
+      <button ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button>
+    </div>
+
      <span ng-if="vm.isVideo() && vm.editing()">
      <br>
      <b> Start Time: <vidmarkdown text="vm.getStarttime()"

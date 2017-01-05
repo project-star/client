@@ -117,6 +117,9 @@ function AnnotationController(
     /** True if the 'Share' dialog for this annotation is currently open. */
     vm.showShareDialog = false;
 
+    /** if True the Video frame will be loaded*/
+    vm.loadVideo = true;
+
     /**
       * `true` if this AnnotationController instance was created as a result of
       * the highlight button being clicked.
@@ -277,6 +280,7 @@ function AnnotationController(
        return false;
   }
 
+
   // Video related methods
   vm.isVideo = function() {
     if (vm.annotation.hasOwnProperty('viddata')){
@@ -292,8 +296,8 @@ function AnnotationController(
   }
 
   //Generates unique Id for the sc player
-  vm.playerId = function() {
-    var playerId = vm.annotation.renoted_id;
+  vm.getPlayerId = function() {
+    var playerId = vm.annotation.renoted_id.toString();
     console.log("Creating playerId: " + playerId);
     return playerId;
   }
@@ -314,7 +318,7 @@ function AnnotationController(
 
   //Load the soundcloud Widget with correct settings
   vm.loadAudioWidget = function() {
-    var playerId = vm.annotation.renoted_id;
+    var playerId = vm.getPlayerId();
     console.log("Loading Widget with playerId as " + playerId);
     //Get the start and end times from the auddata
     var startTime = vm.annotation.auddata[0].starttime;
@@ -340,8 +344,9 @@ function AnnotationController(
     vmWidget.bind(SC.Widget.Events.PLAY_PROGRESS, function() {
       vmWidget.getPosition(function (audioPos) {
         //console.log("Playing! at " + audioPos);
-        if ( audioPos <= endTime )
+        if ( audioPos <= endTime ) {
         console.log("Keep playing as position is: " + audioPos);
+        }
         else {
           vmWidget.pause();
           vmWidget.unbind(SC.Widget.Events.PLAY_PROGRESS);
@@ -350,8 +355,9 @@ function AnnotationController(
     });
   }
 
+
   //URL to be embedded into Video player
-  vm.videoembedurl = function() {
+  vm.videoembedurl = function() {    
      if (vm.annotation.hasOwnProperty('viddata')){
        console.log(vm.annotation.viddata)
        var urival=vm.annotation.viddata
@@ -363,12 +369,27 @@ function AnnotationController(
        var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
        var val="http://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
        console.log(val)
-       return val
+       if(vm.loadVideo)
+        return val;
+       else
+        {
+          //FIXME: This is a hack to reload the iframe on clicking the load/reload button
+          //needs to be fixed with a directive level watch implementation
+          var val2="http://youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime;
+          return val2;
+      }
       }
      else {
        return "success"
       }
+    
  }
+ //FIXME: Do a proper implementation. Used to reload Youtube frame (Dummy function)
+ vm.setLoadVideo = function() {
+  
+  vm.loadVideo = !vm.loadVideo;
+ }
+
 
  //Modifying the function to keep it generic - handling any media - Audio OR Video
    vm.getStarttime = function() {

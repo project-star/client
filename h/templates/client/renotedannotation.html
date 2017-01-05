@@ -44,8 +44,43 @@
         </span>
       </span>
       -->
-    
-    </span>
+    <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.playerId()">  
+  </sc-widget>
+  <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load</button>
+
+  <span ng-if="vm.isAudio() && vm.editing()">
+     <br>
+     <b> Start Time: <vidmarkdown text="vm.getStarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> </b>
+  </span>
+
+  <span ng-if="vm.isAudio() && !vm.editing()">
+     <br>
+     <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+  </span>
+    <!-- YOUTUBE EMBEDDING CODE -->
+    <iframe ng-if=vm.isVideo() src='{{ vm.videoembedurl() }}'
+                frameborder='0'
+                allowfullscreen ></iframe >
+     <span ng-if="vm.isVideo() && vm.editing()">
+     <br>
+     <b> Start Time: <vidmarkdown text="vm.getStarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> </b>
+     </span>
+     <span ng-if="vm.isVideo() && !vm.editing()">
+     <br>
+     <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+     </span>
 
     <span class="u-flex-spacer"></span>
       
@@ -143,9 +178,6 @@
     </div>
   </footer>
   
-  <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}'
-                frameborder='0'
-                allowfullscreen ></iframe >  
   <!-- Excerpts -->
   <section class="annotation-quote-list"
     ng-class="{'is-orphan' : vm.isOrphan()}"

@@ -2,7 +2,7 @@
   // note that there is currently some duplication here between
   // the styling for this element and <dropdown-menu-btn>
   color: $color-seashell;
-  background-color: $color-dove-gray;
+  background-color: $color-turqouise-dark;
   height: 35px;
   border: none;
   border-radius: 2px;
@@ -18,7 +18,7 @@
   }
 
   &:hover:enabled {
-    background-color: $color-mine-shaft;
+    background-color: $color-bluegreen-dark;
   }
 }
 
@@ -33,7 +33,7 @@
 }
 
 .primary-action-btn__icon {
-  color: $color-silver-chalice;
+  color: $white;
   display: inline-block;
   font-weight: bold;
   margin-left: -3px;

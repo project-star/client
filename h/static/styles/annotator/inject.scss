@@ -121,6 +121,7 @@ $base-font-size: 14px;
     &:active {
       transition: background-color .25s;
       background-color: $topbar-background-dark;
+      color: $gray-light;
     }
 
     &:focus, &:hover {
@@ -145,6 +146,7 @@ $base-font-size: 14px;
   &:active {
       transition: background-color .25s;
       background-color: $topbar-background-dark;
+      color: $gray-light;
     }
 
     &:focus, &:hover {

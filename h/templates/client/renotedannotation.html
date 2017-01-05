@@ -44,6 +44,15 @@
         </span>
       </span>
       -->
+    <span class="u-flex-spacer"></span>
+
+    <timestamp
+      class-name="'annotation-header__timestamp'"
+      timestamp="vm.updated()"
+      href="vm.links().html"
+      ng-if="!vm.editing() && vm.updated()"></timestamp>
+
+  </header>
     <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.playerId()">  
   </sc-widget>
   <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load</button>
@@ -82,15 +91,6 @@
      <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
      </span>
 
-    <span class="u-flex-spacer"></span>
-      
-    <timestamp
-      class-name="'annotation-header__timestamp'"
-      timestamp="vm.updated()"
-      href="vm.links().html"
-      ng-if="!vm.editing() && vm.updated()"></timestamp>
-        
-  </header>
 
     
     <!-- URLTags -->

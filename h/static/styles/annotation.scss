@@ -76,6 +76,16 @@
   margin-top: -$layout-h-margin + 10px;
 }
 
+
+.url-header {
+  background-color: $grey-2;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  // Margin between top of x-height of username and
+  // top of the annotation card should be ~15px
+  margin-top: -$layout-h-margin + 10px;
+}
 .annotation-header__share-info {
   color: $grey-5;
   @include font-normal;
@@ -138,6 +148,12 @@
   font-weight: bold;
 }
 
+.url-header__user {
+  @include font-normal;
+  color: $grey-7;
+  font-weight: bold;
+}
+
 .annotation-replies {
   float: left;
   margin-top: 2px;
@@ -159,6 +175,14 @@
   margin-top: 0;
   display: flex;
 }
+
+.url-actions {
+  background-color: $grey-2;
+  float: right;
+  margin-top: 0;
+  display: flex;
+}
+
 
 .annotation-action-btn {
   color: $grey-5;

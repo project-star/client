@@ -3,10 +3,10 @@
 </header>
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
-  <header class="annotation-header">
+  <header class="url-header">
     <!-- User -->
     <span ng-if="vm.user()">
-      <a class="annotation-header__user"
+      <a class="url-header__user"
         target="_blank"
       ng-href="{{vm.titleLink()}}"
         > {{vm.titleText()}} </a>
@@ -17,58 +17,7 @@
           when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
       </span>
       <br>
-      <!--
-      <span class="annotation-header__share-info">
-        <a class="annotation-header__group"
-          target="_blank" ng-if="vm.group() && vm.group().url" href="{{vm.group().url}}">
-          <i class="h-icon-group"></i><span class="annotation-header__group-name">{{vm.group().name}}</span> 
-        </a>
-        <span ng-show="vm.state().isPrivate"
-          title="This annotation is visible only to you.">
-          <i class="h-icon-lock"></i><span class="annotation-header__group-name" ng-show="!vm.group().url"></span>
-        </span>
-        <i class="h-icon-border-color" ng-show="vm.isHighlight() && !vm.editing()" title="This is a highlight. Click 'edit' to add a note or tag."></i>
-        <span ng-if="::vm.showDocumentInfo">
-          <span class="annotation-citation" ng-if="vm.documentMeta().titleLink">
-             "<a ng-href="{{vm.documentMeta().titleLink}}">{{vm.documentMeta().titleText}} </a>"
-          </span>
-          <span class="annotation-citation" ng-if="!vm.documentMeta().titleLink">
-             "{{vm.documentMeta().titleText}}"
-          </span>
-          <span class="annotation-citation-domain"
-                ng-if="vm.documentMeta().domain">({{vm.documentMeta().domain}})</span>
-        </span>
-      </span>
-      -->
-    <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}' ng-style="float:right"
-                frameborder='0'
-                allowfullscreen ></iframe >
-     <span ng-if="vm.isVideo()=='success' && vm.editing()">
-     <br>
-     <b> Start Time: <vidmarkdown text="vm.videostarttime()"
-        on-edit-text="vm.setStarttime(text)"
-        read-only="!vm.editing()">
-      </vidmarkdown> End Time:<vidmarkdown text="vm.videoendtime()"
-        on-edit-text="vm.setEndtime(text)"
-        read-only="!vm.editing()">
-      </vidmarkdown> </b>
-     </span>
-     <span ng-if="vm.isVideo()=='success' && !vm.editing()">
-     <br>
-     <b> Start Time: {{ vm.videostarttime() }}  &nbsp; &nbsp; End Time: {{ vm.videoendtime() }} &nbsp; &nbsp; Duration: {{ vm.videoduration() }}</b>
-     </span>
-    </span>
-
-    <span class="u-flex-spacer"></span>
-     <!--
-     <timestamp
-      class-name="'annotation-header__timestamp'"
-      timestamp="vm.updated()"
-      href="vm.links().html"
-      ng-if="!vm.editing() && vm.updated()"></timestamp>
- 
-      -->
-  </header>
+   </header>     
   <!--
   <br>
   <div class="annotation-body form-field" ng-if="vm.isurlediting">
@@ -85,7 +34,6 @@
     <div class="u-stretch"></div>
   </div>  
   -->
-<section>
   <div class="annotation-actions" ng-if="vm.id()">
       <!--
       <button class="btn btn-clean annotation-action-btn"
@@ -119,7 +67,7 @@
   <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon"></i> Cancel
 </button>  
     </div>
-    <div class="annotation-actions" ng-if="vm.id()">
+    <span class="annotation-actions" ng-if="vm.id()">
       <button class="btn btn-clean annotation-action-btn"
        ng-click="vm.expand()"
        ng-show="!vm.showAnnotations"
@@ -135,7 +83,6 @@
         <i class="h-icon-chevron-left">Less</i>
       </button>
   </div>
-</section>
 <br>
 <section class="annotation-quote-list"   ng-repeat="thread in vm.annotation() track by thread.id">
 

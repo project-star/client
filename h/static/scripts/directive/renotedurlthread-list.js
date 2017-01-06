@@ -113,19 +113,6 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList) {
   this.$onDestroy = function () {
     visibleThreads.detach();
   };
-  this.showall = function () {
-    this.allclass = "active"
-    this.textclass = ""
-    console.log("showAll clicked")
-  };
-
-   this.showtext = function () {
-    this.allclass = ""
-    this.textclass = "active"
-    console.log("showText clicked")
-  };
-  
-  this.allclass="active";
 
 }
 

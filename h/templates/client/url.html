@@ -3,20 +3,51 @@
 </header>
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
-  <header class="url-header">
+  <header>
     <!-- User -->
     <span ng-if="vm.user()">
+    <div class="panel panel-info">
+    <div class="panel-heading">
       <a class="url-header__user"
         target="_blank"
       ng-href="{{vm.titleLink()}}"
-        > {{vm.titleText()}} </a>
-      <span class="annotation-collapsed-replies">
-        <a class="annotation-link" href=""
-          ng-click="vm.onReplyCountClick()"
-          ng-pluralize count="vm.replyCount"
-          when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
-      </span>
-      <br>
+        > {{vm.titleText()}} </a>  &nbsp; &nbsp;
+      <span class="badge"> {{vm.display()}} </span> / <span class="badge"> {{vm.total}} </span>
+      <div class="annotation-actions" ng-if="vm.id()"> 
+      <button class="btn btn-clean annotation-action-btn"
+       ng-click="vm.expand()"
+       ng-show="!vm.showAnnotations"
+       aria-label="Expand"
+       h-tooltip>
+        <i class="h-icon-chevron-right">More</i>
+      </button>
+      <button class="btn btn-clean annotation-action-btn"
+       ng-click="vm.collapse()"
+       ng-show="vm.showAnnotations"
+       aria-label="Collapse"
+       h-tooltip>
+        <i class="h-icon-chevron-left">Less</i>
+      </button>
+      <!--
+      <button class="btn btn-clean annotation-action-btn align:right"
+       ng-click="vm.urledit()"
+       ng-show="!vm.isurlediting"
+       aria-label="Edit tags"
+       h-tooltip>
+        <i class="h-icon-annotation-edit"></i>
+      </button>
+      -->
+      <button class="btn btn-clean annotation-action-btn align:right"
+        ng-show="!vm.isurlediting"
+        ng-click="vm.urldelete()"
+        ng-disabled="vm.isurlediting"
+        aria-label="Delete"
+        h-tooltip>
+        <i class="h-icon-annotation-delete btn-icon "></i>
+      </button>
+      </div>
+     </div> 
+    </div>
    </header>     
   <!--
   <br>
@@ -34,8 +65,9 @@
     <div class="u-stretch"></div>
   </div>  
   -->
+  <!--
   <div class="annotation-actions" ng-if="vm.id()">
-      <!--
+      
       <button class="btn btn-clean annotation-action-btn"
        ng-click="vm.urledit()"
        ng-show="!vm.isurlediting"
@@ -43,7 +75,7 @@
        h-tooltip>
         <i class="h-icon-annotation-edit"></i>
       </button>
-      -->
+      
       <button class="btn btn-clean annotation-action-btn"
         ng-show="!vm.isurlediting"
         ng-click="vm.urldelete()"
@@ -84,6 +116,7 @@
       </button>
   </div>
 <br>
+-->
 <section class="annotation-quote-list"   ng-repeat="thread in vm.annotation() track by thread.id">
 
 <renotedannotation ng-class="vm.annotationClasses()"

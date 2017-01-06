@@ -138,8 +138,6 @@ function UrlController(
      return vm.url.user;
   }
 
-    
-
   vm.titleLink = function() {
      return vm.url.uriaddress;
    }
@@ -151,8 +149,21 @@ function UrlController(
      else 
      return vm.url.annotation
    }
+
+  vm.display = function() {
+     if (vm.showAnnotations){
+     return vm.url.allannotation.length
+       }
+     else
+     return vm.url.annotation.length
+   }
+  vm.total = vm.url.allannotation.length
   vm.titleText = function() {
-     return vm.url.title;
+    var titletext = vm.url.title;
+     if (titletext.length > 80) {
+    titletext = titletext.slice(0, 80) + '…';
+      }
+     return titletext;
    }
 
 

@@ -14,7 +14,7 @@ module.exports = class NewStreamController
      streamer,   streamFilter,   annotationMapper,  urlMapper
   ) ->
     urlUI.setAppIsSidebar(false)
-
+    toSort = true
     offset = 0
     fetch = (limit) ->
       options = {offset, limit}
@@ -28,6 +28,11 @@ module.exports = class NewStreamController
 
     fetchurllist = () ->
         searchParams = searchFilter.toObject($routeParams.q)
+        console.log(searchParams)
+        console.log(toSort)
+        console.log(Object.keys(searchParams).length)
+        if searchParams.hasOwnProperty('any')
+            toSort = false
         query = angular.extend(searchParams)
         store.urls(query).then(loadurllist).catch((err) -> console.error err)
 
@@ -108,7 +113,9 @@ module.exports = class NewStreamController
     );
 
     # Sort the stream so that the newest annotations are at the top
-    urlUI.setSortKey('Newest')
+    if (toSort)
+        console.log("sorting")
+        urlUI.setSortKey('Newest')
 
     $scope.isStream = true
     $scope.loadMore = fetch

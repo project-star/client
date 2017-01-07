@@ -98,6 +98,15 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList) {
       }
     }, 200);
   }
+  $scope.displayedNumber = 10;
+
+
+  $scope.loadMore = function() {
+  var presentNumber = $scope.displayedNumber;
+  console.log("in load more function")
+  console.log (presentNumber)
+  $scope.displayedNumber = presentNumber + 10;
+  }
 
   $scope.$on(events.BEFORE_URL_CREATED, function (event, url) {
     self.onClearSelection();

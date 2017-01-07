@@ -132,7 +132,6 @@ UrlVirtualThreadList.prototype._updateVisibleThreads = function () {
   // List of annotations which are in or near the viewport and need to
   // actually be created.
   var visibleThreads = [];
-
   var allThreads = this._rootThread.children;
   var visibleHeight = this.window.innerHeight;
   var usedHeight = 0;
@@ -140,7 +139,6 @@ UrlVirtualThreadList.prototype._updateVisibleThreads = function () {
   var urllist=[]
   var newurllist=[]
   var newallThreads = []
-    
 
   for (var i = 0; i < allThreads.length; i++) {
     thread = allThreads[i];

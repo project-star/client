@@ -113,9 +113,7 @@ module.exports = class NewStreamController
     );
 
     # Sort the stream so that the newest annotations are at the top
-    if (toSort)
-        console.log("sorting")
-        urlUI.setSortKey('Newest')
+    urlUI.setSortKey('Newest')
 
     $scope.isStream = true
-    $scope.loadMore = fetch
+#    $scope.loadMore = fetchurllist

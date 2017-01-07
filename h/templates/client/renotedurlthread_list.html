@@ -19,7 +19,7 @@
       ng-mouseenter="vm.onFocus({url: child.url})"
       ng-click="vm.onSelect({url: child.url})"
       ng-mouseleave="vm.onFocus({url: null})"
-      ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads track by child.id">
+      ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | limitTo:displayedNumber track by child.id">
       <url ng-class="vm.urlClasses()"
              url="child.url">    </url>
 
@@ -27,4 +27,6 @@
 
 
   </li>
+ 
 </ul>
+<button class="more btn btn-primary btn-block" ng-click="loadMore()">More</button>

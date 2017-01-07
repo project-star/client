@@ -122,9 +122,6 @@ function UrlController(
       console.log(event)
       console.log(annotation)
       counter = counter +1;
-      if (counter == 1)
-       {urlUI.clearUrls()
-        $route.reload()   }
       
       console.log("+++++++++++++++++++++++++++++")
       console.log(event.name)

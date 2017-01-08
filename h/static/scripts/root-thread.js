@@ -23,8 +23,17 @@ var sortFns = {
   'Oldest': function (a, b) {
     return a.updated < b.updated;
   },
+  'Newest Created': function (a, b) {
+    return a.created > b.created;
+  },
+  'Oldest Created': function (a, b) {
+    return a.created < b.created;
+  },
   'Location': function (a, b) {
     return metadata.location(a) < metadata.location(b);
+  },
+  'Relevance': function(a, b) {
+    return a.relevance > b.relevance;
   },
 };
 

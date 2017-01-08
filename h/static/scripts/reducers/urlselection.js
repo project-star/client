@@ -33,9 +33,9 @@ TAB_SORTKEY_DEFAULT[uiConstants.TAB_ORPHANS] = 'Location';
  * Available sort keys for each tab.
  */
 var TAB_SORTKEYS_AVAILABLE = {};
-TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ANNOTATIONS] = ['Newest', 'Oldest', 'Location'];
-TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_NOTES] = ['Newest', 'Oldest'];
-TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ORPHANS] = ['Newest', 'Oldest', 'Location'];
+TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ANNOTATIONS] = ['Newest', 'Oldest', 'Location', 'Relevance', 'Oldest Created', 'Newest Created'];
+TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_NOTES] = ['Newest', 'Oldest', 'Relevance', 'Newest Created', 'Oldest Created'];
+TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ORPHANS] = ['Newest', 'Oldest', 'Location', 'Relevance', 'Oldest Created', 'Newest Created'];
 
 function initialSelection(settings) {
   var selection = {};

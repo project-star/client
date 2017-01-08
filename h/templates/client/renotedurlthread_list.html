@@ -12,6 +12,11 @@
     <a href="/renote?q=type:audio"><button type="button" class="btn btn-primary">Audio</button></a>
   </div>
 </div>
+<br>
+Sort By: <select ng-options="option for option in names" 
+    ng-model="selectedSort"
+    ng-change="sortBy()"> {{selectedSort}}</select>
+<br>
 <ul class="thread-list">
  
    <li id="{{child.id}}"

@@ -1,15 +1,25 @@
-<div class="btn-group btn-group-justified">
+<div class="btn-group">
   <div class="btn-group">
-    <a href="/renote?q="><button type="button" class="btn btn-primary">All</button></a>
+    <a href="/renote?q="><button type="button" class="primary-action-btn">
+    <i class="primary-action-btn__icon h-icon-stack"></i>
+    All</button></a>
+    &nbsp;
+  </div>
+
+  <div class="btn-group">
+    <a href="/renote?q=type:text"> <button type="button" class="primary-action-btn"><i class="primary-action-btn__icon h-icon-newspaper"></i>Text</button> </a>
+    &nbsp;
   </div>
   <div class="btn-group">
-    <a href="/renote?q=type:text"> <button type="button" class="btn btn-primary">Text </button> </a>
+    <a href="/renote?q=type:video"><button type="button" class="primary-action-btn">
+    <i class="primary-action-btn__icon h-icon-youtube"></i>Video</button>
+    </a>
+    &nbsp;
   </div>
   <div class="btn-group">
-    <a href="/renote?q=type:video"><button type="button" class="btn btn-primary">Video</button></a>
-  </div>
-  <div class="btn-group">
-    <a href="/renote?q=type:audio"><button type="button" class="btn btn-primary">Audio</button></a>
+    <a href="/renote?q=type:audio"><button type="button" class="primary-action-btn">
+    <i class="primary-action-btn__icon h-icon-feed2"></i>Audio</button></a>
+    &nbsp;
   </div>
 </div>
 <br>
@@ -34,4 +44,4 @@ Sort By: <select ng-options="option for option in names"
   </li>
  
 </ul>
-<button class="more btn btn-primary btn-block" ng-click="loadMore()">More</button>
+<button class="more primary-action-btn  btn-block" ng-click="loadMore()">More</button>

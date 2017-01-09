@@ -20,6 +20,13 @@
   &:hover:enabled {
     background-color: $color-bluegreen-dark;
   }
+
+  &:active, &:focus
+  {
+    transition: background-color .25s;
+    background-color: $color-bluegreen-dark;
+  }
+
 }
 
 // A dark grey button used for the primary action

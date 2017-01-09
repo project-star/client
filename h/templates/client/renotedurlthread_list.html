@@ -1,5 +1,5 @@
-<div class="btn-group">
-  <div class="btn-group">
+<div class="btn-group ">
+  <div class="btn-group flex-center">
     <a href="/renote?q="><button type="button" class="primary-action-btn">
     <i class="primary-action-btn__icon h-icon-stack"></i>
     All</button></a>
@@ -21,12 +21,12 @@
     <i class="primary-action-btn__icon h-icon-feed2"></i>Audio</button></a>
     &nbsp;
   </div>
+  &nbsp;&nbsp;&nbsp;<strong>Sort By:</strong> <select ng-options="option for option in names" 
+    ng-model="selectedSort"
+    ng-change="sortBy()" style="margin-top: 07px"> {{selectedSort}}</select>
 </div>
 <br>
-Sort By: <select ng-options="option for option in names" 
-    ng-model="selectedSort"
-    ng-change="sortBy()"> {{selectedSort}}</select>
-<br>
+
 <ul class="thread-list">
  
    <li id="{{child.id}}"

@@ -109,17 +109,20 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI) {
   
   }
   
- $scope.selectedSort="Newest"
- $scope.sortBy = function() {
-  console.log($scope.selectedSort);
-  urlUI.setSortKey($scope.selectedSort)
-  return false
+  $scope.names = ["Update Time :Descending", "Update Time :Ascending", "Relevance", "Create Time :Ascending", "Create Time: Descending"];
+
+  $scope.selectedSort=$scope.names[0];
+  
+  $scope.sortBy = function() {
+    console.log($scope.selectedSort);
+    urlUI.setSortKey($scope.selectedSort)
+    return false
   }
+
   $scope.$on(events.BEFORE_URL_CREATED, function (event, url) {
     self.onClearSelection();
     scrollIntoView(url.$$tag);
   });
-  $scope.names = ["Newest", "Oldest", "Relevance", "Oldest Created", "Newest Created"];
 
   this.$onChanges = function (changes) {
     if (changes.thread) {

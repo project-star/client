@@ -120,7 +120,39 @@ function UrlController(
     $rootScope.$on(event, function (event, annotation) {
       console.log("+++++++++++++++in url.js +++++++++++++")
       console.log(event)
-      console.log(annotation)
+      console.log(annotation.id)
+      for (var i=0; i <(vm.annotation().length); i++) {
+          if (event.name=="annotationUpdated" && annotation.id==vm.annotation()[i].id){
+              vm.annotation()[i] = annotation
+         }
+         if (event.name=="annotationDeleted" && annotation.id==vm.annotation()[i].id){
+              vm.annotation().splice(i,1)
+         }
+      }
+      for (var i=0; i <(vm.url.annotation.length); i++) {
+          if (event.name=="annotationUpdated" && annotation.id==vm.url.annotation[i].id){
+              vm.url.annotation[i] = annotation
+         }
+          if (event.name=="annotationDeleted" && annotation.id==vm.url.annotation[i].id){
+              vm.url.annotation.splice(i,1)
+         }
+      }
+      for (var i=0; i <(vm.url.allannotation.length); i++) {
+          if (event.name=="annotationUpdated" && annotation.id==vm.url.allannotation[i].id){
+              vm.url.allannotation[i] = annotation
+         }
+          if (event.name=="annotationDeleted" && annotation.id==vm.url.allannotation[i].id){
+              vm.url.allannotation.splice(i,1)
+              vm.total = vm.url.allannotation.length
+              if (vm.url.allannotation.length > 0){
+                  vm.url.annotation.push(vm.url.allannotation[0])
+          } 
+              else {
+                  $rootScope.$broadcast(urlevents.URL_DELETED, vm.url);
+                  vm.urldelete()
+          }
+         }
+      }
       counter = counter +1;
       
       console.log("+++++++++++++++++++++++++++++")
@@ -170,13 +202,9 @@ function UrlController(
      var urltags;
      urltags = vm.url.tags
      for (var i=0; i< allannots.length; i++) {
-       console.log ("in deduplicatetags")
-       console.log (allannots[i].tags)
        urltags=urltags.concat(allannots[i].tags)
      }
      urltags=urltags.filter(function (item, pos) {return urltags.indexOf(item) == pos});
-     console.log("+++printing urltags++++")
-     console.log(urltags)
      return urltags
 
    }

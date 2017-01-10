@@ -2,7 +2,7 @@
   // note that there is currently some duplication here between
   // the styling for this element and <dropdown-menu-btn>
   color: $color-seashell;
-  background-color: $color-turqouise-dark;
+  background-color: $color-green-dark;
   height: 35px;
   border: none;
   border-radius: 2px;
@@ -44,6 +44,6 @@
   display: inline-block;
   font-weight: bold;
   margin-left: -3px;
-  margin-right: 3px;
+  margin-right: 5px;
   transform: translateY(1px);
 }

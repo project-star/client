@@ -144,7 +144,7 @@
   content: "\e90a";
 }
 .h-icon-annotation-delete:before {
-  content: "\e908";
+  content: "\1f322";
 }
 .h-icon-annotation-share:before {
   content: "\e909";
@@ -224,8 +224,14 @@
 .h-icon-volume-medium:before {
   content: "\ea27";
 }
+.h-icon-circle-up:before {
+  content: "\ea41";
+}
 .h-icon-circle-right:before {
   content: "\ea42";
+}
+.h-icon-circle-down:before {
+  content: "\ea43";
 }
 .h-icon-circle-left:before {
   content: "\ea44";

@@ -142,6 +142,29 @@
   height: 208px;
 }
 
+.annotation-media-content {
+  margin-left: auto;
+  margin-right: auto;
+
+  @include respond-to(tablets) {
+    margin: auto;
+    width: $break-tablet/1.5;
+    height: $break-tablet/4;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  @include respond-to(desktops) {
+    margin: auto;
+    width: $break-desktop/1.5;
+    height: $break-desktop/4;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+}
+
+
 .annotation-header__user {
   @include font-normal;
   color: $grey-7;
@@ -149,7 +172,7 @@
 }
 
 .url-header__user {
-  @include font-normal;
+  @include font-large;
   color: $grey-7;
   font-weight: bold;
 }
@@ -183,6 +206,17 @@
   display: flex;
 }
 
+.url-header-icon__youtube {
+  color: red;
+}
+
+.url-header-icon__soundcloud {
+  color: rgba(255,85,0,1);
+}
+
+.url-header-icon__text {
+  color: $topbar-background-dark;
+}
 
 .annotation-action-btn {
   color: $grey-5;

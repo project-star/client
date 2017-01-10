@@ -8,6 +8,11 @@
     <span ng-if="vm.user()">
     <div class="panel panel-info">
     <div class="panel-heading">
+      <span class="badge" style="font-size: 22px;  background-color: white"> 
+        <i class="h-icon-youtube url-header-icon__youtube" ng-show="vm.setTitleIcon() == 'youtube'"></i>
+        <i class="h-icon-soundcloud2 url-header-icon__soundcloud" ng-show="vm.setTitleIcon() == 'soundcloud'"></i>
+        <i class="h-icon-newspaper url-header-icon__text" ng-show="vm.setTitleIcon() == 'text'"></i>
+      </span> &nbsp;
       <a class="url-header__user"
         target="_blank"
       ng-href="{{vm.titleLink()}}"
@@ -19,14 +24,14 @@
        ng-show="!vm.showAnnotations"
        aria-label="Expand"
        h-tooltip>
-        <i class="h-icon-chevron-right">More</i>
+        <i class="h-icon-circle-down btn-icon"></i>
       </button>
       <button class="btn btn-clean annotation-action-btn"
        ng-click="vm.collapse()"
        ng-show="vm.showAnnotations"
        aria-label="Collapse"
        h-tooltip>
-        <i class="h-icon-chevron-left">Less</i>
+        <i class="h-icon-circle-up btn-icon"></i>
       </button>
       <!--
       <button class="btn btn-clean annotation-action-btn align:right"

@@ -21,7 +21,7 @@
   $expanded-max-width: 150px;
 
   .simple-search-input {
-    flex-grow: 1;
+    flex-grow: 0.5;
     order: 1;
 
     color: $text-color;
@@ -48,8 +48,15 @@
 
     // expand the search input when focused (triggered by clicking
     // on the search icon) or when `is-expanded` is applied
-    &:focus,&.is-expanded {
-      max-width: $expanded-max-width;
+    &:focus, &.is-expanded {
+      max-width: $expanded-max-width;      
+      padding-left: 6px;
+    }
+
+    &.isnt-sidebar {
+      max-width: $expanded-max-width + 300px;
+      width: $expanded-max-width + 300px; //Need to figure out the right implementation for mobile screen
+      height: $top-bar-height - 10px;
       padding-left: 6px;
     }
   }

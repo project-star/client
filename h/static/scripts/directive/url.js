@@ -167,6 +167,15 @@ function UrlController(
      return vm.url.user;
   }
 
+  vm.setTitleIcon = function() {
+    if(vm.url.uriaddress.includes("youtube.com"))
+      return "youtube";
+    else if (vm.url.uriaddress.includes("soundcloud.com"))
+      return "soundcloud";
+    else
+      return "text";
+  }
+
   vm.titleLink = function() {
      return vm.url.uriaddress;
    }

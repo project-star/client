@@ -21,6 +21,7 @@ $color-silver: #bbb;
 $color-seashell: #f1f1f1;
 $color-turqouise-dark: #16a1b3;
 $color-bluegreen-dark: #0b7684;
+$color-green-dark: #31708f;
 
 
 // Colors
@@ -147,5 +148,11 @@ $top-bar-height: 40px;
 @mixin font-normal {
   font-size: $normal-font-size;
   line-height: $normal-line-height;
+  font-weight: 400;
+}
+
+@mixin font-large {
+  font-size: $normal-font-size + 2px;
+  line-height: $normal-line-height + 2px;
   font-weight: 400;
 }

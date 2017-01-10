@@ -56,12 +56,20 @@ body {
   margin-left: auto;
   margin-right: auto;
 
-  @include respond-to(tablets desktops) {
+  @include respond-to(tablets) {
     margin: auto;
     max-width: $break-tablet;
     padding-left: 4rem;
     padding-right: 4rem;
   }
+
+  @include respond-to(desktops) {
+    margin: auto;
+    max-width: $break-desktop;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
 }
 
 // Elements in root template (viewer.html)

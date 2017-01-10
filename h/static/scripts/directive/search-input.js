@@ -22,7 +22,10 @@ function SearchInputController($element, $http, $scope) {
   };
 
   this.inputClasses = function () {
-    return {'is-expanded': self.alwaysExpanded || self.query};
+    if(self.isntSidebar)
+      return {'isnt-sidebar': self.isntSidebar};
+    else
+      return {'is-expanded': self.alwaysExpanded || self.query};
   };
 
   this.$onChanges = function (changes) {
@@ -45,6 +48,7 @@ module.exports = function () {
       //
       // If false, it is only expanded when focused or when 'query' is non-empty
       alwaysExpanded: '<',
+      isntSidebar: '<',
       query: '<',
       onSearch: '&',
     },

@@ -1,31 +1,34 @@
-<div class="btn-group ">
-  <div class="btn-group flex-center">
-    <a href="/renote?q="><button type="button" class="primary-action-btn">
-    <i class="primary-action-btn__icon h-icon-stack"></i>
+<section style="margin-top: 14px">
+<div class="btn-group top-bar__inner" style="margin-bottom: 7px">
+  <div class="btn-group">
+    <a href="/renote?q="><button type="button" class="primary-action-btn" style="font-size: 15px">
     All</button></a>
     &nbsp;
   </div>
 
   <div class="btn-group">
-    <a href="/renote?q=type:text"> <button type="button" class="primary-action-btn"><i class="primary-action-btn__icon h-icon-newspaper"></i>Text</button> </a>
+    <a href="/renote?q=type:text"> <button type="button" class="primary-action-btn" style="font-size: 15px">Text</button> </a>
     &nbsp;
   </div>
   <div class="btn-group">
-    <a href="/renote?q=type:video"><button type="button" class="primary-action-btn">
-    <i class="primary-action-btn__icon h-icon-youtube"></i>Video</button>
+    <a href="/renote?q=type:video"><button type="button" class="primary-action-btn" style="font-size: 15px">
+    Video</button>
     </a>
     &nbsp;
   </div>
   <div class="btn-group">
-    <a href="/renote?q=type:audio"><button type="button" class="primary-action-btn">
-    <i class="primary-action-btn__icon h-icon-feed2"></i>Audio</button></a>
+    <a href="/renote?q=type:audio"><button type="button" class="primary-action-btn" style="font-size: 15px">
+    Audio</button></a>
     &nbsp;
   </div>
-  &nbsp;&nbsp;&nbsp;<strong>Sort By:</strong> <select ng-options="option for option in names" 
+  <div class="top-bar__expander"></div>
+  <div class="btn-group" style="justify-content: flex-end;">
+  <strong>Sort By:</strong> <select ng-options="option for option in names" 
     ng-model="selectedSort"
     ng-change="sortBy()" style="margin-top: 07px"> {{selectedSort}}</select>
+  </div>
 </div>
-<br>
+</section>
 
 <ul class="thread-list">
  

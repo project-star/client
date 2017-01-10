@@ -17,16 +17,16 @@ function truthyKeys(map) {
 // Mapping from sort order name to a less-than predicate
 // function for comparing annotations to determine their sort order.
 var sortFns = {
-  'Newest': function (a, b) {
+  'Update Time :Descending': function (a, b) {
     return a.updated > b.updated;
   },
-  'Oldest': function (a, b) {
+  'Update Time :Ascending': function (a, b) {
     return a.updated < b.updated;
   },
-  'Newest Created': function (a, b) {
+  'Create Time: Descending': function (a, b) {
     return a.created > b.created;
   },
-  'Oldest Created': function (a, b) {
+  'Create Time :Ascending': function (a, b) {
     return a.created < b.created;
   },
   'Location': function (a, b) {

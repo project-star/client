@@ -3,9 +3,11 @@
 </header>
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
-  
+  <!--
   <header class="annotation-header">
+  -->
     <!-- User -->
+  <!--
     <span ng-if="vm.user()">
       <a class="annotation-header__user"
         target="_blank"
@@ -21,6 +23,8 @@
           when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
       </span>
       <br>
+
+  -->
       <!--
       <span class="annotation-header__share-info">
         <a class="annotation-header__group"
@@ -44,7 +48,9 @@
         </span>
       </span>
       -->
+<!--
     <span class="u-flex-spacer"></span>
+-->
     <!--
     <timestamp
       class-name="'annotation-header__timestamp'"
@@ -52,8 +58,10 @@
       href="vm.links().html"
       ng-if="!vm.editing() && vm.updated()"></timestamp>
      -->
+<!--
   </header>
-  <div align="center">
+-->
+  <div>
     <span ng-if=vm.isAudio()>
     <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
     </sc-widget>
@@ -79,7 +87,7 @@
   </span>
 
     <!-- YOUTUBE EMBEDDING CODE -->
-  <div align="center">
+  <div>
     <iframe ng-if="vm.isVideo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
                 frameborder='0'
                 allowfullscreen
@@ -187,7 +195,7 @@
       </span>
       -->
     </div>
-  </footer>
+
   
   <!-- Excerpts -->
   <section class="annotation-quote-list"
@@ -202,7 +210,8 @@
         ng-bind-html="selector.exact"
         ng-repeat="selector in target.selector
           | filter : {'type': 'TextQuoteSelector'}
-          track by $index"></blockquote>
+          track by $index">
+      </blockquote>
     </excerpt>
   </section>
 

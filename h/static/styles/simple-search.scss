@@ -10,11 +10,15 @@
 }
 
 .simple-search-icon {
+  background-color: $white;
+  color: $gray-dark;
   order: 0;
 }
 
 :not(:focus) ~ .simple-search-icon {
-  color: $white;
+ // color: $white;
+  background-color: $white;
+  color: $gray-dark;
 }
 
 @at-root {
@@ -55,7 +59,7 @@
 
     &.isnt-sidebar {
       max-width: $expanded-max-width + 300px;
-      width: $expanded-max-width + 300px; //Need to figure out the right implementation for mobile screen
+      //width: $expanded-max-width + 300px; //Need to figure out the right implementation for mobile screen
       height: $top-bar-height - 10px;
       padding-left: 6px;
     }

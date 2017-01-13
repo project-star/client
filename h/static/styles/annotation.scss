@@ -148,17 +148,17 @@
 
   @include respond-to(tablets) {
     margin: auto;
-    width: $break-tablet/1.5;
+    width: $break-tablet/2;
     height: $break-tablet/4;
-    padding-left: 4rem;
+    //padding-left: 4rem;
     padding-right: 4rem;
   }
 
   @include respond-to(desktops) {
     margin: auto;
-    width: $break-desktop/1.5;
+    width: $break-desktop/2;
     height: $break-desktop/4;
-    padding-left: 4rem;
+    //padding-left: 4rem;
     padding-right: 4rem;
   }
 

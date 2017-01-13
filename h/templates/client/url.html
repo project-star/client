@@ -17,7 +17,7 @@
         target="_blank"
       ng-href="{{vm.titleLink()}}"
         > {{vm.titleText()}} </a>  &nbsp; &nbsp;
-      <span class="badge"> {{vm.display()}} </span> / <span class="badge"> {{vm.total}} </span>
+      <span class="badge" style="background-color: #16a1b3"> {{vm.display()}} </span> / <span class="badge" style="background-color: #16a1b3"> {{vm.total}} </span>
       <div class="annotation-actions" ng-if="vm.id()"> 
       <button class="btn btn-clean annotation-action-btn"
        ng-click="vm.expand()"
@@ -222,16 +222,6 @@
         on-cancel="vm.revert()"
         on-save="vm.save()"
         on-set-privacy="vm.setPrivacy(level)"></publish-annotation-btn>
-    </div>
-
-    <div class="annotation-section annotation-license"
-      ng-show="vm.isShared() && vm.editing()">
-      <a class="annotation-license__link" href="http://creativecommons.org/publicdomain/zero/1.0/"
-        title="View more information about the Creative Commons Public Domain license"
-        target="_blank">
-        <i class="h-icon-cc-logo"></i><i class="h-icon-cc-zero"></i>
-        Annotations can be freely reused by anyone for any purpose.
-      </a>
     </div>
 
     <div class="annotation-replies" ng-if="!vm.isReply() && vm.replyCount > 0">

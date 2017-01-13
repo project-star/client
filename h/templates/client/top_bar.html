@@ -3,6 +3,9 @@
 <div class="top-bar" ng-class="frame.visible && 'shown'" ng-cloak ng-if="::!isSidebar">
   <!-- Legacy design for top bar, as used in the stream !-->
   <div class="top-bar__inner content" ng-if="::!isSidebar">
+    <img src="assets/images/logo_white_4x.png" height="32" width="32"/> &nbsp; &nbsp;
+    <font face="Roboto,Helvetica,Arial,sans-serif" style="font-size: 20px"><strong>ReNoted</strong> </font>
+    <div class="top-bar__expander"></div>
     <search-input
       class="search-input"
       query="searchController.query()"

@@ -146,6 +146,7 @@ function UrlController(
               vm.total = vm.url.allannotation.length
               if (vm.url.allannotation.length > 0){
                   vm.url.annotation.push(vm.url.allannotation[0])
+                  vm.total = vm.url.allannotation.length
           } 
               else {
                   $rootScope.$broadcast(urlevents.URL_DELETED, vm.url);
@@ -182,10 +183,13 @@ function UrlController(
 
   vm.annotation = function() {
      if (vm.showAnnotations){
+     vm.total = vm.url.allannotation.length
      return vm.url.allannotation
        }
-     else 
+     else {
      return vm.url.annotation
+     vm.total = vm.url.allannotation.length
+     }
    }
 
   vm.display = function() {

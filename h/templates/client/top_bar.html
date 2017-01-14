@@ -3,8 +3,11 @@
 <div class="top-bar" ng-class="frame.visible && 'shown'" ng-cloak ng-if="::!isSidebar">
   <!-- Legacy design for top bar, as used in the stream !-->
   <div class="top-bar__inner content" ng-if="::!isSidebar">
-    <img src="assets/images/logo_white_4x.png" height="32" width="32"/> &nbsp; &nbsp;
+    
+    <img src="assets/images/logo_white_4x.png" height="32" width="32"/> &nbsp;
+    <a href="https://www.renoted.com" style="color: white" class="top-bar__inner">
     <font face="Roboto,Helvetica,Arial,sans-serif" style="font-size: 20px"><strong>ReNoted</strong> </font>
+    </a>
     <div class="top-bar__expander"></div>
     <search-input
       class="search-input"
@@ -32,7 +35,9 @@
 <div class="top-bar__sidebar" ng-class="frame.visible && 'shown'" ng-cloak ng-if="::isSidebar">
   <div class="top-bar__inner content" ng-if="::isSidebar">
     <img src="images/logo_white_4x.png" height="32" width="32"/> &nbsp; &nbsp;
+    <a href="https://www.renoted.com" style="color: white" class="top-bar__inner content">
     <font face="Roboto,Helvetica,Arial,sans-serif" ><strong>ReNoted</strong> </font>
+    </a>
     <group-list class="group-list" auth="auth"></group-list>
     <div class="top-bar__expander__sidebar"></div>
     <a class="top-bar__apply-update-btn"

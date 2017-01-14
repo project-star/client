@@ -11,14 +11,16 @@
 .login-control-menu {
   .dropdown-toggle {
     .provider {
-      color: $gray-light;
+      color: $white;
       display: none;
     }
+    /*
     &:hover {
       .provider {
         display: inline;
       }
     }
+    */
   }
 
   .dropdown.open .provider {

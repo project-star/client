@@ -40,11 +40,6 @@
       ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | limitTo:displayedNumber track by child.id">
       <url ng-class="vm.urlClasses()"
              url="child.url">    </url>
-
-      
-
-
   </li>
- 
 </ul>
 <button class="more primary-action-btn  btn-block" ng-click="loadMore()">More</button>

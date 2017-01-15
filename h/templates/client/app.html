@@ -14,13 +14,13 @@
 </top-bar>
 
 <div class="create-account-banner" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
-  To annotate this document
+  <a href="" ng-click="login()">Log In</a>
+   to create Highlights, Annotations, Snips and Clips
   <!--
   <a href="{{ serviceUrl('signup') }}" target="_blank">
     Please log in
   </a>
   -->
-  <a href="" ng-click="login()">log in</a>
 </div>
 
 <div class="content" ng-cloak>
@@ -28,6 +28,47 @@
     ng-if="accountDialog.visible"
     on-close="accountDialog.visible = false">
   </login-form>
+</div>
+
+<div class="sheet" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
+  <h1 class="sidebar-tutorial__header">How to get started</h1>
+  <ol class="sidebar-tutorial__list">
+    <li class="sidebar-tutorial__list-item">
+      <p class="sidebar-tutorial__list-item-content">
+        To create a highlight, select text and click the
+        <i class="h-icon-highlight" style="color: #0b3390"></i>&nbsp;button on the popup.
+      </p>
+    </li>
+
+    <li class="sidebar-tutorial__list-item">
+      <p class="sidebar-tutorial__list-item-content">
+        To create an annotation, select text and click the
+        <i class="h-icon-annotate" style="color: #0b3390"></i>&nbsp;button on the popup.
+      </p>
+    </li>
+
+    <li class="sidebar-tutorial__list-item">
+      <p class="sidebar-tutorial__list-item-content">
+        To create a Video Snippet click the
+        <i class="h-icon-media-record" style="background-color: #0b3390; color: red"></i>&nbsp;button in the Sidebar margin.
+        Add your notes to the Snippet and click Save.
+        Wherever Video Snippets are supported the <i class="h-icon-media-record" style="background-color: #0b3390; color:#969696"></i>&nbsp;button will turn Red <i class="h-icon-media-record" style="background-color: #0b3390; color: red"></i>
+      </p>
+    </li>
+
+    <li class="sidebar-tutorial__list-item">
+      <p class="sidebar-tutorial__list-item-content">
+        To create an Audio Clip click the
+        <i class="h-icon-media-record" style="background-color: #0b3390; color:red"></i>&nbsp;button in the Sidebar margin.
+        Add your notes to the Clip and click Save.
+        Wherever Audio Clips are supported the <i class="h-icon-media-record" style="background-color: #0b3390; color:#969696"></i>&nbsp;button will turn Red <i class="h-icon-media-record" style="background-color: #0b3390; color: red"></i>
+      </p>
+    </li>    
+ </ol>
+</div>
+
+
+<div class="content" ng-cloak>
   <sidebar-tutorial ng-if="isSidebar"></sidebar-tutorial>
   <share-dialog
     ng-if="shareDialog.visible"

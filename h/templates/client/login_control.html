@@ -3,8 +3,8 @@
       ng-if="vm.newStyle && vm.auth.status === 'unknown'">⋯</span>
 <span class="login-text"
       ng-if="vm.newStyle && vm.auth.status === 'logged-out'">
-  <a href="{{vm.serviceUrl('signup')}}" target="_blank">Sign up</a>
-  / <a href="" ng-click="vm.onLogin()">Log in</a>
+<!--   <a href="{{vm.serviceUrl('signup')}}" target="_blank">Sign up</a>
+  /  --><a href="" ng-click="vm.onLogin()" style="color: white">Log In</a>
 </span>
 <div ng-if="vm.newStyle"
      class="pull-right login-control-menu"
@@ -43,7 +43,7 @@
 <!-- Old controls -->
 <span ng-if="!vm.newStyle && vm.auth.status === 'unknown'">⋯</span>
 <span ng-if="!vm.newStyle && vm.auth.status === 'logged-out'">
-  <a href="" ng-click="vm.onLogin()">Log in</a>
+  <a href="" ng-click="vm.onLogin()">Log In</a>
 </span>
 <div ng-if="!vm.newStyle"
      class="pull-right login-control-menu"
@@ -59,14 +59,14 @@
     <li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">
       <a class="dropdown-menu__link" href="{{vm.serviceUrl('account.settings')}}" target="_blank">Account</a>
     </li>
-    <li class="dropdown-menu__row" >
+    <!-- <li class="dropdown-menu__row" >
       <a class="dropdown-menu__link" ng-click="vm.onShowHelpPanel()">Help</a>
     </li>
     <li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">
       <a class="dropdown-menu__link" href="{{vm.serviceUrl('user',{user: vm.auth.username})}}"
          target="_blank">My Annotations</a>
     </li>
-    <li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">
+     --><li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">
       <a class="dropdown-menu__link" href="" ng-click="vm.onLogout()">Log out</a>
     </li>
   </ul>

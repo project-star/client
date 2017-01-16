@@ -35,7 +35,7 @@ function getThreadHeight(id) {
 }
 
 // @ngInject
-function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI) {
+function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$route,session) {
   // `visibleThreads` keeps track of the subset of all threads matching the
   // current filters which are in or near the viewport and the view then renders
   // only those threads, using placeholders above and below the visible threads
@@ -128,6 +128,23 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI) {
     if (changes.thread) {
       visibleThreads.setRootThread(changes.thread.currentValue);
     }
+  };
+  this.hasAnnotations = function() {
+   if (visibleThreads._rootThread.children.length > 0) {
+      return true;
+   }
+   else {
+      return false;
+   }
+  };
+
+  this.loggedin = function() {
+     if (session.state.userid){
+       return true;
+     }
+     else {
+       return false;
+     }
   };
 
   this.$onDestroy = function () {

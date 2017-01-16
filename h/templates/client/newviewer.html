@@ -38,7 +38,7 @@
     </span>
   </p>
 </div>
-<!--
+
 <span>
   <renotedurlthread-list
     on-change-collapsed="setCollapsed(id, collapsed)"
@@ -46,72 +46,6 @@
     on-focus="focus(annotation)"
     on-force-visible="forceVisible(thread)"
     on-select="scrollTo(annotation)"
-    show-document-info="::!isSidebar"
-    thread="rootThread">
-  </renotedurlthread-list>
-</span>
--->
-
-<section  style="margin-top: 14px">
-
-  <div class="create-account-banner"  ng-if="auth.status === 'logged-out'" ng-cloak>
-    <a href="" ng-click="login()">Log In</a>
-     to view your Highlights, Annotations, Snips and Clips
-  </div>
-
-  <div class="sheet" ng-if="auth.status === 'logged-out' || rootThread.totalChildren ===0" ng-cloak>
-  <h1 class="sidebar-tutorial__header">How to get started</h1>
-  <ol class="sidebar-tutorial__list">
-    <li class="sidebar-tutorial__list-item">
-      <p class="sidebar-tutorial__list-item-content">
-        To create highlights, annotations, video snips and audio clips install ReNoted browser extension from the Chrome Playstore
-      </p>
-    </li>
-
-    <li class="sidebar-tutorial__list-item">
-      <p class="sidebar-tutorial__list-item-content">
-        Once you have created some annotations, login into the ReNoted Web application to view them.
-      </p>
-    </li>
-
-    <li class="sidebar-tutorial__list-item">
-      <p class="sidebar-tutorial__list-item-content">
-        Each card represents one Web page. The card title can be clicked to navigate to the corresponding Web page.
-        By default, only one annotation from the Web page is shown.
-      </p>
-    </li>
-
-    <li class="sidebar-tutorial__list-item">
-      <p class="sidebar-tutorial__list-item-content">
-        Each card contains one or more annotations, shown by the badge next to the title. To view all the annotations on a page click the expand button <i class="h-icon-circle-down"></i>. Similarly, collapse button <i class="h-icon-circle-up"></i> can be used to collapse the card to default view.
-      </p>
-    </li>
-
-    <li class="sidebar-tutorial__list-item">
-      <p class="sidebar-tutorial__list-item-content">
-        Annotations inside a card, can be Edited <i class="h-icon-annotation-edit"></i> or Deleted <i class="h-icon-annotation-delete"></i>
-      </p>
-      <p>
-        Use Edit to add, delete or modify Tags and notes in Text annotations. In case of Media annotations, Edit allows you to also modify the Start and End times of the Snips and Clips.
-      </p>
-    </li>
-
-    <li class="sidebar-tutorial__list-item">
-      <p class="sidebar-tutorial__list-item-content">
-        Use the powerful Search to find annotations with plain text queries or filter by "tag:" and "type:"
-      </p>
-    </li>   
- </ol>
-</div>  
-</section>
-
-<span window-scroll="loadMore(20)" ng-if="auth.status === 'logged-in' && rootThread.totalChildren >0">
-  <renotedurlthread-list
-    on-change-collapsed="setCollapsed(id, collapsed)"
-    on-clear-selection="clearSelection()"
-    on-focus="focus(url)"
-    on-force-visible="forceVisible(thread)"
-    on-select="scrollTo(url)"
     show-document-info="::!isSidebar"
     thread="rootThread">
   </renotedurlthread-list>

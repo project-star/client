@@ -369,7 +369,7 @@ function RenotedAnnotationController(
        console.log(id)
        var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
        var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
-       var val="http://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
+       var val="https://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
        console.log(val)
        if(vm.loadVideo)
          return val;
@@ -377,7 +377,7 @@ function RenotedAnnotationController(
          {
            //FIXME: This is a hack to reload the iframe on clicking the load/reload button
            //needs to be fixed with a directive level watch implementation
-           var val2="http://youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime;
+           var val2="https://youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime;
            return val2;
        }
       }

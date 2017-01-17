@@ -137,19 +137,20 @@ $base-font-size: 14px;
     padding-right: 6px;
     width: 36px;
     margin-bottom: 10px;
+    color: $white;
 
     // the height of the sidebar toggle is set
     // to match the height of the top bar
     height: 39px;
   
 
-  &:active {
+  &:focus, &:active {
       transition: background-color .25s;
       background-color: $topbar-background-dark;
-      color: $gray-light;
+      color: $white;
     }
 
-    &:focus, &:hover {
+  &:hover {
       outline: 0;
       color: $gray-light;
     }

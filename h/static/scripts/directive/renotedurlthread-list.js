@@ -114,8 +114,9 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   $scope.selectedSort=$scope.names[0];
   
   $scope.sortBy = function() {
-    console.log($scope.selectedSort);
-    urlUI.setSortKey($scope.selectedSort)
+    console.log("true")
+    console.log(this.selectedSort);
+    urlUI.setSortKey(this.selectedSort)
     return false
   }
 

@@ -136,7 +136,7 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
       return true ;
    }
    else {
-      setTimeout(function(){ $scope.initialLoad = false}, 1200);
+      setTimeout(function(){ $scope.initialLoad = false; urlUI.setSortKey($scope.names[0]) }, 1400);
       return $scope.initialLoad;
    }
   };

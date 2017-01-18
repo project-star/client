@@ -63,16 +63,14 @@
 -->
   <div>
     <span ng-if=vm.isAudio()>
-    <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
-    </sc-widget>
-    <span ng-if="vm.isAudio() && !vm.editing()">
-     <br>
-     <b style="font-size: 11px"> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
-  </span>
-    <div>
-      <button class="primary-action-btn" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
-    </div>
-  </span>
+      <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
+      </sc-widget>
+      <span ng-if="vm.isAudio() && !vm.editing()">
+        <br>
+        <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
+        <b style="font-size: 11px"> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+      </span>
+    </span>
   </div>
 
   <span ng-if="vm.isAudio() && vm.editing()">
@@ -91,7 +89,7 @@
     <iframe ng-if="vm.isVideo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
                 frameborder='0'
                 allowfullscreen
-                class="annotation-media-content"></iframe>
+                class="annotation-media-content__video"></iframe>
          <span ng-if="vm.isVideo() && !vm.editing()">
      <br>
     <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button> &nbsp; &nbsp;   

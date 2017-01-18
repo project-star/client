@@ -58,8 +58,17 @@
     }
 
     &.isnt-sidebar {
-      max-width: $expanded-max-width + 300px;
-      //width: $expanded-max-width + 300px; //Need to figure out the right implementation for mobile screen
+
+      @include respond-to(tablets) {
+        max-width: $expanded-max-width/1.5;
+      }
+
+      @include respond-to(desktops) {
+        max-width: $expanded-max-width + 300px;
+      }
+
+
+      //max-width: $expanded-max-width + 300px;
       height: $top-bar-height - 10px;
       padding-left: 6px;
     }

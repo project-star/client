@@ -112,13 +112,14 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   $scope.names = ["Update Time :Descending", "Update Time :Ascending", "Relevance", "Create Time :Ascending", "Create Time: Descending"];
 
   $scope.selectedSort=$scope.names[0];
-  
+  $scope.initialLoad=true;  
   $scope.sortBy = function() {
     console.log("true")
     console.log(this.selectedSort);
     urlUI.setSortKey(this.selectedSort)
     return false
   }
+  
 
   $scope.$on(events.BEFORE_URL_CREATED, function (event, url) {
     self.onClearSelection();
@@ -132,10 +133,11 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   };
   this.hasAnnotations = function() {
    if (visibleThreads._rootThread.children.length > 0) {
-      return true;
+      return true ;
    }
    else {
-      return false;
+      setTimeout(function(){ $scope.initialLoad = false}, 1200);
+      return $scope.initialLoad;
    }
   };
 
@@ -147,6 +149,8 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
        return false;
      }
   };
+
+       
 
   this.$onDestroy = function () {
     visibleThreads.detach();

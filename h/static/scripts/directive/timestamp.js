@@ -55,6 +55,6 @@ module.exports = function () {
     },
     template: ['<a class="{{vm.className}}" target="_blank" ng-title="vm.absoluteTimestamp"',
                ' href="{{vm.href}}"',
-               '>{{vm.relativeTimestamp}}</a>'].join(''),
+               '>{{vm.absoluteTimestamp}}</a>'].join(''),
   };
 };

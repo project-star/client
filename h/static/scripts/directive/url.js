@@ -208,6 +208,10 @@ function UrlController(
      return titletext;
    }
 
+  vm.titleTextFull = function() {
+    var titletext = vm.url.title;
+     return titletext;
+   }
 
   vm.deduplicatetags = function() {
      var allannots=[]

@@ -21,11 +21,21 @@ function authStateFromUserID(userid) {
   }
 }
 
+function fetchSearch(store, query) {
+  var urllistvalue={};
+  
+  console.log("+++++ in prefetch thread +++++")
+  return store.urls(query).then(function (searchResult) {
+    urllistvalue=searchResult;
+    return urllistvalue
+  });
+}
+
 // @ngInject
 module.exports = function AppController(
   $controller, $document, $location, $rootScope, $route, $scope,
   $window, annotationUI, auth, drafts, features, frameSync, groups,
-  serviceUrl, session, settings, streamer
+  serviceUrl, session, settings, streamer, searchFilter,store
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
 
@@ -169,6 +179,30 @@ module.exports = function AppController(
       annotationUI.setFilterQuery(query);
     },
   };
+  $scope.sidebarquery = 0;
+  $scope.sidebarSearch = {
+    query: function () {
+      return annotationUI.getState().filterQuery;
+    }, 
+    update: function (query) {
+      var total;
+      var urllist;
+      var searchParams = searchFilter.toObject(query)
+      var actualquery = angular.extend(searchParams)
+      var actualsearchResult = fetchSearch(store,actualquery).then(function(results){
+      $scope.sidebarquery = results.total
+      console.log(results)
+      $scope.mainTab = !$scope.mainTab;
+      $scope.mainTab = !$scope.mainTab;
+      return results
+      });
+     
+
+    },
+  };
+  $scope.getSearchValues = function(){
+      return $scope.sidebarquery
+  }
 
   $scope.countPendingUpdates = streamer.countPendingUpdates;
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;

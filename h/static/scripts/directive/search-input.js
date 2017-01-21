@@ -19,6 +19,7 @@ function SearchInputController($element, $http, $scope) {
   form.onsubmit = function (e) {
     e.preventDefault();
     self.onSearch({$query: input.value});
+    self.onSidebarSearch({$query: input.value});
   };
 
   this.inputClasses = function () {
@@ -47,6 +48,7 @@ module.exports = function () {
       alwaysExpanded: '<',
       query: '<',
       onSearch: '&',
+      onSidebarSearch: '&',
     },
     template: require('../../../templates/client/search_input.html'),
   };

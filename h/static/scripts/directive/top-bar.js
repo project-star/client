@@ -19,6 +19,7 @@ module.exports = function () {
       onChangeSortKey: '&',
       pendingUpdateCount: '<',
       onApplyPendingUpdates: '&',
+      sidebarSearchController: '<',
     },
     template: require('../../../templates/client/top_bar.html'),
   };

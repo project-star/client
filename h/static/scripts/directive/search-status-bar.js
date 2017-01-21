@@ -17,6 +17,8 @@ module.exports = function () {
       filterActive: '<',
       filterMatchCount: '<',
       onClearSelection: '&',
+      getMainTab: '&',
+      switchMainTab: '&',
       searchQuery: '<',
       selectedTab: '<',
       selectionCount: '<',

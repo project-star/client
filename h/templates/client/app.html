@@ -10,9 +10,10 @@
   search-controller="search"
   sort-key="sortKey()"
   sort-keys-available="sortKeysAvailable()"
+  get-main-tab="getMainTab()"
   on-change-sort-key="setSortKey(sortKey)">
 </top-bar>
-
+<button type="button" class="btn btn-default" ng-click="switchUpperTabs()">Switch View</button>
 <div class="create-account-banner" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
   <a href="" ng-click="login()">Log In</a>
    to create Highlights, Annotations, Snips and Clips

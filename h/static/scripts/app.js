@@ -55,6 +55,7 @@ function configureLocation($locationProvider) {
 // @ngInject
 var VIEWER_TEMPLATE = require('../../templates/client/viewer.html');
 var RENOTED_VIEWER_TEMPLATE = require('../../templates/client/renotedviewer.html');
+var SIDE_VIEWER_TEMPLATE = require('../../templates/client/sideviewer.html');
 function configureRoutes($routeProvider) {
   $routeProvider.when('/a/:id',
     {
@@ -73,7 +74,7 @@ function configureRoutes($routeProvider) {
   $routeProvider.when('/viewer',
     {
       controller: 'WidgetController',
-      template: VIEWER_TEMPLATE,
+      template: SIDE_VIEWER_TEMPLATE,
       reloadOnSearch: false,
       resolve: resolve,
     });

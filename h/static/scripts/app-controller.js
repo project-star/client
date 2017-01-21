@@ -29,6 +29,21 @@ module.exports = function AppController(
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
 
+
+  
+  $scope.mainTab = true;
+  $scope.switchUpperTabs = function() {
+      $scope.mainTab = !$scope.mainTab;
+      if ($scope.mainTab){
+          console.log($scope.mainTab)
+          annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
+          console.log(annotationUI.getState().selectedTab);
+      }
+  } 
+  $scope.getMainTab = function(){
+      return $scope.mainTab;
+  }
+
   // This stores information about the current user's authentication status.
   // When the controller instantiates we do not yet know if the user is
   // logged-in or not, so it has an initial status of 'unknown'. This can be

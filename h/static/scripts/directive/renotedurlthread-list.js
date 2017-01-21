@@ -111,11 +111,9 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   
   $scope.names = ["Update Time :Descending", "Update Time :Ascending", "Relevance", "Create Time :Ascending", "Create Time: Descending"];
 
-  $scope.selectedSort=$scope.names[0];
+  $scope.selectedSort=urlUI.getState().sortKey;
   $scope.initialLoad=true;  
   $scope.sortBy = function() {
-    console.log("true")
-    console.log(this.selectedSort);
     urlUI.setSortKey(this.selectedSort)
     return false
   }
@@ -136,7 +134,7 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
       return true ;
    }
    else {
-      setTimeout(function(){ $scope.initialLoad = false; urlUI.setSortKey($scope.names[0]) }, 1400);
+      setTimeout(function(){ $scope.initialLoad = false; urlUI.setSortKey(urlUI.getState().sortKey) }, 1400);
       return $scope.initialLoad;
    }
   };

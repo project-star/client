@@ -157,6 +157,9 @@ function store($http, settings) {
       get: createAPICall($http, links, 'annotation.read'),
       update: createAPICall($http, links, 'annotation.update'),
     },
+    sharing: {
+      create: createAPICall($http, links, 'sharing.create'),
+    },
     url: createAPICall($http, links, 'url'),
     recall: createAPICall($http, links, 'recall'), 
     urls: createAPICall($http, links, 'urls'),

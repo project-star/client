@@ -138,3 +138,192 @@ body {
     height: 48px;
   }
 }
+
+.body-wrapper {
+  position: relative;
+  margin: 0 auto;
+  top: 65px;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 99;
+      background: #dedede;
+  top: 55px;
+  bottom: 0;
+  left: 0;
+      padding: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 2px 4px 8px rgba(0, 0, 0, 0.28);
+  transition: all .2s ease;
+}
+.sidebar ul {
+  position: relative;
+  padding-top: 5px;
+}
+.sidebar ul.tags{
+  padding-top:10px;
+}
+.sidebar .tags li a.tag-title{
+  background-color: #3b9bb0;
+      border-bottom: none;
+}
+.sidebar .tags li a.tag-title span{
+  font-size:15px;
+}
+.sidebar .tags li a span{
+  font-size:14px;
+}
+.sidebar .tags li a span.badge{
+    background-color: #001331;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    float: right;
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 4px 0; 
+  position:absolute;
+  right:10px;
+}
+.sidebar ul li {
+  list-style: none;
+  position: relative;
+}
+.sidebar ul li.active a{
+    background-color: #616161;
+    border-top: 4px solid #dedede;
+    border-bottom: 4px solid #dedede;
+    border-right: 7px solid #dedede;
+    border-left: 7px solid #dedede;
+    font-weight: bold;
+    color: #fff;
+}
+.sidebar ul li input[type="checkbox"] {
+  display: none;
+}
+.sidebar ul li label {
+  position: relative;
+}
+.sidebar ul li label:after {
+  content: "\f0d7 ";
+  font-family: fontAwesome;
+  position: absolute;
+  right: 30px;
+  top: 40%;
+}
+.sidebar ul li input[type="checkbox"]:checked ~ label {
+  background: white;
+}
+.sidebar ul li input[type="checkbox"]:checked ~ label:hover {
+  background: none;
+}
+.sidebar ul li input[type="checkbox"]:checked ~ label:after {
+  content: "\f0d8";
+}
+.sidebar ul li input[type="checkbox"]:checked ~ ul {
+  background: white;
+  color: #9b9b9b;
+  max-height: 200px;
+  transition: all .6s ease;
+}
+
+.sidebar ul li a,
+.sidebar ul li label {
+    display: block;
+    cursor: pointer;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #888686;
+  border-bottom: 1px solid #d0d0d0;
+}
+.sidebar ul.tags li a{
+  border-bottom: 1px solid #000;
+}
+.sidebar ul li a img{
+    float:left;
+}
+.sidebar ul li a span, .sidebar ul li label span {
+    display: inline-block;
+    padding-left: 15px;
+    line-height: 1.7em;
+    font-size: 15px;
+}
+.sidebar ul li a i,
+.sidebar ul li label i {
+  display: inline-block;
+}
+.sidebar ul li ul {
+  position: relative;
+  transition: all .3s ease;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+.sidebar ul li ul li {
+  position: relative;
+  list-style: none;
+}
+.sidebar ul li ul li:hover {
+  color: #9b9b9b;
+}
+
+.body-wrapper {
+  position: relative;
+  margin: 0 auto;
+  top: 0px;
+}
+.body-wrapper .btn-wrapper {
+  position: relative;
+}
+.body-wrapper .btn-wrapper span {
+  display: none;
+  position: absolute;
+  padding: 6px;
+  white-space: nowrap;
+  color: #ececec;
+  background: rgba(70, 70, 70, 0.9);
+  right: 60px;
+  top: -10px;
+  border-radius: 3px;
+}
+.body-wrapper .action-btn {
+  position: relative;
+  cursor: pointer;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background: #ff4d4d;
+  z-index: 3;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.16);
+  transform: rotate(180deg);
+  transition: all .3s ease;
+}
+.body-wrapper .action-btn:after {
+  content: "\f067";
+  color: white;
+  font-size: 18px;
+  font-family: FontAwesome;
+}
+.body-wrapper .action-btn:hover + span {
+  display: block;
+}
+
+.hide {
+  opacity: 0;
+  transform: translateX(-250px);
+  display:block !important;
+}
+
+.large-checkbox {
+  height: 15px;;
+  width: 15px
+}
+
+

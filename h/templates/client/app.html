@@ -13,6 +13,8 @@
   on-change-sort-key="setSortKey(sortKey)">
 </top-bar>
 
+
+
 <div class="create-account-banner" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
   To annotate this document
   <!--
@@ -23,19 +25,29 @@
   <a href="" ng-click="login()">log in</a>
 </div>
 
-<div class="content" ng-cloak>
-  <login-form
-    ng-if="accountDialog.visible"
-    on-close="accountDialog.visible = false">
-  </login-form>
-  <sidebar-tutorial ng-if="isSidebar"></sidebar-tutorial>
-  <share-dialog
-    ng-if="shareDialog.visible"
-    on-close="shareDialog.visible = false">
-  </share-dialog>
-  <help-panel ng-if="helpPanel.visible"
-    on-close="helpPanel.visible = false"
-    auth="auth">
-  </help-panel>
-  <main ng-view=""></main>
+<div class="body-wrapper">
+  <nav class="sidebar col-md-2">
+    <ul>
+      <li class="active"><a href="all.html" class=""> <span>My Notes</span></a></li>
+      <li class=""><a href="text.html" class=""><span>Shared With Me</span></a></li>
+    </ul>
+  </nav>
+
+  <div class="col-md-9 col-md-offset-2">
+
+    <login-form
+      ng-if="accountDialog.visible"
+      on-close="accountDialog.visible = false">
+    </login-form>
+    <sidebar-tutorial ng-if="isSidebar"></sidebar-tutorial>
+    <share-dialog
+      ng-if="shareDialog.visible"
+      on-close="shareDialog.visible = false">
+    </share-dialog>
+    <help-panel ng-if="helpPanel.visible"
+      on-close="helpPanel.visible = false"
+      auth="auth">
+    </help-panel>
+    <main ng-view=""></main>
+  </div>
 </div>

@@ -382,17 +382,17 @@ function UrlController(
       console.log("Shared successfully!??!" + shared);
       //On success, flush any selected annotations
       ///Remove any names provided for sharing
-      //vm.renotedIdsForSharing.length = 0;
+      //vm.renotedIdsForSharing = "";
       //Hide the Sharing header
       vm.inSharedView = false;
     };
 
     var onFailure = function() {
-      console.log("Couldn't share ...");
-    }
+      console.log("Couldn't share ..."+ shared);
+    };
 
     shared.then(onSuccess,onFailure);    
-  }
+  };
 
   vm.urldelete = function() {
     return $timeout(function() {  // Don't use confirm inside the digest cycle.

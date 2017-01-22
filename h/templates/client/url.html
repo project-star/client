@@ -32,12 +32,18 @@
             </timestamp>
             <div class="annotation-actions" ng-if="vm.id()">
               <button class="btn btn-clean annotation-action-btn" 
-                ng-show="vm.showAnnotations"
-                ng-click="vm.urlshare()"
+                ng-show="vm.showAnnotations && !vm.inSharedView"
+                ng-click="vm.toggleShareView()"
                 aria-label="Share"
                 h-tooltip>
               <i class="h-icon-annotation-share btn-icon "></i>
               </button>
+              <input type="checkbox" name="vm.url.id" 
+                ng-click="vm.toggleSelectAllForSharing()"
+                ng-checked="vm.selectedForSharingCount() > 0"
+                ng-show="vm.showAnnotations && vm.inSharedView"
+                class="large-checkbox"
+                >
               <button class="btn btn-clean annotation-action-btn"
                ng-click="vm.expand()"
                ng-show="!vm.showAnnotations"
@@ -74,12 +80,18 @@
 
             <div class="annotation-actions" ng-if="vm.id()" ng-show="!vm.showAnnotations">
               <button class="btn btn-clean annotation-action-btn" 
-                ng-show="!vm.showAnnotations"
+                ng-show="!vm.showAnnotations && !vm.inSharedView"
                 ng-click="vm.toggleShareView()"
                 aria-label="Share"
                 h-tooltip>
               <i class="h-icon-annotation-share btn-icon "></i>
               </button> 
+              <input type="checkbox" name="vm.url.id" 
+                ng-click="vm.toggleSelectAllForSharing()"
+                ng-checked="vm.selectedForSharingCount() > 0"
+                ng-show="!vm.showAnnotations && vm.inSharedView"
+                class="large-checkbox" 
+                >
               <button class="btn btn-clean annotation-action-btn"
                ng-click="vm.expand()"
                ng-show="!vm.showAnnotations"
@@ -115,29 +127,35 @@
 
          </div> 
       </div>
-      <div class="panel panel-info panel-heading" ng-show="vm.inSharedView">
-        <p>
+      <div class="panel panel-info panel-heading" ng-show="vm.inSharedView" style="border-color: red">
+      
+<!--         <p>
         Select Annotations for Sharing
-        </p>
-        <input type="checkbox" name="vm.url.id" 
-          ng-click="vm.toggleSelectAllForSharing()"
-          ng-checked="vm.selectedForSharingCount() > 0">
-
-        <span class="badge" style="background-color: red"> {{vm.selectedForSharingCount()}} </span> / <span class="badge" style="background-color: red"> {{vm.total}} </span>
-        <span>Share with: 
-        <input type="email" name="shareid" ng-model="vm.renotedIdsForSharing" required>
+        </p> -->
+        
+        You have selected: &nbsp;
+          <span class="badge" style="background-color: red"> {{vm.selectedForSharingCount()}} 
+          </span> / 
+          <span class="badge" style="background-color: red"> {{vm.total}} </span>
+          <span> &nbsp;
+        
+        annotations to share with: &nbsp;
+        <input type="email" name="shareid" ng-model="vm.renotedIdsForSharing" required style="width: 300px; text-align: right; font-weight: bold; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: gray; border-left-color: transparent; border-top-color: transparent; border-right-color: transparent;">
         </span>
-
+        &nbsp; (provide the ReNoted Id only)
+        <div class="annotation-actions" >
+        <button class="btn annotation-action-btn align:right"
+          ng-click="vm.clickToShare()"
+          title="Click to Share">
+          Send
+        </button>
         <button class="btn btn-clean annotation-action-btn"
           ng-click="vm.cancelShare()"
           title="Cancel sharing">
           <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon"></i>
         </button>
-        <button class="btn annotation-action-btn"
-          ng-click="vm.clickToShare()"
-          title="Click to Share">
-          Share
-        </button>
+
+        </div>
       </div>
     </span>
    </header>     

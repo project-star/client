@@ -189,9 +189,12 @@ module.exports = function AppController(
       var urllist;
       var searchParams = searchFilter.toObject(query)
       var actualquery = angular.extend(searchParams)
+      $scope.sidebarquery1 = actualquery
       var actualsearchResult = fetchSearch(store,actualquery).then(function(results){
-      $scope.sidebarquery = results.total
       console.log(results)
+      $scope.$apply(function() {
+          $scope.sidebarquery = results.total
+        });
       $scope.mainTab = !$scope.mainTab;
       $scope.mainTab = !$scope.mainTab;
       return results

@@ -60,7 +60,7 @@
 
    <li id="{{child.id}}"
       class="thread-list__card"
-      ng-repeat="child in sidebarsearchresult.urllist">
+      ng-repeat="child in sidebarsearchresult.urllist | orderBy: '-relevance': reverse">
       <url url="child">    </url>
   </li>
 </ul></div>

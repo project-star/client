@@ -3,13 +3,16 @@
 </header>
 
 <div ng-keydown="vm.onKeydown($event)" ng-if="vm.user()">
+  <!--
   <header class="annotation-header">
+  -->
     <!-- User -->
+  <!--
     <span ng-if="vm.user()">
       <a class="annotation-header__user"
         target="_blank"
       ng-href="{{vm.documentMeta().titleLink}}" ng-if="vm.typetodisplay()=='first'"
-        > {{vm.documentMeta().titleText}} </a>
+        > </a>
      
 
       
@@ -20,6 +23,8 @@
           when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
       </span>
       <br>
+
+  -->
       <!--
       <span class="annotation-header__share-info">
         <a class="annotation-header__group"
@@ -43,18 +48,66 @@
         </span>
       </span>
       -->
-    
-    </span>
-
+<!--
     <span class="u-flex-spacer"></span>
-      
+-->
+    <!--
     <timestamp
       class-name="'annotation-header__timestamp'"
       timestamp="vm.updated()"
       href="vm.links().html"
       ng-if="!vm.editing() && vm.updated()"></timestamp>
-  <hr>      
+     -->
+<!--
   </header>
+-->
+  <div>
+    <span ng-if=vm.isAudio()>
+      <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
+      </sc-widget>
+      <span ng-if="vm.isAudio() && !vm.editing()">
+        <br>
+        <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
+        <b style="font-size: 11px"> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+      </span>
+    </span>
+  </div>
+
+  <span ng-if="vm.isAudio() && vm.editing()">
+     <br>
+     <b> Start Time: <vidmarkdown text="vm.getStarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> </b>
+  </span>
+
+    <!-- YOUTUBE EMBEDDING CODE -->
+  <div>
+    <iframe ng-if="vm.isVideo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
+                frameborder='0'
+                allowfullscreen
+                class="annotation-media-content__video"></iframe>
+         <span ng-if="vm.isVideo() && !vm.editing()">
+     <br>
+    <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button> &nbsp; &nbsp;   
+     <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+     </span>
+  </div>
+
+     <span ng-if="vm.isVideo() && vm.editing()">
+     <br>
+     <b> Start Time: <vidmarkdown text="vm.getStarttime()"
+        on-edit-text="vm.setStarttime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()">
+      </vidmarkdown> </b>
+     </span>
+
 
     
     <!-- URLTags -->
@@ -140,12 +193,8 @@
       </span>
       -->
     </div>
-   <hr style="height:3px;border:none;color:#333;background-color:#333;" ng-if="vm.typetodisplay()=='first'"/> 
-  </footer>
+
   
-  <iframe ng-if="vm.isVideo()=='success'" src='{{ vm.videoembedurl() }}'
-                frameborder='0'
-                allowfullscreen ></iframe >  
   <!-- Excerpts -->
   <section class="annotation-quote-list"
     ng-class="{'is-orphan' : vm.isOrphan()}"
@@ -159,7 +208,8 @@
         ng-bind-html="selector.exact"
         ng-repeat="selector in target.selector
           | filter : {'type': 'TextQuoteSelector'}
-          track by $index"></blockquote>
+          track by $index">
+      </blockquote>
     </excerpt>
   </section>
 
@@ -212,16 +262,6 @@
         on-cancel="vm.revert()"
         on-save="vm.save()"
         on-set-privacy="vm.setPrivacy(level)"></publish-annotation-btn>
-    </div>
-
-    <div class="annotation-section annotation-license"
-      ng-show="vm.isShared() && vm.editing()">
-      <a class="annotation-license__link" href="http://creativecommons.org/publicdomain/zero/1.0/"
-        title="View more information about the Creative Commons Public Domain license"
-        target="_blank">
-        <i class="h-icon-cc-logo"></i><i class="h-icon-cc-zero"></i>
-        Annotations can be freely reused by anyone for any purpose.
-      </a>
     </div>
 
     <div class="annotation-replies" ng-if="!vm.isReply() && vm.replyCount > 0">

@@ -110,6 +110,9 @@ function UrlController(
     console.log(vm)
     console.log(vm.url.annotation)
     vm.serviceUrl = serviceUrl;
+    vm.inSharedView = false;
+    vm.selectedForSharing = [];
+    vm.renotedIdsForSharing ="example@renoted.com";
  }
 
   var loadEvents = [events.ANNOTATION_CREATED,
@@ -318,8 +321,80 @@ function UrlController(
 
     vm.tagStreamURL = function(tag) {
     return serviceUrl('search.tag', {tag: tag});
-  }; 
-    vm.urldelete = function() {
+  };
+
+  vm.toggleShareView = function () {
+    console.log("In shared view: " + vm.inSharedView);
+    if(vm.inSharedView)
+      vm.inSharedView = false;
+    else
+      vm.inSharedView = true;
+    console.log("In shared view now: " + vm.inSharedView);    
+  };
+
+  vm.selectedForSharingCount = function () {
+    return vm.selectedForSharing.length;
+  };
+
+  vm.toggleSelectAllForSharing = function () {
+
+
+    var sharingLength = vm.selectedForSharingCount();
+    console.log("Length of sharing array on entering: "+sharingLength);
+
+    //If anything is selected already, flush everything out
+    if(sharingLength > 0) {
+      vm.selectedForSharing.length = 0;       
+    }
+    //If nothing is selected already, select everything
+    else {
+      console.log("Adding annotations to the array!");
+      for(var i=0; i<vm.annotation().length; i++)
+        vm.selectedForSharing.push(vm.annotation()[i].id);
+    }
+  };
+
+  vm.cancelShare = function() {
+    //console.log("Entering the cancelShare method");
+    //Flush any selected annotations
+    vm.selectedForSharing.length=0;
+
+    //Remove any id provided for sharing
+    vm.renotedIdsForSharing = "";
+
+    //Hide the Sharing header
+    vm.inSharedView = false;
+  };
+
+  vm.clickToShare = function() {
+    console.log("Entering the clickToShare method with emailid: " + vm.renotedIdsForSharing );
+    //Call share API with selectedForSharing id list and ReNoted Id list
+    //This should be an async call, have success and failure functions
+    var data = {
+      annotation_ids:vm.selectedForSharing,
+      sharedtoemail:vm.renotedIdsForSharing
+    };
+
+    var shared = store.sharing.create({}, data);
+
+    var onSuccess = function() {
+
+      console.log("Shared successfully!??!" + shared);
+      //On success, flush any selected annotations
+      ///Remove any names provided for sharing
+      //vm.renotedIdsForSharing.length = 0;
+      //Hide the Sharing header
+      vm.inSharedView = false;
+    };
+
+    var onFailure = function() {
+      console.log("Couldn't share ...");
+    }
+
+    shared.then(onSuccess,onFailure);    
+  }
+
+  vm.urldelete = function() {
     return $timeout(function() {  // Don't use confirm inside the digest cycle.
       var msg = 'Are you sure you want to delete this url?';
       if ($window.confirm(msg)) {
@@ -333,7 +408,8 @@ function UrlController(
         });
       }
     }, true);
-  };    
+  };
+
   init();
 }
 

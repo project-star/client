@@ -61,6 +61,8 @@
 <!--
   </header>
 -->
+  <input type="checkbox" name="vm.annotation.id" ng-show="vm.inSharedView" value="vm.annotation.id" ng-checked="vm.selectedForSharing.indexOf(vm.annotation.id) > -1" ng-click="vm.toggleSelectedForSharing()">
+
   <div>
     <span ng-if=vm.isAudio()>
       <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
@@ -278,6 +280,13 @@
 
     <div class="annotation-actions" ng-if="!vm.isSaving && !vm.editing() && vm.id()">
       <div ng-show="vm.isSaving">Saving…</div>
+      <button class="btn btn-clean annotation-action-btn" 
+        ng-show="!vm.isSaving"
+        ng-click="vm.toggleAnnotationShareView()"
+        aria-label="Share"
+        h-tooltip>
+          <i class="h-icon-annotation-share btn-icon "></i>
+      </button>
       <button class="btn btn-clean annotation-action-btn"
         ng-show="vm.authorize('update') && !vm.isSaving"
         ng-click="vm.edit()"

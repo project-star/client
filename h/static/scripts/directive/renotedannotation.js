@@ -219,15 +219,26 @@ function RenotedAnnotationController(
     */
   vm.delete = function() {
     return $timeout(function() {  // Don't use confirm inside the digest cycle.
+      var deletingId = vm.annotation.id;
       var msg = 'Are you sure you want to delete this annotation?';
       if ($window.confirm(msg)) {
         var onRejected = function(reason) {
           flash.error(
             errorMessage(reason), 'Deleting annotation failed');
         };
+        var onSuccess = function() {
+          var idx = vm.selectedForSharing.indexOf(deletingId);
+      
+          // is currently selected
+          if (idx > -1) {
+            vm.selectedForSharing.splice(idx, 1);
+          }
+
+        };
+        //On successful deletion, remove any entry for the annotation id in selectedForSharing list
         $scope.$apply(function() {
           annotationMapper.deleteAnnotation(vm.annotation).then(
-            null, onRejected);
+            onSuccess, onRejected);
         });
       }
     }, true);
@@ -866,7 +877,37 @@ function RenotedAnnotationController(
 
   };
 
-  
+  vm.toggleAnnotationShareView = function() {
+    // console.log("In shared view: " + vm.inSharedView);
+    // if(vm.inSharedView)
+    //   vm.inSharedView = false;
+    // else
+      vm.inSharedView = true;
+
+      var idx = vm.selectedForSharing.indexOf(vm.annotation.id);
+      if(idx <= -1)
+        vm.selectedForSharing.push(vm.annotation.id);
+
+    console.log("In shared view now: " + vm.inSharedView); 
+  };
+
+  vm.toggleSelectedForSharing = function() {
+
+    console.log("Selected for sharing entered, current values " + vm.selectedForSharing);
+    var idx = vm.selectedForSharing.indexOf(vm.annotation.id);
+      
+    // is currently selected
+    if (idx > -1) {
+      vm.selectedForSharing.splice(idx, 1);
+    }
+      
+    // is newly selected
+    else {
+      vm.selectedForSharing.push(vm.annotation.id);
+    }
+    console.log("Selected for sharing exiting, current values " + vm.selectedForSharing);
+
+  };
 
   vm.state = function () {
     var draft = drafts.get(vm.annotation);
@@ -905,6 +946,8 @@ function renotedannotation() {
       onReplyCountClick: '&',
       replyCount: '<',
       isCollapsed: '<',
+      inSharedView: '=',
+      selectedForSharing: '=',
     },
     template: require('../../../templates/client/renotedannotation.html'),
   };

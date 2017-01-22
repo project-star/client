@@ -6,7 +6,7 @@
   <header>
     <!-- User -->
     <span ng-if="vm.user()">
-      <div class="panel panel-info">
+      <div class="panel panel-info" style="margin-bottom: 5px">
         <div class="panel-heading">
           <span class="badge" style="font-size: 22px;  background-color: white"> 
             <i class="h-icon-youtube url-header-icon__youtube" ng-show="vm.setTitleIcon() == 'youtube'"></i>
@@ -31,7 +31,14 @@
               timestamp=vm.url.created>
             </timestamp>
             <div class="annotation-actions" ng-if="vm.id()">
-            <button class="btn btn-clean annotation-action-btn"
+              <button class="btn btn-clean annotation-action-btn" 
+                ng-show="vm.showAnnotations"
+                ng-click="vm.urlshare()"
+                aria-label="Share"
+                h-tooltip>
+              <i class="h-icon-annotation-share btn-icon "></i>
+              </button>
+              <button class="btn btn-clean annotation-action-btn"
                ng-click="vm.expand()"
                ng-show="!vm.showAnnotations"
                aria-label="Expand"
@@ -62,10 +69,17 @@
                 h-tooltip>
                   <i class="h-icon-annotation-delete btn-icon "></i>
               </button>
-              </div>
+            </div>
           </div>
 
-            <div class="annotation-actions" ng-if="vm.id()" ng-show="!vm.showAnnotations"> 
+            <div class="annotation-actions" ng-if="vm.id()" ng-show="!vm.showAnnotations">
+              <button class="btn btn-clean annotation-action-btn" 
+                ng-show="!vm.showAnnotations"
+                ng-click="vm.toggleShareView()"
+                aria-label="Share"
+                h-tooltip>
+              <i class="h-icon-annotation-share btn-icon "></i>
+              </button> 
               <button class="btn btn-clean annotation-action-btn"
                ng-click="vm.expand()"
                ng-show="!vm.showAnnotations"
@@ -100,6 +114,30 @@
             </div>
 
          </div> 
+      </div>
+      <div class="panel panel-info panel-heading" ng-show="vm.inSharedView">
+        <p>
+        Select Annotations for Sharing
+        </p>
+        <input type="checkbox" name="vm.url.id" 
+          ng-click="vm.toggleSelectAllForSharing()"
+          ng-checked="vm.selectedForSharingCount() > 0">
+
+        <span class="badge" style="background-color: red"> {{vm.selectedForSharingCount()}} </span> / <span class="badge" style="background-color: red"> {{vm.total}} </span>
+        <span>Share with: 
+        <input type="email" name="shareid" ng-model="vm.renotedIdsForSharing" required>
+        </span>
+
+        <button class="btn btn-clean annotation-action-btn"
+          ng-click="vm.cancelShare()"
+          title="Cancel sharing">
+          <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon"></i>
+        </button>
+        <button class="btn annotation-action-btn"
+          ng-click="vm.clickToShare()"
+          title="Click to Share">
+          Share
+        </button>
       </div>
     </span>
    </header>     
@@ -175,7 +213,9 @@
 
 <renotedannotation ng-class="vm.annotationClasses()"
              annotation="thread"
-             name="annotation">
+             name="annotation"
+             in-shared-view="vm.inSharedView"
+             selected-for-sharing="vm.selectedForSharing">
     </renotedannotation>
 </section>
 <!--

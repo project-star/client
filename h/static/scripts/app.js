@@ -158,6 +158,7 @@ module.exports = angular.module('h', [
 
   // UI components and helpers
   .directive('annotation', require('./directive/annotation').directive)
+  .directive('url', require('./directive/url').directive)
   .directive('renotedannotation', require('./directive/renotedannotation').directive)
   .directive('annotationShareDialog', require('./directive/annotation-share-dialog'))
   .directive('annotationThread', require('./directive/annotation-thread'))

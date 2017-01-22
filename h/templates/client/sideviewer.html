@@ -56,8 +56,14 @@
 </span>
 <span ng-if="!mainTab">
 <div> 
-{{ sidebarquery }} 
-</div>
+<ul class="thread-list">
+
+   <li id="{{child.id}}"
+      class="thread-list__card"
+      ng-repeat="child in sidebarsearchresult.urllist">
+      <url url="child">    </url>
+  </li>
+</ul></div>
 </span>
 
 

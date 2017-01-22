@@ -194,6 +194,7 @@ module.exports = function AppController(
       console.log(results)
       $scope.$apply(function() {
           $scope.sidebarquery = results.total
+          $scope.sidebarsearchresult = results
         });
       $scope.mainTab = !$scope.mainTab;
       $scope.mainTab = !$scope.mainTab;

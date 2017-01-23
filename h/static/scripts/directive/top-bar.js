@@ -8,6 +8,7 @@ module.exports = function () {
       auth: '<',
       isSidebar: '<',
       onShowHelpPanel: '&',
+      switchMainTab: '&',
       onLogin: '&',
       onLogout: '&',
       onSharePage: '&',

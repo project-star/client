@@ -20,6 +20,7 @@ function SearchInputController($element, $http, $scope) {
     e.preventDefault();
     self.onSearch({$query: input.value});
     self.onSidebarSearch({$query: input.value});
+    self.switchMainTab()
   };
 
   this.inputClasses = function () {
@@ -47,6 +48,7 @@ module.exports = function () {
       // If false, it is only expanded when focused or when 'query' is non-empty
       alwaysExpanded: '<',
       query: '<',
+      switchMainTab: '&',
       onSearch: '&',
       onSidebarSearch: '&',
     },

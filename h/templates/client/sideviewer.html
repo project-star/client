@@ -7,16 +7,17 @@
   total-notes="totalNotes"
   total-orphans="totalOrphans"
   get-main-tab="getMainTab()">
+  goto-search-selection="gotoSearchSelection()"
 </selection-tabs>
 
 <search-status-bar
   ng-show="!isLoading()"
-  ng-if="!isStream && mainTab"
+  ng-if="!isStream"
   filter-active="!!search.query()"
   filter-match-count="visibleCount()"
   on-clear-selection="clearSelection()"
   get-main-tab="getMainTab()"
-  switch-main-tab="switchUpperTabs()"
+  switch-main-tab="gotoMainSelection()"
   search-query="search ? search.query : ''"
   selection-count="selectedAnnotationCount()"
   total-count="topLevelThreadCount()"

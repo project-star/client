@@ -162,6 +162,7 @@ module.exports = function AppController(
   };
 
   $scope.clearSelection = function () {
+    $scope.mainTab = true;
     var selectedTab = annotationUI.getState().selectedTab;
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;
@@ -169,6 +170,21 @@ module.exports = function AppController(
 
     annotationUI.clearSelectedAnnotations();
     annotationUI.selectTab(selectedTab);
+  };
+ 
+  $scope.gotoMainSelection = function () {
+    $scope.mainTab = true;
+    $route.reload()
+    var selectedTab = annotationUI.getState().selectedTab;
+    if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
+      selectedTab = uiConstants.TAB_ANNOTATIONS;
+    }
+
+    annotationUI.selectTab(selectedTab);
+  };
+
+ $scope.gotoSearchSelection = function () {
+    $scope.mainTab = false;
   };
 
   $scope.search = {

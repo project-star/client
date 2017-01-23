@@ -74,6 +74,14 @@ module.exports = ['unicode', (unicode) ->
       autofalse: (annotation) -> return not annotation.tags?
       value: (annotation) -> return annotation.tags
       match: (term, value) -> return value in term
+    title:
+      autofalse: (annotation) -> return not annotation.title?
+      value: (annotation) -> return annotation.title
+      match: (term, value) -> return value in term
+    type:
+      autofalse: (annotation) -> return not annotation.type?
+      value: (annotation) -> return annotation.type
+      match: (term, value) -> return value in term
     text:
       autofalse: (annotation) -> return not annotation.text?
       value: (annotation) -> return annotation.text
@@ -87,7 +95,7 @@ module.exports = ['unicode', (unicode) ->
       value: (annotation) -> return annotation.user
       match: (term, value) -> return value.indexOf(term) > -1
     any:
-      fields: ['quote', 'text', 'tag', 'user']
+      fields: ['quote', 'text', 'tag', 'user', 'title']
 
   # Filters a set of annotations, according to a given query.
   #

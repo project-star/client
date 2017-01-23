@@ -50,7 +50,7 @@ function updateModel(url,changes) {
 // @ngInject
 function UrlController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,$route,
-  annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
+  annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,urldrafts,
   session, store, streamer) {
 
   var vm = this;

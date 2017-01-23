@@ -164,6 +164,9 @@ module.exports = function AppController(
   $scope.clearSelection = function () {
     $scope.mainTab = true;
     $route.reload()
+    $scope.sidebarquery=0;
+    $scope.sidebarsearchresult=""
+    $scope.displayedNumber = 5;
     var selectedTab = annotationUI.getState().selectedTab;
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;
@@ -176,6 +179,8 @@ module.exports = function AppController(
   $scope.gotoMainSelection = function () {
     $scope.mainTab = true;
     $route.reload()
+    $scope.sidebarsearchresult=""
+    $scope.displayedNumber = 5;
     var selectedTab = annotationUI.getState().selectedTab;
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;
@@ -221,8 +226,17 @@ module.exports = function AppController(
 
     },
   };
+  $scope.displayedNumber = 5;
   $scope.getSearchValues = function(){
       return $scope.sidebarquery
+  }
+
+  $scope.loadMore = function() {
+  var presentNumber = $scope.displayedNumber;
+  console.log("in load more function")
+  console.log (presentNumber)
+  $scope.displayedNumber = presentNumber + 5;
+  
   }
 
   $scope.countPendingUpdates = streamer.countPendingUpdates;

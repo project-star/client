@@ -61,10 +61,12 @@
 
    <li id="{{child.id}}"
       class="thread-list__card"
-      ng-repeat="child in sidebarsearchresult.urllist | orderBy: '-relevance': reverse">
+      ng-repeat="child in sidebarsearchresult.urllist |  limitTo:displayedNumber | orderBy: '-relevance': reverse">
       <url url="child">    </url>
   </li>
 </ul></div>
+<button class="more primary-action-btn  btn-block" ng-click="loadMore()" ng-if="sidebarquery > 0">More</button>
+<button class="more primary-action-btn  btn-block"ng-if="sidebarquery == 0">No Results Found</button>
 </span>
 
 

@@ -18,9 +18,12 @@ function SearchInputController($element, $http, $scope) {
 
   form.onsubmit = function (e) {
     e.preventDefault();
+    if (input.value.trim()!=''){
+
     self.onSearch({$query: input.value});
     self.onSidebarSearch({$query: input.value});
     self.switchMainTab()
+    }
   };
 
   this.inputClasses = function () {

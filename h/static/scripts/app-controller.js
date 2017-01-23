@@ -163,6 +163,7 @@ module.exports = function AppController(
 
   $scope.clearSelection = function () {
     $scope.mainTab = true;
+    $route.reload()
     var selectedTab = annotationUI.getState().selectedTab;
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;

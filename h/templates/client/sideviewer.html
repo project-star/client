@@ -44,19 +44,24 @@
 </div>
 <span ng-if="!mainTab">
 <div>
+<b> {{sidebarquery}} </b> Results Found 
 <ul class="thread-list">
 
    <li id="{{child.id}}"
       class="thread-list__card"
-      ng-repeat="child in sidebarsearchresult.urllist |  limitTo:5 | orderBy: '-relevance': reverse">
+      ng-repeat="child in sidebarsearchresult.urllist |  limitTo:10 | orderBy: '-relevance': reverse">
       <url url="child">    </url>
   </li>
 </ul></div>
 
-<button class="more primary-action-btn  btn-block" ng-if="sidebarquery > 5">To see More Results visit<a ng-href="{{queryStreamURL()}}" target="_blank"> <b> HERE</b></a></button>
-<button class="more primary-action-btn  btn-block" ng-if="sidebarquery <= 5 && sidebarquery != 0">No More Results to show</button>
+<button class="more primary-action-btn  btn-block" ng-if="sidebarquery > 10">To see More Results visit<a ng-href="{{queryStreamURL()}}" target="_blank"> <b> HERE</b></a></button>
+<button class="more primary-action-btn  btn-block" ng-if="sidebarquery <= 10 && sidebarquery != 0">No More Results to show</button>
 <button class="more primary-action-btn  btn-block"ng-if="sidebarquery == 0">No Results Found</button>
+<br>
+Annotations
+<br>
 </span>
+
 
 <span window-scroll="loadMore(20)">
   <thread-list 

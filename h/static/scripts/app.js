@@ -55,6 +55,7 @@ function configureLocation($locationProvider) {
 // @ngInject
 var VIEWER_TEMPLATE = require('../../templates/client/viewer.html');
 var RENOTED_VIEWER_TEMPLATE = require('../../templates/client/renotedviewer.html');
+var SIDE_VIEWER_TEMPLATE = require('../../templates/client/sideviewer.html');
 function configureRoutes($routeProvider) {
   $routeProvider.when('/a/:id',
     {
@@ -73,7 +74,7 @@ function configureRoutes($routeProvider) {
   $routeProvider.when('/viewer',
     {
       controller: 'WidgetController',
-      template: VIEWER_TEMPLATE,
+      template: SIDE_VIEWER_TEMPLATE,
       reloadOnSearch: false,
       resolve: resolve,
     });
@@ -157,6 +158,7 @@ module.exports = angular.module('h', [
 
   // UI components and helpers
   .directive('annotation', require('./directive/annotation').directive)
+  .directive('url', require('./directive/url').directive)
   .directive('renotedannotation', require('./directive/renotedannotation').directive)
   .directive('annotationShareDialog', require('./directive/annotation-share-dialog'))
   .directive('annotationThread', require('./directive/annotation-thread'))

@@ -8,6 +8,7 @@ module.exports = function () {
       auth: '<',
       isSidebar: '<',
       onShowHelpPanel: '&',
+      switchMainTab: '&',
       onLogin: '&',
       onLogout: '&',
       onSharePage: '&',
@@ -19,6 +20,7 @@ module.exports = function () {
       onChangeSortKey: '&',
       pendingUpdateCount: '<',
       onApplyPendingUpdates: '&',
+      sidebarSearchController: '<',
     },
     template: require('../../../templates/client/top_bar.html'),
   };

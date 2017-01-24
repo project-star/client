@@ -21,13 +21,38 @@ function authStateFromUserID(userid) {
   }
 }
 
+function fetchSearch(store, query) {
+  var urllistvalue={};
+  
+  console.log("+++++ in prefetch thread +++++")
+  return store.urls(query).then(function (searchResult) {
+    urllistvalue=searchResult;
+    return urllistvalue
+  });
+}
+
 // @ngInject
 module.exports = function AppController(
   $controller, $document, $location, $rootScope, $route, $scope,
   $window, annotationUI, auth, drafts, features, frameSync, groups,
-  serviceUrl, session, settings, streamer
+  serviceUrl, session, settings, streamer, searchFilter,store
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
+
+
+  
+  $scope.mainTab = true;
+  $scope.switchUpperTabs = function() {
+      $scope.mainTab = !$scope.mainTab;
+      if ($scope.mainTab){
+          console.log($scope.mainTab)
+          annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
+          console.log(annotationUI.getState().selectedTab);
+      }
+  } 
+  $scope.getMainTab = function(){
+      return $scope.mainTab;
+  }
 
   // This stores information about the current user's authentication status.
   // When the controller instantiates we do not yet know if the user is
@@ -56,7 +81,7 @@ module.exports = function AppController(
   }
 
   $scope.serviceUrl = serviceUrl;
-
+  
   $scope.sortKey = function () {
     return annotationUI.getState().sortKey;
   };
@@ -137,6 +162,11 @@ module.exports = function AppController(
   };
 
   $scope.clearSelection = function () {
+    $scope.mainTab = true;
+    $route.reload()
+    $scope.sidebarquery=0;
+    $scope.sidebarsearchresult=""
+    $scope.displayedNumber = 5;
     var selectedTab = annotationUI.getState().selectedTab;
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;
@@ -144,6 +174,23 @@ module.exports = function AppController(
 
     annotationUI.clearSelectedAnnotations();
     annotationUI.selectTab(selectedTab);
+  };
+ 
+  $scope.gotoMainSelection = function () {
+    $scope.mainTab = true;
+    $route.reload()
+    $scope.sidebarsearchresult=""
+    $scope.displayedNumber = 5;
+    var selectedTab = annotationUI.getState().selectedTab;
+    if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
+      selectedTab = uiConstants.TAB_ANNOTATIONS;
+    }
+
+    annotationUI.selectTab(selectedTab);
+  };
+
+ $scope.gotoSearchSelection = function () {
+    $scope.mainTab = false;
   };
 
   $scope.search = {
@@ -153,6 +200,46 @@ module.exports = function AppController(
     update: function (query) {
       annotationUI.setFilterQuery(query);
     },
+  };
+  $scope.sidebarquery = 0;
+  $scope.sidebarSearch = {
+    query: function () {
+      return annotationUI.getState().filterQuery;
+    }, 
+    update: function (query) {
+      var total;
+      var urllist;
+      var searchParams = searchFilter.toObject(query)
+      var actualquery = angular.extend(searchParams)
+      $scope.sidebarquery1 = query
+      var actualsearchResult = fetchSearch(store,actualquery).then(function(results){
+      console.log(results)
+      $scope.$apply(function() {
+          $scope.sidebarquery = results.total
+          $scope.sidebarsearchresult = results
+        });
+      $scope.mainTab = !$scope.mainTab;
+      $scope.mainTab = !$scope.mainTab;
+      return results
+      });
+     
+
+    },
+  };
+  $scope.displayedNumber = 5;
+  $scope.getSearchValues = function(){
+      return $scope.sidebarquery
+  }
+
+  $scope.loadMore = function() {
+  var presentNumber = $scope.displayedNumber;
+  console.log("in load more function")
+  console.log (presentNumber)
+  $scope.displayedNumber = presentNumber + 5;
+  
+  }
+  $scope.queryStreamURL = function() {
+    return serviceUrl('search.query', {query: $scope.sidebarquery1});
   };
 
   $scope.countPendingUpdates = streamer.countPendingUpdates;

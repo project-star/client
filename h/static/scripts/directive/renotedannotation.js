@@ -50,7 +50,7 @@ function updateModel(annotation, changes, permissions) {
 function RenotedAnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
   annotationMapper, drafts, urldrafts, flash, features, groups, permissions, serviceUrl,
-  session, store, streamer) {
+  session, store, streamer, scService) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -113,6 +113,7 @@ function RenotedAnnotationController(
 
     /** True if the 'Share' dialog for this annotation is currently open. */
     vm.showShareDialog = false;
+    vm.loadVideo = true;
 
     /**
       * `true` if this AnnotationController instance was created as a result of
@@ -277,17 +278,85 @@ function RenotedAnnotationController(
   vm.renoted_id = function() {
     return vm.annotation.renoted_id;
    }
+
+  vm.isAudio = function() {
+     if (vm.annotation.hasOwnProperty('auddata')){
+        return true;
+        }
+     else
+        return false;
+   }
+
   vm.isVideo = function() {
     if (vm.annotation.hasOwnProperty('viddata')){
-       return "success";
+       return true;
        }
     else
-       return "failure";
+       return false;
    }
   $scope.trustSrcurl = function(data)
   {
     return $sce.trustAsResourceUrl(data);
   }
+    //Generates unique Id for the sc player
+   vm.getPlayerId = function() {
+     var playerId = vm.annotation.renoted_id.toString();
+     console.log("Creating playerId: " + playerId);
+     return playerId;
+   }
+ 
+
+   //URL to be embedded into Audio Widget
+   vm.audioEmbedUrl = function() {
+     var scUrl = "https://w.soundcloud.com/player/?url="; 
+     if(vm.annotation.hasOwnProperty('auddata')) {
+       var soundURL = scUrl + vm.annotation.auddata[0].uri;
+       console.log("This is the URL: " + soundURL);      
+       return soundURL;
+     }
+     else
+       return "error";
+ 
+   }
+ 
+   //Load the soundcloud Widget with correct settings
+   vm.loadAudioWidget = function() {
+     var playerId = vm.getPlayerId();
+     console.log("Loading Widget with playerId as " + playerId);
+     //Get the start and end times from the auddata
+     var startTime = vm.annotation.auddata[0].starttime;
+     var endTime = vm.annotation.auddata[0].endtime;
+ 
+     //var audioFrame = $scope.getElementById("renotedSCWidget");
+     //console.log("Audio Frame successfully found " + audioFrame);
+     var vmWidget = SC.Widget(playerId);
+     console.log("Widget created");
+ 
+     vmWidget.bind(SC.Widget.Events.READY, function() {
+       vmWidget.play();
+     });
+ 
+     vmWidget.bind(SC.Widget.Events.PLAY, function() {
+       vmWidget.seekTo(startTime);
+       vmWidget.pause();
+       vmWidget.unbind(SC.Widget.Events.PLAY);
+     });
+   
+     vmWidget.bind(SC.Widget.Events.PLAY_PROGRESS, function() {
+       vmWidget.getPosition(function (audioPos) {
+         //console.log("Playing! at " + audioPos);
+         if ( audioPos <= endTime ){
+           console.log("Keep playing as position is: " + audioPos);
+          }
+         else {
+           vmWidget.pause();
+           vmWidget.unbind(SC.Widget.Events.PLAY_PROGRESS);
+         }
+       });   
+     });
+   }
+ 
+   //URL to be embedded into Video player
   vm.videoembedurl = function() {
      if (vm.annotation.hasOwnProperty('viddata')){
        console.log(vm.annotation.viddata)
@@ -300,14 +369,152 @@ function RenotedAnnotationController(
        console.log(id)
        var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
        var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
-       var val="http://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
+       var val="https://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
        console.log(val)
-       return val
+       if(vm.loadVideo)
+         return val;
+        else
+         {
+           //FIXME: This is a hack to reload the iframe on clicking the load/reload button
+           //needs to be fixed with a directive level watch implementation
+           var val2="https://youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime;
+           return val2;
+       }
       }
      else {
        return "success"
       }
  }
+
+  //FIXME: Do a proper implementation. Used to reload Youtube frame (Dummy function)
+  vm.setLoadVideo = function() {
+   
+   vm.loadVideo = !vm.loadVideo;
+  }		   
+
+  //Modifying the function to keep it generic - handling any media - Audio OR Video
+   vm.getStarttime = function() {
+    //Process only if audio or video
+    if(!vm.isVideo() && !vm.isAudio())
+      return "success";
+
+     var starttime = 0;
+
+     if (vm.annotation.hasOwnProperty('viddata')) {
+       console.log(vm.annotation.viddata);
+       starttime=(vm.annotation.viddata[0].starttime);
+     }
+     else if (vm.annotation.hasOwnProperty('auddata')) {
+      
+      starttime=(vm.annotation.auddata[0].starttime);
+      starttime = starttime / 1000; //converting to seconds
+     }
+
+     starttime = Math.floor(starttime);
+     var hr = Math.floor(starttime/3600);
+     var hr_mod = starttime % 3600;
+     var min = Math.floor(hr_mod/60);
+     var sec = hr_mod % 60;
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+
+      // This formats your string to HH:MM:SS
+      var t = hr+":"+min+":"+sec;
+      if (hr=="00") {
+        t=min+":"+sec;}
+      return t;
+      
+ }
+
+//Modifying the function to keep it generic - handling any media - Audio OR Video
+    vm.getEndtime = function() {
+
+      //Process only if audio or video
+      if(!vm.isVideo() && !vm.isAudio())
+        return "success";
+
+      var endtime = 0;
+
+     if (vm.annotation.hasOwnProperty('viddata')) {
+       console.log(vm.annotation.viddata);
+       endtime=(vm.annotation.viddata[0].endtime);
+      
+     }
+     else if (vm.annotation.hasOwnProperty('auddata')) {
+       endtime=(vm.annotation.auddata[0].endtime);
+       endtime = endtime / 1000; //convert to seconds
+     }
+      
+      endtime = Math.floor(endtime);
+      var hr = Math.floor(endtime/3600);
+      var hr_mod = endtime % 3600;
+      var min = Math.floor(hr_mod/60);
+      var sec = hr_mod % 60;
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+      // This formats your string to HH:MM:SS
+       var t = hr+":"+min+":"+sec;
+       if (hr=="00") {
+         t=min+":"+sec;
+       }
+       return t;
+      
+ }
+
+ //Modifying the function to keep it generic - handling any media - Audio OR Video
+     vm.getDuration = function() {
+
+      //Process only if audio or video
+      if(!vm.isVideo() && !vm.isAudio())
+        return "success";
+
+      var starttime = 0;
+      var endtime = 0;
+      var val;
+     if (vm.annotation.hasOwnProperty('viddata')){
+
+       starttime=(vm.annotation.viddata[0].starttime);
+       endtime=(vm.annotation.viddata[0].endtime);
+       val = (endtime-starttime);
+     }
+     else if (vm.annotation.hasOwnProperty('auddata')) {
+       starttime=(vm.annotation.auddata[0].starttime);
+       endtime=(vm.annotation.auddata[0].endtime);  
+       val = (endtime-starttime) / 1000;    
+     }
+
+      val = Math.floor(val);
+      var hr = Math.floor(val/3600);
+      var hr_mod = val % 3600;
+      var min = Math.floor(hr_mod/60);
+      var sec = hr_mod % 60;
+
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+
+      // This formats your string to HH:MM:SS
+       var t = hr+":"+min+":"+sec;
+       if (hr=="00") {
+         t=min+":"+sec;}
+       return t;
+      
+ }
+
   vm.typetodisplay = function() {
    return vm.annotation.type || "first";
   }
@@ -584,6 +791,83 @@ function RenotedAnnotationController(
     });
   };
 
+  vm.setStarttime = function (starttime) {
+    console.log ("++++in starttime+++");
+    console.log (starttime);
+    var val = starttime.split(":");
+    var retstarttime=0;
+    if (val.length == 2){
+        retstarttime = (parseInt(val[0])*60 + parseInt(val[1])).toString();
+     }
+    if (val.length == 3){
+        retstarttime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString();
+     }
+
+     if(vm.isVideo()) {
+
+      var viddata=vm.annotation.viddata;
+      console.log(viddata);
+      viddata[0].starttime = retstarttime ;
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        viddata: viddata,
+      });
+    }
+    else if(vm.isAudio()) {
+      var auddata=vm.annotation.auddata;
+      console.log(auddata);
+      auddata[0].starttime = retstarttime*1000; //Convert to milliseconds for SC
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        auddata: auddata,
+      });
+    }
+  };
+
+  vm.setEndtime = function (endtime) {
+    console.log ("++++in endtime+++")
+    console.log (endtime)
+    var val = endtime.split(":");
+    var retendtime=0
+    if (val.length == 2){
+        retendtime = (parseInt(val[0])*60 + parseInt(val[1])).toString()
+     }
+    if (val.length == 3){
+        retendtime = (parseInt(val[0])*3600 + parseInt(val[1])*60 + parseInt(val[2])).toString()
+     }
+
+     if(vm.isVideo()) {
+
+      var viddata=vm.annotation.viddata;
+      console.log(viddata);
+      viddata[0].endtime = retendtime;
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        viddata: viddata,
+      });
+    }
+    else if(vm.isAudio()) {
+      var auddata=vm.annotation.auddata;
+      console.log(auddata);
+      auddata[0].endtime = retendtime*1000; //Convert to milliseconds for SC
+      drafts.update(vm.annotation, {
+        isPrivate: vm.state().isPrivate,
+        tags: vm.state().tags,
+        text: vm.state().text,
+        auddata: auddata,
+      });
+    }
+
+  };
+
+  
+
   vm.state = function () {
     var draft = drafts.get(vm.annotation);
     if (draft) {
@@ -593,6 +877,7 @@ function RenotedAnnotationController(
       tags: vm.annotation.tags,
       text: vm.annotation.text,
       renoted_id: vm.annotation.renoted_id,
+      viddata: vm.annotation.viddata,
       page_data: vm.annotation.text,
       isPrivate: permissions.isPrivate(vm.annotation.permissions,
         vm.annotation.user),

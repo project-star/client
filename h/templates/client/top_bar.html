@@ -39,7 +39,9 @@
     <search-input
       class="search-input"
       query="searchController.query()"
+      switch-main-tab="switchMainTab()"
       on-search="searchController.update($query)"
+      on-sidebar-search="sidebarSearchController.update($query)"
       title="Filter the annotation list">
     </search-input>
     <!--

@@ -18,7 +18,12 @@ function SearchInputController($element, $http, $scope) {
 
   form.onsubmit = function (e) {
     e.preventDefault();
+    if (input.value.trim()!=''){
+
     self.onSearch({$query: input.value});
+    self.onSidebarSearch({$query: input.value});
+    self.switchMainTab()
+    }
   };
 
   this.inputClasses = function () {
@@ -46,7 +51,9 @@ module.exports = function () {
       // If false, it is only expanded when focused or when 'query' is non-empty
       alwaysExpanded: '<',
       query: '<',
+      switchMainTab: '&',
       onSearch: '&',
+      onSidebarSearch: '&',
     },
     template: require('../../../templates/client/search_input.html'),
   };

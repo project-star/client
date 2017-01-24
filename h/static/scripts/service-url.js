@@ -15,7 +15,8 @@ var ROUTES = {
   'groups.new': 'groups/new',
   'help': 'docs/help',
   'signup': 'signup',
-  'search.tag': 'stream?q=tag::tag',
+  'search.tag': 'renote?q=tag::tag',
+  'search.query': 'renote?q=:query',
   'user': 'u/:user',
 };
 

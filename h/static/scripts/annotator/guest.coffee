@@ -420,6 +420,7 @@ module.exports = class Guest extends Annotator
     this.adderCtrl.showAt(left, top, arrowDirection)
 
   _onClearSelection: () ->
+    console.log ("+++ on clear selection ++++")
     this.adderCtrl.hide()
     @selectedRanges = []
 

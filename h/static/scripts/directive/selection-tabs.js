@@ -41,6 +41,7 @@ module.exports = function () {
       isLoading: '<',
       isWaitingToAnchorAnnotations: '<',
       selectedTab: '<',
+      gotoSearchSelection: '&',
       totalAnnotations: '<',
       totalNotes: '<',
       totalOrphans: '<',

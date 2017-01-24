@@ -24,6 +24,9 @@ var sortFns = {
   'Location': function (a, b) {
     return metadata.location(a) < metadata.location(b);
   },
+  'relevance': function (a, b) {
+    return a.relevance > b.relevance;
+  },
 };
 
 /**

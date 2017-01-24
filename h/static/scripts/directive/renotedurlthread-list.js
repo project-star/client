@@ -134,7 +134,10 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
       return true ;
    }
    else {
-      setTimeout(function(){ $scope.initialLoad = false; urlUI.setSortKey(urlUI.getState().sortKey) }, 1400);
+      setTimeout(function() { 
+        $scope.initialLoad = false; 
+        urlUI.setSortKey(urlUI.getState().sortKey) 
+      }, 1400);
       return $scope.initialLoad;
    }
   };
@@ -167,6 +170,8 @@ module.exports = function () {
       thread: '<',
       showDocumentInfo: '<',
 
+      /** Specifies if we are on the Shared stream page*/
+      onSharedStream: '<',
       /**
        * Called when the user clicks a link to show an annotation that does not
        * match the current filter.

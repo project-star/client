@@ -218,11 +218,12 @@
 .annotation-actions {
   float: right;
   margin-top: 0;
+  margin-right: 8px;
   display: flex;
 }
 
 .url-actions {
-  background-color: $grey-2;
+  //background-color: $grey-2;
   float: right;
   margin-top: 0;
   display: flex;

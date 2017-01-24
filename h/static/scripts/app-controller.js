@@ -48,6 +48,9 @@ module.exports = function AppController(
   $scope.shareDialog = {visible: false};
   $scope.helpPanel = {visible: false};
 
+  //Variable to set Stream page
+  $scope.isSharedStream = false;
+
   // Check to see if we're in the sidebar, or on a standalone page such as
   // the stream page or an individual annotation page.
   $scope.isSidebar = $window.top !== $window;
@@ -58,14 +61,24 @@ module.exports = function AppController(
   $scope.serviceUrl = serviceUrl;
 
   $scope.sortKey = function () {
-    return annotationUI.getState().sortKey;
+    return urlUI.getState().sortKey;
   };
 
   $scope.sortKeysAvailable = function () {
-    return annotationUI.getState().sortKeysAvailable;
+    return urlUI.getState().sortKeysAvailable;
   };
 
-  $scope.setSortKey = annotationUI.setSortKey;
+  // $scope.names = ["Update Time :Descending", "Update Time :Ascending", "Relevance", "Create Time :Ascending", "Create Time: Descending"];
+
+  // $scope.selectedSort=urlUI.getState().sortKey;
+  // //$scope.initialLoad=true;  
+  // $scope.sortBy = function() {
+  //   urlUI.setSortKey($scope.selectedSort);
+  //   return false;
+  // }
+
+
+  $scope.setSortKey = urlUI.setSortKey;
 
   // Reload the view when the user switches accounts
   $scope.$on(events.USER_CHANGED, function (event, data) {
@@ -107,6 +120,13 @@ module.exports = function AppController(
   $scope.share = function () {
     $scope.shareDialog.visible = true;
     scrollToView('share-dialog');
+  };
+
+  $scope.toggleSharedStream = function (flag) {
+    console.log("Entering here to switch stream page with flag " + flag);
+
+    $scope.isSharedStream = flag;
+
   };
 
   // Prompt to discard any unsaved drafts.

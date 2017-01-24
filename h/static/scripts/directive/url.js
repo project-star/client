@@ -328,7 +328,14 @@ function UrlController(
     if(vm.inSharedView)
       vm.inSharedView = false;
     else
+    {
       vm.inSharedView = true;
+
+      //console.log("Adding all annotations to the array!");
+
+      for(var i=0; i<vm.url.allannotation.length; i++)
+        vm.selectedForSharing.push(vm.url.allannotation[i].id);
+    }
     console.log("In shared view now: " + vm.inSharedView);    
   };
 
@@ -348,9 +355,9 @@ function UrlController(
     }
     //If nothing is selected already, select everything
     else {
-      console.log("Adding annotations to the array!");
-      for(var i=0; i<vm.annotation().length; i++)
-        vm.selectedForSharing.push(vm.annotation()[i].id);
+      console.log("Adding all annotations to the array!");
+      for(var i=0; i<vm.url.allannotation.length; i++)
+        vm.selectedForSharing.push(vm.url.allannotation[i].id);
     }
   };
 
@@ -426,6 +433,7 @@ function url() {
       onReplyCountClick: '&',
       replyCount: '<',
       isCollapsed: '<',
+      onSharedStream: '<',
     },
     template: require('../../../templates/client/url.html'),
   };

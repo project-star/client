@@ -948,6 +948,7 @@ function renotedannotation() {
       isCollapsed: '<',
       inSharedView: '=',
       selectedForSharing: '=',
+      onSharedStream: '<',
     },
     template: require('../../../templates/client/renotedannotation.html'),
   };

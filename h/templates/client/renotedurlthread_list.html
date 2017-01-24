@@ -1,6 +1,6 @@
 <section style="margin-top: 14px" ng-if="vm.loggedin()">
-<div class="btn-group top-bar__inner" style="margin-bottom: 7px">
-  <div class="btn-group">
+<div class="btn-group top-bar__inner" style="margin-bottom: 7px; padding-right: 0px">
+<!--   <div class="btn-group">
     <a href="/renote?q="><button type="button" class="primary-action-btn" style="font-size: 15px">
     All  </button></a>
     &nbsp;
@@ -20,7 +20,7 @@
     <a href="/renote?q=type:audio"><button type="button" class="primary-action-btn" style="font-size: 15px">
     Audio</button></a>
     &nbsp;
-  </div>
+  </div> -->
   <div class="top-bar__expander"></div>
   <div class="btn-group" style="justify-content: flex-end;">
   <strong>Sort By:</strong> <select ng-options="option for option in names" 
@@ -86,6 +86,7 @@
 </div>  
 </section>
 
+
 <ul class="thread-list">
  
    <li id="{{child.id}}"
@@ -95,7 +96,9 @@
       ng-mouseleave="vm.onFocus({url: null})"
       ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | limitTo:displayedNumber track by child.id">
       <url ng-class="vm.urlClasses()"
-             url="child.url">    </url>
+           url="child.url"
+           on-shared-stream="vm.onSharedStream">    
+      </url>
   </li>
 </ul>
 <button class="more primary-action-btn  btn-block" ng-click="loadMore()" ng-if="vm.loggedin() && vm.hasAnnotations()">More</button>

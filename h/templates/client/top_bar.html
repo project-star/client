@@ -8,14 +8,64 @@
     <a href="https://www.renoted.com" style="color: white" class="top-bar__inner">
     <font face="Roboto,Helvetica,Arial,sans-serif" style="font-size: 20px"><strong>ReNoted</strong> </font>
     </a>
+    <!-- <div class="top-bar__expander"></div> -->
+
+    <!-- Adding Search filters -->
+
+
     <div class="top-bar__expander"></div>
-    <search-input
-      class="search-input"
-      query="searchController.query()"
-      on-search="searchController.update($query)"
-      always-expanded="true"
-      isnt-sidebar="true">
-    </search-input>
+
+
+
+
+      <search-input
+        class="search-input"
+        query="searchController.query()"
+        on-search="searchController.update($query)"
+        always-expanded="true"
+        isnt-sidebar="true">
+      </search-input>
+
+    &nbsp;
+    <a href="/renote?q=">
+    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <i class="h-icon-stack"></i></button>
+    </a>
+
+    &nbsp;
+    <a href="/renote?q=type:text">
+    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <i class="h-icon-file-text" ></i></button>
+    </a>
+
+    &nbsp;
+    <a href="/renote?q=type:video">
+    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <i class="h-icon-youtube" ></i></button>
+    </a>
+
+    &nbsp;
+    <a href="/renote?q=type:audio">
+    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <i class="h-icon-soundcloud2" ></i></button>
+    </a>
+
+
+<!--     &nbsp;
+    <div class="btn-group" >
+      <strong>Sort By:</strong> <select ng-options="option for option in names" 
+      ng-model="selectedSort"
+      ng-change="sortBy()" style="margin-top: 07px"> {{selectedSort}}</select>
+    </div>
+
+
+    <sort-dropdown
+      sort-keys-available="sortKeysAvailable"
+      sort-key="sortKey"
+      on-change-sort-key="onChangeSortKey({sortKey: sortKey})">
+    </sort-dropdown> -->
+
+
     <div class="top-bar__expander"></div>
     <login-control
       auth="auth"

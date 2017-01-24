@@ -279,18 +279,27 @@
 
     <div class="annotation-actions" ng-if="!vm.isSaving && !vm.editing() && vm.id()">
       <div ng-show="vm.isSaving">Saving…</div>
+
+      <button class="btn btn-clean annotation-action-btn"
+       ng-click=""
+       ng-show="vm.onSharedStream"
+       aria-label="Add to My ReNotes"
+       h-tooltip>
+        <i class="h-icon-add btn-icon"></i>
+      </button>
+
       <button class="btn btn-clean annotation-action-btn" 
-        ng-show="!vm.isSaving && !vm.inSharedView"
+        ng-show="!vm.isSaving && !vm.inSharedView && !vm.onSharedStream"
         ng-click="vm.toggleAnnotationShareView()"
         aria-label="Share"
         h-tooltip>
           <i class="h-icon-annotation-share btn-icon "></i>
       </button>
 
-      <input type="checkbox" name="vm.annotation.id" ng-show="vm.inSharedView" value="vm.annotation.id" ng-checked="vm.selectedForSharing.indexOf(vm.annotation.id) > -1" ng-click="vm.toggleSelectedForSharing()" class="large-checkbox">
+      <input type="checkbox" name="vm.annotation.id" ng-show="vm.inSharedView && !vm.onSharedStream" value="vm.annotation.id" ng-checked="vm.selectedForSharing.indexOf(vm.annotation.id) > -1" ng-click="vm.toggleSelectedForSharing()" class="large-checkbox">
 
       <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('update') && !vm.isSaving"
+        ng-show="vm.authorize('update') && !vm.isSaving && !vm.onSharedStream"
         ng-click="vm.edit()"
         ng-disabled="vm.isDeleted()"
         aria-label="Edit"
@@ -299,7 +308,7 @@
       </button>
 
       <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('delete')"
+        ng-show="vm.authorize('delete') && !vm.onSharedStream"
         ng-click="vm.delete()"
         ng-disabled="vm.isDeleted()"
         aria-label="Delete"

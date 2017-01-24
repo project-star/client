@@ -56,6 +56,7 @@ function configureLocation($locationProvider) {
 var VIEWER_TEMPLATE = require('../../templates/client/viewer.html');
 var RENOTED_VIEWER_TEMPLATE = require('../../templates/client/renotedviewer.html');
 var NEW_VIEWER_TEMPLATE = require('../../templates/client/newviewer.html');
+var SHARED_VIEWER_TEMPLATE = require('../../templates/client/newviewer.html');
 function configureRoutes($routeProvider) {
   $routeProvider.when('/a/:id',
     {
@@ -92,6 +93,13 @@ function configureRoutes($routeProvider) {
       reloadOnSearch: false,
       resolve: resolve,
     });
+  $routeProvider.when('/shared',
+    {
+      controller: 'SharedStreamController',
+      template: SHARED_VIEWER_TEMPLATE,
+      reloadOnSearch: false,
+      resolve: resolve,
+    });  
   $routeProvider.when('/showannotation',
     {
       controller: 'RenotedAnnotationController',
@@ -150,6 +158,7 @@ module.exports = angular.module('h', [
   .controller('RenotedAnnotationViewerController', require('./renotedannotation-viewer-controller'))
   .controller('StreamController', require('./stream-controller'))
   .controller('NewStreamController', require('./newstream-controller'))
+  .controller('SharedStreamController', require('./sharedstream-controller'))
   .controller('RenotedAnnotationController', require('./renotedannotation-controller'))
   .controller('WidgetController', require('./widget-controller'))
   .controller("YouTubeCtrl", function($scope) {

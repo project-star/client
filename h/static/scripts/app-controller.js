@@ -81,7 +81,7 @@ module.exports = function AppController(
   }
 
   $scope.serviceUrl = serviceUrl;
-
+  
   $scope.sortKey = function () {
     return annotationUI.getState().sortKey;
   };
@@ -211,7 +211,7 @@ module.exports = function AppController(
       var urllist;
       var searchParams = searchFilter.toObject(query)
       var actualquery = angular.extend(searchParams)
-      $scope.sidebarquery1 = actualquery
+      $scope.sidebarquery1 = query
       var actualsearchResult = fetchSearch(store,actualquery).then(function(results){
       console.log(results)
       $scope.$apply(function() {
@@ -238,6 +238,9 @@ module.exports = function AppController(
   $scope.displayedNumber = presentNumber + 5;
   
   }
+  $scope.queryStreamURL = function() {
+    return serviceUrl('search.query', {query: $scope.sidebarquery1});
+  };
 
   $scope.countPendingUpdates = streamer.countPendingUpdates;
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;

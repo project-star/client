@@ -16,6 +16,7 @@ var ROUTES = {
   'help': 'docs/help',
   'signup': 'signup',
   'search.tag': 'renote?q=tag::tag',
+  'search.query': 'renote?q=:query',
   'user': 'u/:user',
 };
 

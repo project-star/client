@@ -278,6 +278,7 @@
 
     <div class="annotation-actions" ng-if="!vm.isSaving && !vm.editing() && vm.id()">
       <div ng-show="vm.isSaving">Saving…</div>
+      <!--
       <button class="btn btn-clean annotation-action-btn"
         ng-show="vm.authorize('update') && !vm.isSaving"
         ng-click="vm.edit()"
@@ -294,6 +295,7 @@
         h-tooltip>
         <i class="h-icon-annotation-delete btn-icon "></i>
       </button>
+      -->
       <!--
       <button class="btn btn-clean annotation-action-btn"
         ng-click="vm.reply()"

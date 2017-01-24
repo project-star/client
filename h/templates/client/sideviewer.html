@@ -1,5 +1,5 @@
 <selection-tabs
-  ng-if="selectedAnnotationCount() === 0 && mainTab"
+  ng-if="selectedAnnotationCount() === 0 && mainTab && auth.status === 'logged-in'"
   is-waiting-to-anchor-annotations="waitingToAnchorAnnotations"
   is-loading="isLoading"
   selected-tab="selectedTab"
@@ -42,8 +42,23 @@
     </span>
   </p>
 </div>
+<span ng-if="!mainTab">
+<div>
+<ul class="thread-list">
 
-<span window-scroll="loadMore(20)" ng-if="mainTab">
+   <li id="{{child.id}}"
+      class="thread-list__card"
+      ng-repeat="child in sidebarsearchresult.urllist |  limitTo:5 | orderBy: '-relevance': reverse">
+      <url url="child">    </url>
+  </li>
+</ul></div>
+
+<button class="more primary-action-btn  btn-block" ng-if="sidebarquery > 5">To see More Results visit<a ng-href="{{queryStreamURL()}}" target="_blank"> <b> HERE</b></a></button>
+<button class="more primary-action-btn  btn-block" ng-if="sidebarquery <= 5 && sidebarquery != 0">No More Results to show</button>
+<button class="more primary-action-btn  btn-block"ng-if="sidebarquery == 0">No Results Found</button>
+</span>
+
+<span window-scroll="loadMore(20)">
   <thread-list 
     on-change-collapsed="setCollapsed(id, collapsed)"
     on-clear-selection="clearSelection()"
@@ -55,21 +70,6 @@
   </thread-list>
 
 </span>
-<span ng-if="!mainTab">
-<div> 
-<ul class="thread-list">
-
-   <li id="{{child.id}}"
-      class="thread-list__card"
-      ng-repeat="child in sidebarsearchresult.urllist |  limitTo:displayedNumber | orderBy: '-relevance': reverse">
-      <url url="child">    </url>
-  </li>
-</ul></div>
-<button class="more primary-action-btn  btn-block" ng-click="loadMore()" ng-if="sidebarquery > 0">More</button>
-<button class="more primary-action-btn  btn-block"ng-if="sidebarquery == 0">No Results Found</button>
-</span>
-
-
 
 
 <loggedout-message ng-if="isSidebar && shouldShowLoggedOutMessage()"

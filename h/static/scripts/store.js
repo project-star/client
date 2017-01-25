@@ -159,6 +159,7 @@ function store($http, settings) {
     },
     sharing: {
       create: createAPICall($http, links, 'sharing.create'),
+      get: createAPICall($http, links, 'sharing.read'),
     },
     url: createAPICall($http, links, 'url'),
     recall: createAPICall($http, links, 'recall'), 

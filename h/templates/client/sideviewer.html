@@ -42,9 +42,10 @@
     </span>
   </p>
 </div>
-<span ng-if="!mainTab">
+<span ng-if="!mainTab && auth.status === 'logged-in'">
 <div>
 <b> {{sidebarquery}} </b> Results Found 
+<br>
 <ul class="thread-list">
 
    <li id="{{child.id}}"
@@ -57,8 +58,6 @@
 <button class="more primary-action-btn  btn-block" ng-if="sidebarquery > 10">To see More Results visit<a ng-href="{{queryStreamURL()}}" target="_blank"> <b> HERE</b></a></button>
 <button class="more primary-action-btn  btn-block" ng-if="sidebarquery <= 10 && sidebarquery != 0">No More Results to show</button>
 <button class="more primary-action-btn  btn-block"ng-if="sidebarquery == 0">No Results Found</button>
-<br>
-Annotations
 <br>
 </span>
 

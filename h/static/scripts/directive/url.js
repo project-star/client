@@ -113,6 +113,7 @@ function UrlController(
     vm.inSharedView = false;
     vm.selectedForSharing = [];
     vm.renotedIdsForSharing ="example@renoted.com";
+    vm.annotationHoverFlag = false;
  }
 
   var loadEvents = [events.ANNOTATION_CREATED,
@@ -330,6 +331,7 @@ function UrlController(
     else
     {
       vm.inSharedView = true;
+      //vm.showAnnotations = true;
 
       //console.log("Adding all annotations to the array!");
 
@@ -399,6 +401,11 @@ function UrlController(
     };
 
     shared.then(onSuccess,onFailure);    
+  };
+
+  vm.toggleHoverAnnotation = function(flag) {
+    console.log("toggling on mouse " + flag);
+    vm.annotationHoverFlag = flag;
   };
 
   vm.urldelete = function() {

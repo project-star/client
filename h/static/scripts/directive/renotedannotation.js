@@ -949,6 +949,7 @@ function renotedannotation() {
       inSharedView: '=',
       selectedForSharing: '=',
       onSharedStream: '<',
+//      annotationHoverFlag: '=',
     },
     template: require('../../../templates/client/renotedannotation.html'),
   };

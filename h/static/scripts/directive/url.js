@@ -266,6 +266,19 @@ function UrlController(
    });
  }
    
+   vm.getSharedByUser = function() {
+    if(vm.onSharedStream && vm.url.allannotation.length > 0) {
+      //Show the sharedbyuser from first annotation; FIXME: when we combine sharing from multiple
+      // users into a single card, this should be fixed
+      var sharedByUser = vm.url.allannotation[0].sharedbyuser;
+      // remove the "acct:" prefix
+      sharedByUser = sharedByUser.slice(5);
+      return sharedByUser;
+    }
+    else
+      return "error";
+
+   };
 
 
    vm.collapse = function() {
@@ -390,6 +403,7 @@ function UrlController(
 
       console.log("Shared successfully!??!" + shared);
       //On success, flush any selected annotations
+      vm.selectedForSharing.length = 0;
       ///Remove any names provided for sharing
       //vm.renotedIdsForSharing = "";
       //Hide the Sharing header

@@ -96,6 +96,7 @@ module.exports = class NewStreamController
     streamer.connect()
 
     # Perform the initial search
+    urlUI.clearUrls()
     fetchurllist()
     $scope.setCollapsed = (id, collapsed) ->
       urlUI.setCollapsed(id, collapsed)

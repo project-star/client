@@ -34,7 +34,7 @@ module.exports = class SharedStreamController
         if searchParams.hasOwnProperty('any')
             toSort = false
         query = angular.extend(searchParams)
-        store.urls(query).then(loadurllist).catch((err) -> console.error err)
+        store.sharing.get(query).then(loadurllist).catch((err) -> console.error err)
         #call the shared urls query
 
     loadurllist = ({total,urllist}) ->
@@ -97,6 +97,7 @@ module.exports = class SharedStreamController
     streamer.connect()
 
     # Perform the initial search
+    urlUI.clearUrls()
     fetchurllist()
     $scope.setCollapsed = (id, collapsed) ->
       urlUI.setCollapsed(id, collapsed)

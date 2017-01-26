@@ -25,7 +25,7 @@
               timestamp=vm.url.updated
               ng-show="!vm.onSharedStream">
             </timestamp>
-            <span ng-show="vm.onSharedStream">From: example@renoted.com</span>
+            <span ng-show="vm.onSharedStream">From: <strong>{{vm.getSharedByUser()}}</strong> </span>
             
             &nbsp; &nbsp;
             <span ng-show="!vm.onSharedStream">Created:</span>
@@ -56,13 +56,13 @@
                 class="large-checkbox"
                 >
 
-              <button class="btn btn-clean annotation-action-btn"
+<!--               <button class="btn btn-clean annotation-action-btn"
                ng-click=""
                ng-show="vm.showAnnotations && vm.onSharedStream"
                aria-label="Add to My ReNotes"
                h-tooltip>
                 <i class="h-icon-add btn-icon"></i>
-              </button>
+              </button> -->
 
               <button class="btn btn-clean annotation-action-btn"
                ng-click="vm.expand()"
@@ -88,7 +88,7 @@
               </button>
               -->
               <button class="btn btn-clean annotation-action-btn align:right"
-                ng-show="!vm.isurlediting"
+                ng-show="!vm.isurlediting && !vm.onSharedStream"
                 ng-click="vm.urldelete()"
                 ng-disabled="vm.isurlediting"
                 aria-label="Delete"
@@ -116,13 +116,13 @@
                 class="large-checkbox" 
                 >
 
-              <button class="btn btn-clean annotation-action-btn"
+<!--               <button class="btn btn-clean annotation-action-btn"
                ng-click=""
                ng-show="!vm.showAnnotations && vm.onSharedStream"
                aria-label="Add to My ReNotes"
                h-tooltip>
                 <i class="h-icon-add btn-icon"></i>
-              </button>
+              </button> -->
 
               <button class="btn btn-clean annotation-action-btn"
                ng-click="vm.expand()"
@@ -149,7 +149,7 @@
               </button>
               -->
               <button class="btn btn-clean annotation-action-btn align:right"
-                ng-show="!vm.isurlediting"
+                ng-show="!vm.isurlediting && !vm.onSharedStream"
                 ng-click="vm.urldelete()"
                 ng-disabled="vm.isurlediting"
                 aria-label="Delete"

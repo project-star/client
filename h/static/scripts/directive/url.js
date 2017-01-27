@@ -112,7 +112,7 @@ function UrlController(
     vm.serviceUrl = serviceUrl;
     vm.inSharedView = false;
     vm.selectedForSharing = [];
-    vm.renotedIdsForSharing ="renoted username";
+//    vm.renotedIdsForSharing ="renoted username";
     vm.annotationHoverFlag = false;
  }
 

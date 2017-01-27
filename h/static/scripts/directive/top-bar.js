@@ -11,6 +11,7 @@ module.exports = function () {
       onLogin: '&',
       onLogout: '&',
       onSharePage: '&',
+      onSharedStream: '<',
       searchController: '<',
       accountDialog: '<',
       shareDialog: '<',

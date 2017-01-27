@@ -18,7 +18,7 @@
 
 
 
-      <search-input
+      <search-input ng-if="!onSharedStream"
         class="search-input"
         query="searchController.query()"
         on-search="searchController.update($query)"
@@ -27,26 +27,26 @@
       </search-input>
 
     &nbsp;
-    <a href="/renote?q=">
-    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <a href="/renote?q=" ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-stack"></i></button>
     </a>
 
     &nbsp;
-    <a href="/renote?q=type:text">
-    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <a href="/renote?q=type:text ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-file-text" ></i></button>
     </a>
 
     &nbsp;
-    <a href="/renote?q=type:video">
-    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <a href="/renote?q=type:video ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-youtube" ></i></button>
     </a>
 
     &nbsp;
-    <a href="/renote?q=type:audio">
-    <button class="top-bar__btn" type="button" style="font-size: 20px">
+    <a href="/renote?q=type:audio ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-soundcloud2" ></i></button>
     </a>
 

@@ -23,7 +23,7 @@ function authStateFromUserID(userid) {
 
 // @ngInject
 module.exports = function AppController(
-  $controller, $document, $location, $rootScope, $route, $scope,
+  $controller, $document, $location, $rootScope, $route, $scope,$routeParams,
   $window, annotationUI, auth, drafts, features, frameSync, groups,urlUI,
   serviceUrl, session, settings, streamer
 ) {
@@ -49,8 +49,13 @@ module.exports = function AppController(
   $scope.helpPanel = {visible: false};
 
   //Variable to set Stream page
-  $scope.isSharedStream = false;
-
+ // $scope.isSharedStream = false;
+  console.log($location.path())
+  if ($location.path() == "/renote"){
+    $scope.isSharedStream = false;
+  }
+  else
+    $scope.isSharedStream = true;
   // Check to see if we're in the sidebar, or on a standalone page such as
   // the stream page or an individual annotation page.
   $scope.isSidebar = $window.top !== $window;

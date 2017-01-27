@@ -112,7 +112,7 @@ function UrlController(
     vm.serviceUrl = serviceUrl;
     vm.inSharedView = false;
     vm.selectedForSharing = [];
-    vm.renotedIdsForSharing ="example@renoted.com";
+    vm.renotedIdsForSharing ="renoted username";
     vm.annotationHoverFlag = false;
  }
 
@@ -398,17 +398,27 @@ function UrlController(
     };
 
     var shared = store.sharing.create({}, data);
-
-    var onSuccess = function() {
+    
+    var onSuccess = function(sharedval) {
 
       console.log("Shared successfully!??!" + shared);
       //On success, flush any selected annotations
+   
       vm.selectedForSharing.length = 0;
       ///Remove any names provided for sharing
       //vm.renotedIdsForSharing = "";
       //Hide the Sharing header
       vm.inSharedView = false;
-    };
+      console.log(sharedval.status)
+      if (sharedval.status=="failure"){
+         
+         flash.error('Sharing failed due to ' + sharedval.reason);
+       } 
+       else {
+         flash.success( sharedval.total.toString() + ' Annotations successfully shared with ' + vm.renotedIdsForSharing);
+        }
+
+       };
 
     var onFailure = function() {
       console.log("Couldn't share ..."+ shared);

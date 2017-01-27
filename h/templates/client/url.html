@@ -34,12 +34,21 @@
               timestamp=vm.url.created
               ng-show="!vm.onSharedStream">
             </timestamp>
-            <span ng-show="vm.onSharedStream">Shared On:</span>
+            <span ng-show="vm.onSharedStream">Shared:</span>
             <timestamp
               class-name="'annotation-header__timestamp'"
               timestamp=vm.url.created
               ng-show="vm.onSharedStream">
             </timestamp>
+
+            &nbsp; &nbsp;
+            <span ng-show="vm.onSharedStream">Updated:</span>
+            <timestamp
+              class-name="'annotation-header__timestamp'"
+              timestamp=vm.url.updated
+              ng-show="vm.onSharedStream">
+            </timestamp>
+            
 
             <div class="url-actions" ng-if="vm.id()" style="padding-right: 7px">
               <button class="btn btn-clean annotation-action-btn" 
@@ -173,7 +182,7 @@
           <span> &nbsp;
         
         annotations to share with: &nbsp;
-        <input type="email" name="shareid" ng-model="vm.renotedIdsForSharing" required style="width: 200px; text-align: right; font-weight: bold; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: gray; border-left-color: transparent; border-top-color: transparent; border-right-color: transparent;">
+        <input type="text" name="shareid" ng-model="vm.renotedIdsForSharing" required style="width: 200px; text-align: right; font-weight: bold; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: gray; border-left-color: transparent; border-top-color: transparent; border-right-color: transparent;">
         </span>
         &nbsp; (ReNoted Id only)
         <div class="url-actions" >

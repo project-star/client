@@ -101,4 +101,9 @@
       </url>
   </li>
 </ul>
-<button class="more primary-action-btn  btn-block" ng-click="loadMore()" ng-if="vm.loggedin() && vm.hasAnnotations()">More</button>
+<!-- <div class="btn-group top-bar__inner" style="margin-bottom: 7px; padding-right: 0px">
+ <div class="btn-group" style="justify-content: flex-end;">
+ -->
+  <button class="btn-group primary-action-btn" ng-click="loadMore()" ng-if="vm.loggedin() && vm.hasAnnotations()" title="Click to load more ReNotes">More</button>
+<!-- </div>
+ </div> -->

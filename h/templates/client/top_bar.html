@@ -28,7 +28,7 @@
 
     &nbsp;
     <a href="/renote?q=" ng-if="!onSharedStream">
-    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" title="All" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-stack"></i></button>
     </a>
     <a href="/shared?q=" ng-if="onSharedStream">
@@ -37,7 +37,7 @@
     </a>
     &nbsp;
     <a href="/renote?q=type:text" ng-if="!onSharedStream">
-    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" title="Filter results by Text notes" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-file-text" ></i></button>
     </a>
     <a href="/shared?q=type:text" ng-if="onSharedStream">
@@ -47,7 +47,7 @@
 
     &nbsp;
     <a href="/renote?q=type:video" ng-if="!onSharedStream">
-    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" title="Filter results by Video notes" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-youtube" ></i></button>
     </a>
     <a href="/shared?q=type:video" ng-if="onSharedStream">
@@ -57,7 +57,7 @@
 
     &nbsp;
     <a href="/renote?q=type:audio" ng-if="!onSharedStream">
-    <button class="top-bar__btn" type="button" style="font-size: 20px" ng-if="!onSharedStream">
+    <button class="top-bar__btn" type="button" title="Filter results by Audio notes" style="font-size: 20px" ng-if="!onSharedStream">
     <i class="h-icon-soundcloud2" ></i></button>
     </a>
     <a href="/shared?q=type:audio" ng-if="onSharedStream">

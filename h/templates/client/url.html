@@ -13,8 +13,8 @@
             <i class="h-icon-soundcloud2 url-header-icon__soundcloud" ng-show="vm.setTitleIcon() == 'soundcloud'"></i>
             <i class="h-icon-newspaper url-header-icon__text" ng-show="vm.setTitleIcon() == 'text'"></i>
           </span> &nbsp;
-          <a class="url-header__user" target="_blank" ng-href="{{vm.titleLink()}}" ng-show="!vm.showAnnotations"> {{vm.titleText()}} </a>
-          <a class="url-header__user" target="_blank" ng-href="{{vm.titleLink()}}" ng-show="vm.showAnnotations"> {{vm.titleTextFull()}}</a>      
+          <a class="url-header__user" target="_blank" ng-href="{{vm.titleLink()}}" ng-show="!vm.showAnnotations" title="Click to visit the page"> {{vm.titleText()}} </a>
+          <a class="url-header__user" target="_blank" ng-href="{{vm.titleLink()}}" ng-show="vm.showAnnotations" title="Click to visit the page"> {{vm.titleTextFull()}}</a>      
           &nbsp; &nbsp;
           <span class="badge" style="background-color: #16a1b3"> {{vm.display()}} </span> / <span class="badge" style="background-color: #16a1b3"> {{vm.total}} </span>
 
@@ -55,6 +55,7 @@
                 ng-show="vm.showAnnotations && !vm.inSharedView && !vm.onSharedStream"
                 ng-click="vm.toggleShareView()"
                 aria-label="Share"
+                title="Click to Share" 
                 h-tooltip>
               <i class="h-icon-annotation-share btn-icon "></i>
               </button>
@@ -77,6 +78,7 @@
                ng-click="vm.expand()"
                ng-show="!vm.showAnnotations"
                aria-label="Expand"
+               title="Click to view all annotations on the page"
                h-tooltip>
                 <i class="h-icon-circle-down btn-icon"></i>
               </button>
@@ -84,6 +86,7 @@
                ng-click="vm.collapse()"
                ng-show="vm.showAnnotations"
                aria-label="Collapse"
+               title="Click to hide annotations"
                h-tooltip>
                 <i class="h-icon-circle-up btn-icon"></i>
               </button>
@@ -101,6 +104,7 @@
                 ng-click="vm.urldelete()"
                 ng-disabled="vm.isurlediting"
                 aria-label="Delete"
+                title="Click to delete the page"
                 h-tooltip>
                   <i class="h-icon-annotation-delete btn-icon "></i>
               </button>
@@ -115,6 +119,7 @@
                 ng-show="!vm.showAnnotations && !vm.inSharedView && !vm.onSharedStream"
                 ng-click="vm.toggleShareView()"
                 aria-label="Share"
+                title="Click to Share"
                 h-tooltip>
               <i class="h-icon-annotation-share btn-icon "></i>
               </button> 
@@ -137,6 +142,7 @@
                ng-click="vm.expand()"
                ng-show="!vm.showAnnotations"
                aria-label="Expand"
+               title="Click to view all annotations on the page"
                h-tooltip>
                 <i class="h-icon-circle-down btn-icon"></i>
               </button>
@@ -145,6 +151,7 @@
                ng-click="vm.collapse()"
                ng-show="vm.showAnnotations"
                aria-label="Collapse"
+               title="Click to hide annotations"
                h-tooltip>
                 <i class="h-icon-circle-up btn-icon"></i>
               </button>
@@ -162,6 +169,7 @@
                 ng-click="vm.urldelete()"
                 ng-disabled="vm.isurlediting"
                 aria-label="Delete"
+                title="Click to delete the page"
                 h-tooltip>
                   <i class="h-icon-annotation-delete btn-icon "></i>
               </button>
@@ -187,12 +195,12 @@
         <div class="url-actions" >
         <button class="primary-action-btn primary-action-btn--short align:right"
           ng-click="vm.clickToShare()"
-          title="Click to Share">
+          title="Send">
           Send
         </button>
         <button class="btn btn-clean annotation-action-btn"
           ng-click="vm.cancelShare()"
-          title="Cancel sharing">
+          title="Cancel Sharing">
           <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon" ></i>
         </button>
 

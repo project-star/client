@@ -154,7 +154,7 @@ function UrlController(
           } 
               else {
                   $rootScope.$broadcast(urlevents.URL_DELETED, vm.url);
-                  vm.urldelete()
+                  //vm.urldelete()
           }
          }
       }
@@ -442,6 +442,21 @@ function UrlController(
         };
         $scope.$apply(function() {
           urlMapper.deleteUrl(vm.url).then(
+            null, onRejected);
+        });
+      }
+    }, true);
+  };
+  vm.sharedurldelete = function() {
+    return $timeout(function() {  // Don't use confirm inside the digest cycle.
+      var msg = 'Are you sure you want to delete this sharedurl?';
+      if ($window.confirm(msg)) {
+        var onRejected = function(reason) {
+          flash.error(
+            errorMessage(reason), 'Deleting url failed');
+        };
+        $scope.$apply(function() {
+          urlMapper.deleteSharedUrl(vm.url).then(
             null, onRejected);
         });
       }

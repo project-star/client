@@ -56,11 +56,21 @@ function annotationMapper($rootScope, annotationUI, store) {
     });
   }
 
+  function deleteSharedAnnotation(annotation) {
+    return store.sharing.deleteannot({
+      id: annotation.id,
+    }).then(function () {
+      $rootScope.$broadcast(events.ANNOTATION_DELETED, annotation);
+      return annotation;
+    });
+  }
+
   return {
     loadAnnotations: loadAnnotations,
     unloadAnnotations: unloadAnnotations,
     createAnnotation: createAnnotation,
     deleteAnnotation: deleteAnnotation,
+    deleteSharedAnnotation: deleteSharedAnnotation,
   };
 }
 

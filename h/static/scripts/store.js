@@ -160,6 +160,8 @@ function store($http, settings) {
     sharing: {
       create: createAPICall($http, links, 'sharing.create'),
       get: createAPICall($http, links, 'sharing.read'),
+      deleteannot: createAPICall($http, links, 'sharing.annotdelete'),
+      deleteurl: createAPICall($http, links, 'sharing.urldelete'),
     },
     url: createAPICall($http, links, 'url'),
     recall: createAPICall($http, links, 'recall'), 

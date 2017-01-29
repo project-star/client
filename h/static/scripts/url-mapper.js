@@ -53,12 +53,21 @@ function urlMapper($rootScope, urlUI, store) {
       return url;
     });
   }
+  function deleteSharedUrl(url) {
+    return store.sharing.deleteurl({
+      id: url.id,
+    }).then(function () {
+      $rootScope.$broadcast(urlevents.URL_DELETED, url);
+      return url;
+    });
+  }
 
   return {
     loadUrls: loadUrls,
     unloadUrls: unloadUrls,
     createUrl: createUrl,
     deleteUrl: deleteUrl,
+    deleteSharedUrl: deleteSharedUrl,
   };
 }
 

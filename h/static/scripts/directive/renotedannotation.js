@@ -243,6 +243,32 @@ function RenotedAnnotationController(
       }
     }, true);
   };
+  vm.shareddelete = function() {
+    return $timeout(function() {  // Don't use confirm inside the digest cycle.
+      var deletingId = vm.annotation.id;
+      var msg = 'Are you sure you want to delete this sharedannotation?';
+      if ($window.confirm(msg)) {
+        var onRejected = function(reason) {
+          flash.error(
+            errorMessage(reason), 'Deleting annotation failed');
+        };
+        var onSuccess = function() {
+          var idx = vm.selectedForSharing.indexOf(deletingId);
+
+          // is currently selected
+          if (idx > -1) {
+            vm.selectedForSharing.splice(idx, 1);
+          }
+
+        };
+        //On successful deletion, remove any entry for the annotation id in selectedForSharing list
+        $scope.$apply(function() {
+          annotationMapper.deleteSharedAnnotation(vm.annotation).then(
+            onSuccess, onRejected);
+        });
+      }
+    }, true);
+  };
 
   /**
     * @ngdoc method

@@ -52,7 +52,7 @@ module.exports = class Toolbar extends Annotator.Plugin
       $(@element).append @toolbar
 
     items = [
-      "title": "Toggle or Resize Sidebar"
+      "title": "Click to open and close and drag to resize the Sidebar"
       "class": "annotator-frame-button--sidebar_toggle h-icon-chevron-left"
       "name": "sidebar-toggle"
       "on":
@@ -77,7 +77,7 @@ module.exports = class Toolbar extends Annotator.Plugin
 #          @annotator.setVisibleHighlights state
 #    ,    
 #
-      "title": "Start Snippet Recording"
+      "title": "Click to start recording and taking notes on Youtube videos and Soundcloud audios"
       "class": "annotator-frame-button--media_bar h-icon-media-record"
       "name": "insert-video-clip"
       "on":
@@ -221,11 +221,11 @@ module.exports = class Toolbar extends Annotator.Plugin
     
     if state
       $('[name=insert-video-clip-start]')
-      .prop('title', 'Please save the current Snip!')
+      .prop('title', 'Please save the current notes before starting new clip!')
       #.prop('disabled', 'true')
       .css('color', 'red');
 
     else
       $('[name=insert-video-clip-start]')
-      .prop('title', 'Start Snippet Recording')
+      .prop('title', 'Click to start recording and taking notes')
       .css('color', '#969696');

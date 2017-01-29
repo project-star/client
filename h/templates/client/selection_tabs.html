@@ -4,7 +4,7 @@
      href="#"
      ng-class="{'is-selected': vm.selectedTab === vm.TAB_ANNOTATIONS}"
      h-on-touch="vm.selectTab(vm.TAB_ANNOTATIONS)">
-    Annotations
+    ReNotes
     <span class="selection-tabs__count"
       ng-if="vm.totalAnnotations > 0 && !vm.isWaitingToAnchorAnnotations">
       {{ vm.totalAnnotations }}
@@ -71,10 +71,15 @@
   </div>
   <div ng-if="vm.showAnnotationsUnavailableMessage()"  class="annotation-unavailable-message">
     <p class="annotation-unavailable-message__label">
-      There are no annotations in this group.
-      <br />
-      Create one by selecting some text and clicking the
-      <i class="help-icon h-icon-annotate"></i> button.
+      There are no ReNotes on this page.
+    </p>
+    <p class="annotation-unavailable-message__label">
+      Create highlights and annotations by selecting some text and clicking the <i class="help-icon h-icon-highlight"></i> and 
+      <i class="help-icon h-icon-annotate"></i> buttons respectively.
+    </p>
+    <p class="annotation-unavailable-message__label">
+
+      Create video or audio clips by clicking <i class="h-icon-media-record"></i> button in the Sidebar.
     </p>
   </div>
 </div>

@@ -44,7 +44,7 @@
     <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
     </sc-widget>
     <div>
-      <button ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
+      <button class="primary-action-btn" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
     </div>
   </span>
 
@@ -68,7 +68,7 @@
                 frameborder='0'
                 allowfullscreen ></iframe >
     <div>
-      <button ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button>
+      <button class="primary-action-btn" ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button>
     </div>
 
      <span ng-if="vm.isVideo() && vm.editing()">
@@ -224,6 +224,7 @@
         ng-click="vm.edit()"
         ng-disabled="vm.isDeleted()"
         aria-label="Edit"
+        title="Click to edit/add a note or assign a tag to this annotation"
         h-tooltip>
         <i class="h-icon-annotation-edit btn-icon "></i>
       </button>
@@ -232,6 +233,7 @@
         ng-click="vm.delete()"
         ng-disabled="vm.isDeleted()"
         aria-label="Delete"
+        title="Click to delete this annotation" 
         h-tooltip>
         <i class="h-icon-annotation-delete btn-icon "></i>
       </button>

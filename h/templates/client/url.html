@@ -181,6 +181,14 @@
                 h-tooltip>
                   <i class="h-icon-annotation-delete btn-icon "></i>
               </button>
+              <button class="btn btn-clean annotation-action-btn align:right"
+                ng-show="!vm.isurlediting && vm.onSharedStream"
+                ng-click="vm.sharedurldelete()"
+                ng-disabled="vm.isurlediting"
+                aria-label="Delete"
+                h-tooltip>
+                  <i class="h-icon-annotation-delete btn-icon "></i>
+              </button>
             </div>
 
          </div> 

@@ -592,6 +592,19 @@ function AnnotationController(
     return !vm.state().isPrivate;
   };
 
+  vm.isSharedAnnot = function(){
+     return vm.annotation.hasOwnProperty("sharedbyuser")
+   }
+
+  vm.sharedbyuser = function(){
+     if (vm.annotation.hasOwnProperty("sharedbyuser")){
+        return vm.annotation.sharedbyuser.split(":")[1].split("@")[0];
+     }
+    else 
+        return "failure"
+
+  }
+
   // Save on Meta + Enter or Ctrl + Enter.
   vm.onKeydown = function (event) {
     if (event.keyCode === 13 && (event.metaKey || event.ctrlKey)) {

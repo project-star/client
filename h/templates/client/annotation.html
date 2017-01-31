@@ -9,12 +9,10 @@
       <a class="annotation-header__user"
         target="_blank"
       ng-href="{{vm.documentMeta().titleLink}}"
-        > {{vm.documentMeta().titleText}} </a>
-      <span class="annotation-collapsed-replies">
-        <a class="annotation-link" href=""
-          ng-click="vm.onReplyCountClick()"
-          ng-pluralize count="vm.replyCount"
-          when="{'0': '', 'one': '1 reply', 'other': '{} replies'}"></a>
+        > {{vm.documentMeta().titleText}} </a>  
+      <br>
+      <span class="annotation-header__share-info" ng-if="vm.isSharedAnnot()">
+          From: {{vm.sharedbyuser()}}
       </span>
       <br>
       <!--
@@ -220,7 +218,7 @@
     <div class="annotation-actions" ng-if="!vm.isSaving && !vm.editing() && vm.id()">
       <div ng-show="vm.isSaving">Saving…</div>
       <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('update') && !vm.isSaving"
+        ng-show="vm.authorize('update') && !vm.isSaving && !vm.isSharedAnnot()"
         ng-click="vm.edit()"
         ng-disabled="vm.isDeleted()"
         aria-label="Edit"
@@ -229,7 +227,7 @@
         <i class="h-icon-annotation-edit btn-icon "></i>
       </button>
       <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('delete')"
+        ng-show="vm.authorize('delete') && !vm.isSharedAnnot()"
         ng-click="vm.delete()"
         ng-disabled="vm.isDeleted()"
         aria-label="Delete"

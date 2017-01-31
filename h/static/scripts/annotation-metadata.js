@@ -112,7 +112,8 @@ function hasSelector(annotation) {
 //  return !!(annotation.target &&
 //            annotation.target.length > 0 &&
 //            annotation.target[0].selector);
-    return true;
+//    return true & !(annotation.hasOwnProperty('sharedbyuser'));
+      return true
 }
 
 function hasRecall(annotation) {
@@ -131,15 +132,19 @@ function isOrphan(annotation) {
     return false;   
 }
 
+function hasSharing(annotation) {
+    return !!(annotation.hasOwnProperty('sharedbyuser'));
+
+}
 /** Return `true` if the given annotation is a page note. */
 function isPageNote(annotation) {
-  return !hasSelector(annotation) && !isReply(annotation) || !!hasRecall(annotation);
+  return !hasSelector(annotation) && !isReply(annotation) || !!hasRecall(annotation) || hasSharing(annotation);
 }
 
 /** Return `true` if the given annotation is a top level annotation, `false` otherwise. */
 function isAnnotation(annotation) {
 //  return (!!(hasSelector(annotation) && !isOrphan(annotation)) && hasRecall(annotation);
-    return !(annotation.hasOwnProperty('recall'));
+    return !(annotation.hasOwnProperty('recall')) && !(annotation.hasOwnProperty('sharedbyuser'));
 }
 /** Return a numeric key that can be used to sort annotations by location.
  *

@@ -136,15 +136,20 @@ function hasSharing(annotation) {
     return !!(annotation.hasOwnProperty('sharedbyuser'));
 
 }
+
+function isSharing(annotation) {
+    return hasSharing(annotation);
+
+}
 /** Return `true` if the given annotation is a page note. */
 function isPageNote(annotation) {
-  return !hasSelector(annotation) && !isReply(annotation) || !!hasRecall(annotation) || hasSharing(annotation);
+  return !hasSelector(annotation) && !isReply(annotation) || !!hasRecall(annotation);
 }
 
 /** Return `true` if the given annotation is a top level annotation, `false` otherwise. */
 function isAnnotation(annotation) {
 //  return (!!(hasSelector(annotation) && !isOrphan(annotation)) && hasRecall(annotation);
-    return !(annotation.hasOwnProperty('recall')) && !(annotation.hasOwnProperty('sharedbyuser'));
+    return !(annotation.hasOwnProperty('recall'));
 }
 /** Return a numeric key that can be used to sort annotations by location.
  *
@@ -175,6 +180,7 @@ module.exports = {
   isAnnotation: isAnnotation,
   isNew: isNew,
   isOrphan: isOrphan,
+  isSharing: isSharing,
   isPageNote: isPageNote,
   isReply: isReply,
   isWaitingToAnchor: isWaitingToAnchor,

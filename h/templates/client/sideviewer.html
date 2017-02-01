@@ -1,3 +1,4 @@
+<!--
 <selection-tabs
   ng-if="selectedAnnotationCount() === 0 && mainTab && auth.status === 'logged-in'"
   is-waiting-to-anchor-annotations="waitingToAnchorAnnotations"
@@ -6,9 +7,25 @@
   total-annotations="totalAnnotations"
   total-notes="totalNotes"
   total-orphans="totalOrphans"
-  get-main-tab="getMainTab()">
-  goto-search-selection="gotoSearchSelection()"
+  get-main-tab="getMainTab()"
+  goto-search-selection="gotoSearchSelection()">
 </selection-tabs>
+-->
+<share-selection-tabs
+  ng-if="selectedAnnotationCount() === 0 && mainTab && auth.status === 'logged-in'"
+  is-waiting-to-anchor-annotations="waitingToAnchorAnnotations"
+  is-loading="isLoading"
+  selected-tab="selectedTab"
+  selected-shared-tab ="selectedSharedTab"
+  total-annotations="totalAnnotations"
+  total-own-annotations="totalOwnAnnotations"
+  total-shared-annotations="totalSharedAnnotations"
+  total-notes="totalNotes"
+  total-orphans="totalOrphans"
+  get-main-tab="getMainTab()"
+  switch-annotation-tab="switchAnnotationTab()"
+  goto-search-selection="gotoSearchSelection()">
+</share-selection-tabs>
 
 <search-status-bar
   ng-show="!isLoading()"
@@ -72,6 +89,7 @@ ReNotes
     on-force-visible="forceVisible(thread)"
     on-select="scrollTo(annotation)"
     show-document-info="::!isSidebar"
+    on-select-annotation-tab="switchAnnotationTab()"
     thread="rootThread">
   </thread-list>
 

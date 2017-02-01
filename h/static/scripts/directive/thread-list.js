@@ -113,6 +113,9 @@ function ThreadListController($scope, VirtualThreadList) {
   this.$onDestroy = function () {
     visibleThreads.detach();
   };
+  this.hello =function() {
+    return "true";
+  };
 }
 
 module.exports = function () {
@@ -139,6 +142,7 @@ module.exports = function () {
       onChangeCollapsed: '&',
       /** Called to clear the current selection. */
       onClearSelection: '&',
+      onSelectAnnotationTab: '&',
     },
     template: require('../../../templates/client/thread_list.html'),
   };

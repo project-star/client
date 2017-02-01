@@ -1,6 +1,8 @@
 <ul class="thread-list">
+  {{vm.hello()}} 1 {{hello}}2 {{vm.hello}}3
   <li class="thread-list__spacer"
       ng-style="{height: vm.virtualThreadList.offscreenUpperHeight}"></li>
+
   <li id="{{child.id}}"
       class="thread-list__card"
       ng-mouseenter="vm.onFocus({annotation: child.annotation})"
@@ -13,6 +15,20 @@
         on-change-collapsed="vm.onChangeCollapsed({id: id, collapsed: collapsed})"
         on-force-visible="vm.onForceVisible({thread: thread})">
   </li>
+  <!--
+  <li id="{{child.id}}"
+      class="thread-list__card"
+      ng-mouseenter="vm.onFocus({annotation: child.annotation})"
+      ng-click="vm.onSelect({annotation: child.annotation})"
+      ng-mouseleave="vm.onFocus({annotation: null})"
+      ng-repeat="child in vm.virtualThreadList.visibleThreads track by child.id">
+      <annotation-thread
+        thread="child"
+        show-document-info="vm.showDocumentInfo"
+        on-change-collapsed="vm.onChangeCollapsed({id: id, collapsed: collapsed})"
+        on-force-visible="vm.onForceVisible({thread: thread})">
+  </li>
+  -->
   <li class="thread-list__spacer"
       ng-style="{height: vm.virtualThreadList.offscreenLowerHeight}"></li>
 </ul>

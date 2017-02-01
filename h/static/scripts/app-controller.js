@@ -39,14 +39,14 @@ module.exports = function AppController(
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
 
-
-  
+  annotationUI.selectSharedTab('ownannotation')
+  console.log(annotationUI.getState().selectedSharedTab)  
   $scope.mainTab = true;
   $scope.switchUpperTabs = function() {
       $scope.mainTab = !$scope.mainTab;
       if ($scope.mainTab){
           console.log($scope.mainTab)
-          annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
+//          annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
           console.log(annotationUI.getState().selectedTab);
       }
   } 
@@ -168,6 +168,7 @@ module.exports = function AppController(
     $scope.sidebarsearchresult=""
     $scope.displayedNumber = 5;
     var selectedTab = annotationUI.getState().selectedTab;
+    console.log(selectedTab)
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;
     }
@@ -192,6 +193,15 @@ module.exports = function AppController(
  $scope.gotoSearchSelection = function () {
     $scope.mainTab = false;
   };
+
+ $scope.switchAnnotationTab = function (type) {
+     if (annotationUI.getState().selectedSharedTab == 'ownannotation'){
+         return true;
+     }
+     else{
+         return false;   
+     }
+ };
 
   $scope.search = {
     query: function () {

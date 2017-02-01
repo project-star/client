@@ -185,6 +185,7 @@ module.exports = angular.module('h', [
   .directive('sidebarTutorial', require('./directive/sidebar-tutorial').directive)
   .directive('searchInput', require('./directive/search-input'))
   .directive('selectionTabs', require('./directive/selection-tabs'))
+  .directive('shareSelectionTabs', require('./directive/share-selection-tabs'))
   .directive('sortDropdown', require('./directive/sort-dropdown'))
   .directive('spinner', require('./directive/spinner'))
   .directive('statusButton', require('./directive/status-button'))

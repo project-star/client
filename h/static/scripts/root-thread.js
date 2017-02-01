@@ -92,6 +92,12 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
           default:
             throw new Error('Invalid selected tab');
           }
+          switch (state.selectedSharedTab){
+          case 'sharedAnnotation':
+             return metadata.isSharing(thread.annotation);
+          default:
+             return !(metadata.isSharing(thread.annotation));
+          }
         };
       }
     }
@@ -149,6 +155,7 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
       annotationUI.selectTab(uiConstants.TAB_NOTES);
     } else if (metadata.isAnnotation(ann)) {
       annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
+      annotationUI.selectSharedTab('ownannotation');
     }
 
     (ann.references || []).forEach(function (parent) {

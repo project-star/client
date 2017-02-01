@@ -1,0 +1,56 @@
+<selection-tabs
+  ng-if="!search.query() && selectedAnnotationCount() === 0"
+  is-waiting-to-anchor-annotations="waitingToAnchorAnnotations"
+  is-loading="isLoading"
+  selected-tab="selectedTab"
+  total-annotations="totalAnnotations"
+  total-notes="totalNotes"
+  total-orphans="totalOrphans">
+</selection-tabs>
+
+<search-status-bar
+  ng-show="!isLoading()"
+  ng-if="!isStream"
+  filter-active="!!search.query()"
+  filter-match-count="visibleCount()"
+  on-clear-selection="clearSelection()"
+  search-query="search ? search.query : ''"
+  selection-count="selectedAnnotationCount()"
+  total-count="topLevelThreadCount()"
+  selected-tab="selectedTab"
+  total-annotations="totalAnnotations"
+  total-notes="totalNotes">
+</search-status-bar>
+
+<div class="annotation-unavailable-message"
+    ng-if="selectedAnnotationUnavailable()">
+  <div class="annotation-unavailable-message__icon"></div>
+  <p class="annotation-unavailable-message__label">
+    <span ng-if="auth.status === 'logged-out'">
+      This annotation is not available.
+      <br>
+      You may need to
+      <a class="loggedout-message__link" href="" ng-click="login()">log in</a>
+      to see it.
+    </span>
+    <span ng-if="auth.status === 'logged-in'">
+      You do not have permission to view this annotation.
+    </span>
+  </p>
+</div>
+
+<span window-scroll="loadMore(20)">
+  <thread-list
+    on-change-collapsed="setCollapsed(id, collapsed)"
+    on-clear-selection="clearSelection()"
+    on-focus="focus(annotation)"
+    on-force-visible="forceVisible(thread)"
+    on-select="scrollTo(annotation)"
+    show-document-info="::!isSidebar"
+    thread="rootThread">
+  </thread-list>
+</span>
+
+<loggedout-message ng-if="isSidebar && shouldShowLoggedOutMessage()"
+  on-login="login()" ng-cloak>
+</loggedout-message>

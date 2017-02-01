@@ -1,5 +1,6 @@
 <!-- Tabbed display of annotations and notes. -->
 <div class="selection-tabs">
+  <!--
   <a class="selection-tabs__type"
      href="#"
      ng-class="{'is-selected': vm.selectedTab === vm.TAB_ANNOTATIONS}"
@@ -10,9 +11,7 @@
       {{ vm.totalAnnotations }}
     </span>
   </a>
-
   <!-- Removing the Page Notes and Orphans functionality -->
-  
   <a class="selection-tabs__type"
      href="#"
      ng-class="{'is-selected': vm.selectedTab === vm.TAB_NOTES}"
@@ -22,7 +21,6 @@
        {{ vm.totalNotes }}
     </span>
   </a>
-  <!--
   <a class="selection-tabs__type"
      href="#"
      ng-class="{'is-selected': vm.selectedTab === vm.TAB_NOTES}"
@@ -57,6 +55,7 @@
   </a>
   -->
 </div>
+<!--
 <div ng-if="!vm.isLoading()" class="selection-tabs__empty-message">
   <!-- Anshul: Removing the Page Notes and Orphans functionality -->
   
@@ -83,3 +82,4 @@
     </p>
   </div>
 </div>
+-->

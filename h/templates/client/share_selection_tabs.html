@@ -1,0 +1,51 @@
+<!-- Tabbed display of annotations and notes. -->
+<div class="selection-tabs">
+  <a class="selection-tabs__type"
+     href="#"
+     ng-class="{'is-selected': vm.selectedSharedTab === vm.TAB_OWN_ANNOTATIONS}"
+     h-on-touch="vm.selectTab(vm.TAB_OWN_ANNOTATIONS)">
+    Created by Me
+    <span class="selection-tabs__count"
+      ng-if="vm.totalAnnotations > 0 && !vm.isWaitingToAnchorAnnotations">
+      {{ vm.totalOwnAnnotations }}
+    </span>
+  </a>
+
+  <!-- Removing the Page Notes and Orphans functionality -->
+  
+  <a class="selection-tabs__type"
+     href="#"
+     ng-class="{'is-selected': vm.selectedSharedTab === vm.TAB_SHARED_ANNOTATIONS}"
+     h-on-touch="vm.selectTab(vm.TAB_SHARED_ANNOTATIONS)">
+    Shared With Me
+    <span class="selection-tabs__count">
+       {{ vm.totalSharedAnnotations }}
+    </span>
+  </a>
+</div>
+<div ng-if="!vm.isLoading()" class="selection-tabs__empty-message">
+  <!-- Anshul: Removing the Page Notes and Orphans functionality -->
+
+  <div ng-if="vm.showNotesUnavailableMessage()"  class="annotation-unavailable-message">
+    <p class="annotation-unavailable-message__label">
+      There are no page notes in this group.
+      <br />
+      Create one by clicking the
+      <i class="help-icon h-icon-note"></i>
+      button.
+    </p>
+  </div>
+  <div ng-if="vm.showAnnotationsUnavailableMessage()"  class="annotation-unavailable-message">
+    <p class="annotation-unavailable-message__label">
+      There are no ReNotes on this page.
+    </p>
+    <p class="annotation-unavailable-message__label">
+      Create highlights and annotations by selecting some text and clicking the <i class="help-icon h-icon-highlight"></i> and
+      <i class="help-icon h-icon-annotate"></i> buttons respectively.
+    </p>
+    <p class="annotation-unavailable-message__label">
+
+      Create video or audio clips by clicking <i class="h-icon-media-record"></i> button in the Sidebar.
+    </p>
+  </div>
+</div>

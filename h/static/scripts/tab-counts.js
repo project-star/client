@@ -15,6 +15,8 @@ function tabCounts(annotations, opts) {
     annotations: countIf(annotations, metadata.isAnnotation),
     orphans: countIf(annotations, metadata.isOrphan),
     anchoring: countIf(annotations, metadata.isWaitingToAnchor),
+    ownannotations: countIf(annotations, metadata.isAnnotation) - countIf(annotations, metadata.isSharing),
+    sharedannotations: countIf(annotations, metadata.isSharing),
   };
 
   if (opts.separateOrphans) {

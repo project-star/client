@@ -28,7 +28,8 @@ var TAB_SORTKEY_DEFAULT = {};
 TAB_SORTKEY_DEFAULT[uiConstants.TAB_ANNOTATIONS] = 'Location';
 TAB_SORTKEY_DEFAULT[uiConstants.TAB_NOTES] = 'Oldest';
 TAB_SORTKEY_DEFAULT[uiConstants.TAB_ORPHANS] = 'Location';
-
+TAB_SORTKEY_DEFAULT['ownannotation'] = 'Newest';
+TAB_SORTKEY_DEFAULT['sharedannotation'] = 'Newest';
 /**
  * Available sort keys for each tab.
  */
@@ -36,7 +37,8 @@ var TAB_SORTKEYS_AVAILABLE = {};
 TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ANNOTATIONS] = ['Newest', 'Oldest', 'Location'];
 TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_NOTES] = ['Newest', 'Oldest'];
 TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ORPHANS] = ['Newest', 'Oldest', 'Location'];
-
+TAB_SORTKEYS_AVAILABLE['ownannotation'] = ['Newest', 'Oldest', 'Location'];
+TAB_SORTKEYS_AVAILABLE['sharedannotation'] = ['Newest', 'Oldest', 'Location'];
 function initialSelection(settings) {
   var selection = {};
   if (settings.annotations) {
@@ -84,7 +86,7 @@ function init(settings) {
     filterQuery: null,
 
     selectedTab: TAB_DEFAULT,
-
+    selectedSharedtab: 'ownannotation',
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     // Keys by which annotations can be sorted.
@@ -131,6 +133,22 @@ var update = {
     }
     return {
       selectedTab: action.tab,
+      sortKey: TAB_SORTKEY_DEFAULT[action.tab],
+      sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[action.tab],
+    };
+  },
+ 
+
+  SELECT_SHARED_TAB: function (state, action) {
+    // Do nothing if the "new tab" is not a valid tab.
+    // Shortcut if the tab is already correct, to avoid resetting the sortKey
+    // unnecessarily.
+    console.log(action.tab)
+    if (state.selectedSharedTab === action.tab) {
+      return {};
+    }
+    return {
+      selectedSharedTab: action.tab,
       sortKey: TAB_SORTKEY_DEFAULT[action.tab],
       sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[action.tab],
     };
@@ -247,7 +265,12 @@ function selectTab(type) {
     tab: type,
   };
 }
-
+function selectSharedTab(type) {
+  return {
+    type: actions.SELECT_SHARED_TAB,
+    tab: type,
+  };
+}
 /** Set the query used to filter displayed annotations. */
 function setFilterQuery(query) {
   return {
@@ -308,6 +331,7 @@ module.exports = {
     removeSelectedAnnotation: removeSelectedAnnotation,
     selectAnnotations: selectAnnotations,
     selectTab: selectTab,
+    selectSharedTab: selectSharedTab,
     setCollapsed: setCollapsed,
     setFilterQuery: setFilterQuery,
     setForceVisible: setForceVisible,

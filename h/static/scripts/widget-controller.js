@@ -46,7 +46,7 @@ module.exports = function WidgetController(
 
     $scope.rootThread = thread();
     $scope.selectedTab = state.selectedTab;
-
+    $scope.selectedSharedTab = state.selectedSharedTab;
     var counts = tabCounts(state.annotations, {
       separateOrphans: features.flagEnabled('orphans_tab'),
     });
@@ -55,9 +55,12 @@ module.exports = function WidgetController(
       totalNotes: counts.notes,
       totalAnnotations: counts.annotations,
       totalOrphans: counts.orphans,
+      totalOwnAnnotations: counts.ownannotations,
+      totalSharedAnnotations: counts.sharedannotations,
       waitingToAnchorAnnotations: counts.anchoring > 0,
     });
   });
+
 
   $scope.$on('$destroy', unsubscribeAnnotationUI);
 
@@ -90,6 +93,13 @@ module.exports = function WidgetController(
       return uiConstants.TAB_NOTES;
     } else {
       return uiConstants.TAB_ANNOTATIONS;
+    }
+  }
+  function sharedtabContainingAnnotation(annot) {
+    if (metadata.isSharing(annot)) {
+      return 'sharedannotation';
+    } else {
+      return 'ownannotation';
     }
   }
 
@@ -273,9 +283,10 @@ module.exports = function WidgetController(
     }
     focusAnnotation(selectedAnnot);
     scrollToAnnotation(selectedAnnot);
-
+    var targetSharedTab = sharedtabContainingAnnotation(selectedAnnot);
     var targetTab = tabContainingAnnotation(selectedAnnot);
     annotationUI.selectTab(targetTab);
+    annotationUI.selectSharedTab(targetSharedTab);
   });
 
   $scope.$on(events.GROUP_FOCUSED, function () {
@@ -308,7 +319,10 @@ module.exports = function WidgetController(
 
   $scope.focus = focusAnnotation;
   $scope.scrollTo = scrollToAnnotation;
+//  $scope.switchAnnotationTab = function (type) {
+//    console.log(type)
 
+// };
   $scope.selectedAnnotationCount = function () {
     var selection = annotationUI.getState().selectedAnnotationMap;
     if (!selection) {
@@ -346,7 +360,6 @@ module.exports = function WidgetController(
   };
 
   $scope.isLoading = isLoading;
-
   var visibleCount = memoize(function (thread) {
     return thread.children.reduce(function (count, child) {
       return count + visibleCount(child);

@@ -7,7 +7,7 @@
       ng-mouseenter="vm.onFocus({annotation: child.annotation})"
       ng-click="vm.onSelect({annotation: child.annotation})"
       ng-mouseleave="vm.onFocus({annotation: null})"
-      ng-show="child.annotation.sharedbyuser && !vm.hello()"
+      ng-if="child.annotation.sharedbyuser && !vm.hello()"
       ng-repeat="child in vm.virtualThreadList.visibleThreads track by child.id">
       <annotation-thread
         thread="child"
@@ -20,7 +20,7 @@
       ng-mouseenter="vm.onFocus({annotation: child.annotation})"
       ng-click="vm.onSelect({annotation: child.annotation})"
       ng-mouseleave="vm.onFocus({annotation: null})"
-      ng-show="!child.annotation.sharedbyuser && vm.hello()"
+      ng-if="!child.annotation.sharedbyuser && vm.hello()"
       ng-repeat="child in vm.virtualThreadList.visibleThreads track by child.id">
       <annotation-thread
         thread="child"

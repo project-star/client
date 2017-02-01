@@ -38,7 +38,7 @@ module.exports = function AppController(
   serviceUrl, session, settings, streamer, searchFilter,store
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
-
+  console.log(annotationUI.getState().selectedAnnotationMap)
   annotationUI.selectSharedTab('ownannotation')
   console.log(annotationUI.getState().selectedSharedTab)  
   $scope.mainTab = true;

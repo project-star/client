@@ -34,7 +34,7 @@ function getThreadHeight(id) {
 }
 
 // @ngInject
-function ThreadListController($scope, VirtualThreadList) {
+function ThreadListController($scope, VirtualThreadList,annotationUI) {
   // `visibleThreads` keeps track of the subset of all threads matching the
   // current filters which are in or near the viewport and the view then renders
   // only those threads, using placeholders above and below the visible threads
@@ -114,7 +114,12 @@ function ThreadListController($scope, VirtualThreadList) {
     visibleThreads.detach();
   };
   this.hello =function() {
-    return "true";
+  if (annotationUI.getState().selectedSharedTab=="ownannotation"){
+    return true;
+   }
+  else {
+    return false;
+   }
   };
 }
 
@@ -128,7 +133,7 @@ module.exports = function () {
       /** The root thread to be displayed by the thread list. */
       thread: '<',
       showDocumentInfo: '<',
-
+      selectionCount: '<',
       /**
        * Called when the user clicks a link to show an annotation that does not
        * match the current filter.

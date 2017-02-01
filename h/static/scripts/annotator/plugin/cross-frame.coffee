@@ -35,13 +35,14 @@ module.exports = class CrossFrame extends Annotator.Plugin
       discovery.stopDiscovery()
 
     this.sync = (annotations, cb) ->
+      console.log(annotations)
       annotationSync.sync(annotations, cb)
 
     this.on = (event, fn) ->
       bridge.on(event, fn)
 
     this.call = (message, args...) ->
-      console.log(message)
+      console.log(args)
       bridge.call(message, args...)
 
     this.onConnect = (fn) ->

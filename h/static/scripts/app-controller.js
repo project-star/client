@@ -163,7 +163,7 @@ module.exports = function AppController(
 
   $scope.clearSelection = function () {
     $scope.mainTab = true;
-    $route.reload()
+//    $route.reload()
     $scope.sidebarquery=0;
     $scope.sidebarsearchresult=""
     $scope.displayedNumber = 5;

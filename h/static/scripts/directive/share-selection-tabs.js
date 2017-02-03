@@ -18,6 +18,16 @@ module.exports = function () {
       this.switchAnnotationView = function (type) {
         switchAnnotationTab(type);
       };
+      this.showAnnotationsUnavailableMessage = function () {
+        return this.selectedSharedTab === this.TAB_OWN_ANNOTATIONS &&
+          this.totalOwnAnnotations === 0 &&
+          !this.isWaitingToAnchorAnnotations;
+      };
+
+      this.showNotesUnavailableMessage = function () {
+        return this.selectedSharedTab === this.TAB_SHARED_ANNOTATIONS &&
+          this.totalSharedAnnotations === 0;
+      };
    },
     restrict: 'E',
     scope: {

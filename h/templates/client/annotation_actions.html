@@ -1,0 +1,59 @@
+<div class="pull-right login-control-menu"
+        dropdown
+        keyboard-nav>
+      <input type="checkbox" name="vm.annotation.id" ng-show="vm.inSharedView && !vm.onSharedStream" value="vm.annotation.id" ng-checked="vm.selectedForSharing.indexOf(vm.annotation.id) > -1" ng-click="vm.toggleSelectedForSharing()" class="large-checkbox">
+
+      <a role="button"
+      class="btn btn-clean annotation-action-btn"
+      ng-show="!vm.isSaving && !vm.inSharedView"
+      data-toggle="dropdown"
+      ng-disabled="vm.isDeleted()"
+      dropdown-toggle
+      title="Click to act on this annotation">
+        <i class="h-icon-dots-three-vertical2 btn-icon "></i>
+      </a>  
+
+      <ul class="dropdown-menu pull-right" role="menu" style="min-width: 20px">
+        <li class="dropdown-menu-annotation__row" >
+        <!-- Add all the annotation action buttons here -->
+
+          <button class="btn btn-clean annotation-action-btn" 
+            ng-show="!vm.isSaving && !vm.inSharedView && !vm.onSharedStream"
+            ng-click="vm.toggleAnnotationShareView()"
+            aria-label="Share"
+            title="Click to share this annotation" 
+            h-tooltip>
+              <i class="h-icon-annotation-share btn-icon "></i>
+          </button>
+
+          <button class="btn btn-clean annotation-action-btn"
+            ng-show="vm.authorize('update') && !vm.isSaving && !vm.onSharedStream"
+            ng-click="vm.edit()"
+            ng-disabled="vm.isDeleted()"
+            aria-label="Edit"
+            title="Click to edit this annotation" 
+            h-tooltip>
+            <i class="h-icon-annotation-edit btn-icon "></i>
+          </button>
+
+          <button class="btn btn-clean annotation-action-btn"
+            ng-show="vm.authorize('delete') && !vm.onSharedStream"
+            ng-click="vm.delete()"
+            ng-disabled="vm.isDeleted()"
+            aria-label="Delete"
+            title="Click to delete this annotation" 
+            h-tooltip>
+            <i class="h-icon-annotation-delete btn-icon "></i>
+          </button>
+          <button class="btn btn-clean annotation-action-btn"
+            ng-show="vm.authorize('delete') && vm.onSharedStream"
+            ng-click="vm.shareddelete()"
+            ng-disabled="vm.isDeleted()"
+            aria-label="Delete"
+            h-tooltip>
+            <i class="h-icon-annotation-delete btn-icon "></i>
+          </button>
+
+        </li>
+      </ul>   
+    </div>      

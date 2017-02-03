@@ -68,8 +68,9 @@
       </sc-widget>
       <span ng-if="vm.isAudio() && !vm.editing()">
         <br>
-        <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()" title="Click to load or reload the audio from start time">Load/Reload</button>
-        <b style="font-size: 11px"> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+        <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()" title="Click to load or reload the audio from start time">Load/Reload</button> &nbsp; &nbsp; 
+        <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+        <annotation-actions></annotation-actions>
       </span>
     </span>
   </div>
@@ -95,6 +96,7 @@
      <br>
     <button class="primary-action-btn primary-action-btn--short" ng-if=vm.isVideo() ng-click=vm.setLoadVideo() title="Click to load or reload the video from start time">Load/Reload</button> &nbsp; &nbsp;   
      <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
+     <annotation-actions></annotation-actions>
      </span>
   </div>
 
@@ -211,6 +213,73 @@
           | filter : {'type': 'TextQuoteSelector'}
           track by $index">
       </blockquote>
+
+      <annotation-actions class="excerpt__inline-actions" style="margin-right: 7px"></annotation-actions>
+
+    <!-- Show 3 vertical points button OR the Selection box in Shared view 
+    FIXME: Convert into a Directive -->
+<!--    
+    <div class="pull-right login-control-menu excerpt__inline-controls"
+        dropdown
+        keyboard-nav>
+      <input type="checkbox" name="vm.annotation.id" ng-show="vm.inSharedView && !vm.onSharedStream" value="vm.annotation.id" ng-checked="vm.selectedForSharing.indexOf(vm.annotation.id) > -1" ng-click="vm.toggleSelectedForSharing()" class="large-checkbox">
+
+      <a role="button"
+      class="btn btn-clean annotation-action-btn"
+      ng-show="!vm.isSaving && !vm.inSharedView"
+      data-toggle="dropdown"
+      ng-disabled="vm.isDeleted()"
+      dropdown-toggle
+      title="Click to act on this annotation">
+        <i class="h-icon-dots-three-vertical2 btn-icon "></i>
+      </a>  
+
+      <ul class="dropdown-menu pull-right" role="menu" style="min-width: 20px">
+        <li class="dropdown-menu-annotation__row" > 
+-->
+        <!-- Add all the annotation action buttons here -->
+<!--
+          <button class="btn btn-clean annotation-action-btn" 
+            ng-show="!vm.isSaving && !vm.inSharedView && !vm.onSharedStream"
+            ng-click="vm.toggleAnnotationShareView()"
+            aria-label="Share"
+            title="Click to share this annotation" 
+            h-tooltip>
+              <i class="h-icon-annotation-share btn-icon "></i>
+          </button>
+
+          <button class="btn btn-clean annotation-action-btn"
+            ng-show="vm.authorize('update') && !vm.isSaving && !vm.onSharedStream"
+            ng-click="vm.edit()"
+            ng-disabled="vm.isDeleted()"
+            aria-label="Edit"
+            title="Click to edit this annotation" 
+            h-tooltip>
+            <i class="h-icon-annotation-edit btn-icon "></i>
+          </button>
+
+          <button class="btn btn-clean annotation-action-btn"
+            ng-show="vm.authorize('delete') && !vm.onSharedStream"
+            ng-click="vm.delete()"
+            ng-disabled="vm.isDeleted()"
+            aria-label="Delete"
+            title="Click to delete this annotation" 
+            h-tooltip>
+            <i class="h-icon-annotation-delete btn-icon "></i>
+          </button>
+          <button class="btn btn-clean annotation-action-btn"
+            ng-show="vm.authorize('delete') && vm.onSharedStream"
+            ng-click="vm.shareddelete()"
+            ng-disabled="vm.isDeleted()"
+            aria-label="Delete"
+            h-tooltip>
+            <i class="h-icon-annotation-delete btn-icon "></i>
+          </button>
+
+        </li>
+      </ul>   
+    </div>      
+-->
     </excerpt>
   </section>
 
@@ -288,70 +357,22 @@
         <i class="h-icon-add btn-icon"></i>
       </button> -->
 
-      <button class="btn btn-clean annotation-action-btn" 
-        ng-show="!vm.isSaving && !vm.inSharedView && !vm.onSharedStream"
-        ng-click="vm.toggleAnnotationShareView()"
-        aria-label="Share"
-        title="Click to share this annotation" 
-        h-tooltip>
-          <i class="h-icon-annotation-share btn-icon "></i>
-      </button>
 
-      <input type="checkbox" name="vm.annotation.id" ng-show="vm.inSharedView && !vm.onSharedStream" value="vm.annotation.id" ng-checked="vm.selectedForSharing.indexOf(vm.annotation.id) > -1" ng-click="vm.toggleSelectedForSharing()" class="large-checkbox">
 
-      <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('update') && !vm.isSaving && !vm.onSharedStream"
-        ng-click="vm.edit()"
-        ng-disabled="vm.isDeleted()"
-        aria-label="Edit"
-        title="Click to edit this annotation" 
-        h-tooltip>
-        <i class="h-icon-annotation-edit btn-icon "></i>
-      </button>
 
-      <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('delete') && !vm.onSharedStream"
-        ng-click="vm.delete()"
+
+
+<!--       <button class="btn btn-clean annotation-action-btn"
+        ng-show=!vm.isSaving
+        ng-click=""
         ng-disabled="vm.isDeleted()"
-        aria-label="Delete"
-        title="Click to delete this annotation" 
+        aria-label="Actions"
+        title="Click to act on this annotation" 
         h-tooltip>
-        <i class="h-icon-annotation-delete btn-icon "></i>
-      </button>
-      <button class="btn btn-clean annotation-action-btn"
-        ng-show="vm.authorize('delete') && vm.onSharedStream"
-        ng-click="vm.shareddelete()"
-        ng-disabled="vm.isDeleted()"
-        aria-label="Delete"
-        h-tooltip>
-        <i class="h-icon-annotation-delete btn-icon "></i>
-      </button>
-      <!--
-      <button class="btn btn-clean annotation-action-btn"
-        ng-click="vm.reply()"
-        ng-disabled="vm.isDeleted()"
-        aria-label="Reply"
-        h-tooltip>
-        <i class="h-icon-annotation-reply btn-icon "></i>
-      </button>
-      <span class="annotation-share-dialog-wrapper">
-        <button class="btn btn-clean annotation-action-btn"
-          ng-click="vm.showShareDialog = true"
-          ng-disabled="vm.isDeleted()"
-          aria-label="Share"
-          h-tooltip>
-          <i class="h-icon-annotation-share btn-icon "></i>
-        </button>
-        <annotation-share-dialog
-          group="vm.group()"
-          uri="vm.links().incontext"
-          is-private="vm.state().isPrivate"
-          is-open="vm.showShareDialog"
-          on-close="vm.showShareDialog = false">
-        </annotation-share-dialog>
-        
-      </span>
-      -->
+        <i class="h-icon-dots-three-vertical2 btn-icon "></i>
+      </button>  -->
+
+
     </div>
   </footer>
 </div>

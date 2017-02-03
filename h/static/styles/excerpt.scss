@@ -17,7 +17,14 @@
   // inline controls for expanding and collapsing
   // the <excerpt>
   // -------------
-  .excerpt__inline-controls {
+  .excerpt__inline-actions {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .excerpt__inline-controls__moreorless {
     display: block;
     position: absolute;
     right: 0;

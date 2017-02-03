@@ -24,6 +24,8 @@ module.exports = function () {
       selectionCount: '<',
       totalAnnotations: '<',
       totalNotes: '<',
+      totalOwnAnnotations: '<',
+      totalSharedAnnotations: '<',
     },
     template: require('../../../templates/client/search_status_bar.html'),
   };

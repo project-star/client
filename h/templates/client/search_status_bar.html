@@ -9,14 +9,14 @@
 <div class="search-status-bar" ng-if="!vm.filterActive && vm.selectionCount > 0">
   <button class="primary-action-btn primary-action-btn--short"
           ng-click="vm.onClearSelection()"
-          title="Clear the selection and show all annotations">
+          title="Clear the selection and show all ReNotes">
     <span ng-if="!vm.selectedTab || vm.selectedTab === vm.TAB_ORPHANS">
       Show all annotations and notes
     </span>
     <span ng-if="vm.selectedTab === vm.TAB_ANNOTATIONS">
-      Show all annotations
+      << ReNotes View
       <span ng-if="vm.totalAnnotations > 1">
-        ({{vm.totalAnnotations}})
+        ({{vm.totalOwnAnnotations}}) + ({{vm.totalSharedAnnotations}})
       </span>
     </span>
     <span ng-if="vm.selectedTab === vm.TAB_NOTES">

@@ -20,6 +20,8 @@ module.exports = function () {
       onChangeSortKey: '&',
       pendingUpdateCount: '<',
       onApplyPendingUpdates: '&',
+      toggleLeftNav: '&',
+      leftNavVisible: '=',
     },
     template: require('../../../templates/client/top_bar.html'),
   };

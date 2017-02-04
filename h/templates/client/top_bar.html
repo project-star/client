@@ -8,6 +8,12 @@
     <a href="https://www.renoted.com" style="color: white" class="top-bar__inner">
     <font face="Roboto,Helvetica,Arial,sans-serif" style="font-size: 20px"><strong>ReNoted</strong> </font>
     </a>
+
+    <button class="top-bar__btn" type="button" title="Click to Open/Close Left Navigation bar" style="font-size: 15px" ng-click="toggleLeftNav()">
+      <i class="h-icon-circle-left2" ng-show="leftNavVisible"></i>
+      <i class="h-icon-circle-right2" ng-show="!leftNavVisible"></i>
+      </button>
+    </a>
     <!-- <div class="top-bar__expander"></div> -->
 
     <!-- Adding Search filters -->

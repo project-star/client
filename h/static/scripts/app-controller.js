@@ -127,12 +127,25 @@ module.exports = function AppController(
     scrollToView('share-dialog');
   };
 
+  $scope.leftNavVisible = true;
+
+  $scope.toggleLeftNav = function() {
+
+    if($scope.leftNavVisible)
+      $scope.leftNavVisible = false;
+    else
+      $scope.leftNavVisible = true;
+
+    return $scope.leftNavVisible;
+  };
+
   $scope.toggleSharedStream = function (flag) {
     console.log("Entering here to switch stream page with flag " + flag);
 
     $scope.isSharedStream = flag;
 
   };
+
 
   // Prompt to discard any unsaved drafts.
   var promptToLogout = function () {

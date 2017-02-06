@@ -23,10 +23,12 @@ makeButton = (item) ->
 
   if item.name.includes("insert-video-clip")
     if not isMedia()
+      anchor.css('display', 'none');
       anchor.attr('disabled', 'true')
       anchor.css('color', '#969696')
       console.log ("Disabling the button!")
     else
+      anchor.attr('display', 'inline')
       anchor.css('color', 'red')
   
   button = $('<li></li>').append(anchor)

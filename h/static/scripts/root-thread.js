@@ -50,7 +50,7 @@ var sortFns = {
  * The root thread is then displayed by viewer.html
  */
 // @ngInject
-function RootThread($rootScope, annotationUI, drafts, features, searchFilter, viewFilter, datacollect) {
+function RootThread($rootScope, annotationUI, drafts, features, searchFilter, viewFilter, datacollect,urlUI) {
   /**
    * Build the root conversation thread from the given UI state.
    *

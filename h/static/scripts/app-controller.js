@@ -35,7 +35,7 @@ function fetchSearch(store, query) {
 module.exports = function AppController(
   $controller, $document, $location, $rootScope, $route, $scope,
   $window, annotationUI, auth, drafts, features, frameSync, groups,
-  serviceUrl, session, settings, streamer, searchFilter,store
+  serviceUrl, session, settings, streamer, searchFilter,store,datacollect
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
   console.log(annotationUI.getState().selectedAnnotationMap)
@@ -228,6 +228,7 @@ module.exports = function AppController(
           $scope.sidebarquery = results.total
           $scope.sidebarsearchresult = results
         });
+      datacollect.connectionsend("searchInSidebar");
       $scope.mainTab = !$scope.mainTab;
       $scope.mainTab = !$scope.mainTab;
       return results

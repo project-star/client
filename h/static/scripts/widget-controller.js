@@ -35,7 +35,7 @@ function groupIDFromSelection(selection, results) {
 // @ngInject
 module.exports = function WidgetController(
   $scope, annotationUI, annotationMapper, drafts, features, frameSync, groups,
-  rootThread, settings, streamer, streamFilter, store
+  rootThread, settings, streamer, streamFilter, store,datacollect
 ) {
   function thread() {
     return rootThread.thread(annotationUI.getState());
@@ -257,15 +257,22 @@ module.exports = function WidgetController(
 
   $scope.$on('sidebarOpened', function () {
     streamer.connect();
+    console.log("+++in widget sidebaropened++++")
+    datacollect.connectionsend('sidebarOpened');
+    
   });
 
   // If the user is logged in, we connect nevertheless
   if ($scope.auth.status === 'logged-in') {
     streamer.connect();
+    datacollect.connect();
+    datacollect.connectionsend('NewConnectionLogin');
   }
 
   $scope.$on(events.USER_CHANGED, function () {
     streamer.reconnect();
+    datacollect.reconnect();
+    datacollect.connectionsend(events.USER_CHANGED);
   });
 
   $scope.$on(events.ANNOTATIONS_SYNCED, function (event, tags) {

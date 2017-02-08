@@ -25,7 +25,7 @@ function authStateFromUserID(userid) {
 module.exports = function AppController(
   $controller, $document, $location, $rootScope, $route, $scope,$routeParams,
   $window, annotationUI, auth, drafts, features, frameSync, groups,urlUI,
-  serviceUrl, session, settings, streamer
+  serviceUrl, session, settings, streamer,datacollect
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
   $controller('UrlUIController', {$scope: $scope});
@@ -135,13 +135,13 @@ module.exports = function AppController(
       $scope.leftNavVisible = false;
     else
       $scope.leftNavVisible = true;
-
+    datacollect.connectionsend("toggleLeftNav")
     return $scope.leftNavVisible;
   };
 
   $scope.toggleSharedStream = function (flag) {
     console.log("Entering here to switch stream page with flag " + flag);
-
+    datacollect.connectionsend("SharedStreamToggled")
     $scope.isSharedStream = flag;
 
   };

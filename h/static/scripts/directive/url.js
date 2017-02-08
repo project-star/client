@@ -51,7 +51,7 @@ function updateModel(url,changes) {
 function UrlController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,$route,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,urlUI,urlMapper,urldrafts,
-  session, store, streamer) {
+  session, store, streamer,datacollect) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -415,6 +415,7 @@ function UrlController(
          flash.error('Sharing failed due to ' + sharedval.reason);
        } 
        else {
+         datacollect.connectionsend("sharingEvent")
          flash.success( sharedval.total.toString() + ' Annotations successfully shared with ' + vm.renotedIdsForSharing);
         }
 

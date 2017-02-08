@@ -35,7 +35,7 @@ function getThreadHeight(id) {
 }
 
 // @ngInject
-function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$route,session) {
+function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$route,session,datacollect) {
   // `visibleThreads` keeps track of the subset of all threads matching the
   // current filters which are in or near the viewport and the view then renders
   // only those threads, using placeholders above and below the visible threads
@@ -115,6 +115,7 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   $scope.initialLoad=true;  
   $scope.sortBy = function() {
     urlUI.setSortKey(this.selectedSort)
+    datacollect.connectionsend("sortOnWebsite")
     return false
   }
   

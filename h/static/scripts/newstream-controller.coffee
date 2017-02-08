@@ -5,13 +5,13 @@ module.exports = class NewStreamController
     '$scope', '$location', '$route', '$rootScope', '$routeParams',
     'annotationUI','urlUI',
     'queryParser', 'rootThread', 'searchFilter', 'store',
-    'streamer', 'streamFilter', 'annotationMapper','urlMapper',
+    'streamer', 'streamFilter', 'annotationMapper','urlMapper','datacollect'
   ]
   constructor: (
      $scope,  $location,   $route,   $rootScope,   $routeParams
      annotationUI,urlUI,
      queryParser,   rootThread,   searchFilter,   store,
-     streamer,   streamFilter,   annotationMapper,  urlMapper
+     streamer,   streamFilter,   annotationMapper,  urlMapper, datacollect
   ) ->
     urlUI.setAppIsSidebar(false)
     toSort = true
@@ -81,6 +81,7 @@ module.exports = class NewStreamController
     lastQuery = $routeParams.q
     $scope.$on '$routeUpdate', ->
       if $routeParams.q isnt lastQuery
+       datacollect.connectionsend("searchOnWebsite")
        urlUI.clearUrls()
        $route.reload()
 
@@ -94,7 +95,7 @@ module.exports = class NewStreamController
     queryParser.populateFilter streamFilter, terms
     streamer.setConfig('filter', {filter: streamFilter.getFilter()})
     streamer.connect()
-
+    datacollect.connect()
     # Perform the initial search
     urlUI.clearUrls()
     fetchurllist()

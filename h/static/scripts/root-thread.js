@@ -50,8 +50,7 @@ var sortFns = {
  * The root thread is then displayed by viewer.html
  */
 // @ngInject
-function RootThread($rootScope, annotationUI, drafts, features, searchFilter, viewFilter, urlUI) {
-
+function RootThread($rootScope, annotationUI, drafts, features, searchFilter, viewFilter, datacollect) {
   /**
    * Build the root conversation thread from the given UI state.
    *
@@ -214,9 +213,11 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
       console.log(event.name)
       if (event.name.match(/annotation.*/)){
           annotationUI.addAnnotations([].concat(annotation));
+          datacollect.connectionsend(event.name);
        }
       else{
           urlUI.addUrls([].concat(annotation));
+          datacollect.connectionsend(event.name);
        }
     });
   });
@@ -246,6 +247,7 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
   $rootScope.$on(events.ANNOTATION_DELETED, function (event, annotation) {
     annotationUI.removeAnnotations([annotation]);
     annotationUI.removeSelectedAnnotation(annotation);
+    datacollect.connectionsend(event.name);
   });
   $rootScope.$on(events.ANNOTATIONS_UNLOADED, function (event, annotations) {
     annotationUI.removeAnnotations(annotations);

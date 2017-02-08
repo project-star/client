@@ -312,6 +312,7 @@ module.exports = angular.module('h', [
   .service('serviceUrl', require('./service-url'))
   .service('session', require('./session'))
   .service('streamer', require('./streamer'))
+  .service('datacollect', require('./datacollect'))
   .service('streamFilter', require('./stream-filter'))
   .service('tags', require('./tags'))
   .service('unicode', require('./unicode'))

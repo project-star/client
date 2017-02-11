@@ -48,6 +48,8 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
   // deletion has not yet been applied
   var pendingDeletions = {};
 
+  var sharingUpdates = {}
+
   function handleAnnotationNotification(message) {
     var action = message.options.action;
     var annotations = message.payload;
@@ -95,6 +97,15 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     session.update(message.model);
   }
 
+  function handleReNotedNotification(message) {
+    console.log("+++msg received at server+++")
+    console.log(message.type);
+    console.log(sharingUpdates)
+    sharingUpdates["status"] = true;
+    sharingUpdates["sharecount"] = message.shareCount
+    console.log(sharingUpdates)
+  }
+
   function handleSocketOnError (event) {
     console.warn('Error connecting to H push notification service:', event);
 
@@ -127,7 +138,12 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
         handleAnnotationNotification(message);
       } else if (message.type === 'session-change') {
         handleSessionChangeNotification(message);
-      } else {
+      
+      } 
+        else if (message.purpose === 'notification') {
+        handleReNotedNotification(message);
+      }
+        else {
         console.warn('received unsupported notification', message.type);
       }
     });
@@ -252,7 +268,29 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     pendingUpdates = {};
     pendingDeletions = {};
   }
+  function hasSharingUpdates() {
 
+    return sharingUpdates.hasOwnProperty("status");
+  }
+  function sharedUpdates() {
+    return sharingUpdates;
+  }
+
+  function clearSharingUpdates() {
+   console.log("Msg to clear sharing received")
+    sharingUpdates = {};
+  }
+
+  function removeSharingUpdates() {
+   console.log("Msg to clear sharing received")
+    sharingUpdates = {};
+    if (socket) {
+      var toSend={}
+      toSend.messageType = "notification_update"
+      toSend.eventName = "sharingNotified"
+      socket.send(toSend);
+    }
+  }
   var updateEvents = [
     events.ANNOTATION_DELETED,
     events.ANNOTATION_UPDATED,
@@ -265,10 +303,14 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     
   });
   $rootScope.$on(events.GROUP_FOCUSED, clearPendingUpdates);
+  $rootScope.$on(events.SHARING_CLEARED,removeSharingUpdates);
+  $rootScope.$on(events.USER_CHANGED,clearSharingUpdates);
 
   this.applyPendingUpdates = applyPendingUpdates;
   this.countPendingUpdates = countPendingUpdates;
   this.hasPendingDeletion = hasPendingDeletion;
+  this.hasSharingUpdates = hasSharingUpdates;
+  this.sharedUpdates = sharedUpdates;
   this.clientId = clientId;
   this.configMessages = configMessages;
   this.connect = connect;

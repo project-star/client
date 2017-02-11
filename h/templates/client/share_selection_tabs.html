@@ -25,10 +25,10 @@
 </div>
 
 <div ng-if="!vm.isLoading() && vm.showSharingEventMessage()" class="selection-tabs__empty-message">
-<button class="primary-action-btn primary-action-btn--short" ng-click="vm.onClearSharing()"
-          title="You have unread shared ReNotes" 
+<button class="primary-action-btn btn-success" ng-click="vm.onClearSharing()"
+          title="New Shared ReNotes" 
   >
-    <i class="primary-action-btn__icon h-icon-close"></i> You have unread shared ReNotes
+    <i class="primary-action-btn__icon h-icon-close"></i> New Shared ReNotes<a class="primary-action-btn" ng-href="{{vm.onVisitShared()}}" target="_blank"> Visit Here <span class="badge"> {{vm.getSharedUpdatesCount()}} </span> </a>
   </button>
 <br><br>
 </div>

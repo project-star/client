@@ -18,6 +18,7 @@ var ROUTES = {
   'search.tag': 'renote?q=tag::tag',
   'search.query': 'renote?q=:query',
   'user': 'u/:user',
+  'shared': 'shared',
 };
 
 /**

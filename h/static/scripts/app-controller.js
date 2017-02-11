@@ -257,6 +257,10 @@ module.exports = function AppController(
     return serviceUrl('search.query', {query: $scope.sidebarquery1});
   };
 
+  $scope.visitShared = function() {
+    return serviceUrl('shared');
+  };
+
   $scope.countPendingUpdates = streamer.countPendingUpdates;
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;
 };

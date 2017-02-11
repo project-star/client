@@ -102,6 +102,7 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     console.log(message.type);
     console.log(sharingUpdates)
     sharingUpdates["status"] = true;
+    sharingUpdates["sharecount"] = message.shareCount
     console.log(sharingUpdates)
   }
 
@@ -139,7 +140,7 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
         handleSessionChangeNotification(message);
       
       } 
-        else if (message.type === 'notification') {
+        else if (message.purpose === 'notification') {
         handleReNotedNotification(message);
       }
         else {
@@ -271,12 +272,25 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
 
     return sharingUpdates.hasOwnProperty("status");
   }
+  function sharedUpdates() {
+    return sharingUpdates;
+  }
 
   function clearSharingUpdates() {
    console.log("Msg to clear sharing received")
     sharingUpdates = {};
   }
 
+  function removeSharingUpdates() {
+   console.log("Msg to clear sharing received")
+    sharingUpdates = {};
+    if (socket) {
+      var toSend={}
+      toSend.messageType = "notification_update"
+      toSend.eventName = "sharingNotified"
+      socket.send(toSend);
+    }
+  }
   var updateEvents = [
     events.ANNOTATION_DELETED,
     events.ANNOTATION_UPDATED,
@@ -289,12 +303,14 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     
   });
   $rootScope.$on(events.GROUP_FOCUSED, clearPendingUpdates);
-  $rootScope.$on(events.SHARING_CLEARED,clearSharingUpdates);
+  $rootScope.$on(events.SHARING_CLEARED,removeSharingUpdates);
+  $rootScope.$on(events.USER_CHANGED,clearSharingUpdates);
 
   this.applyPendingUpdates = applyPendingUpdates;
   this.countPendingUpdates = countPendingUpdates;
   this.hasPendingDeletion = hasPendingDeletion;
   this.hasSharingUpdates = hasSharingUpdates;
+  this.sharedUpdates = sharedUpdates;
   this.clientId = clientId;
   this.configMessages = configMessages;
   this.connect = connect;

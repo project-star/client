@@ -14,7 +14,6 @@ module.exports = function () {
       this.selectTab = function (type) {
         annotationUI.clearSelectedAnnotations()
         annotationUI.selectSharedTab(type);
-        console.log(datacollect.hasSharingUpdates());
       };
       this.switchAnnotationView = function (type) {
         switchAnnotationTab(type);
@@ -32,6 +31,9 @@ module.exports = function () {
       this.showSharingEventMessage = function() {
        return datacollect.hasSharingUpdates();
       };
+      this.getSharedUpdatesCount = function(){
+       return datacollect.sharedUpdates().sharecount
+     };
    },
     restrict: 'E',
     scope: {
@@ -42,6 +44,7 @@ module.exports = function () {
       gotoSearchSelection: '&',
       switchAnnotationTab: '&',
       onClearSharing: '&',
+      onVisitShared: '&',
       totalAnnotations: '<',
       totalNotes: '<',
       totalOrphans: '<',

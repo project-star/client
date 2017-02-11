@@ -7,13 +7,14 @@ module.exports = function () {
     bindToController: true,
     controllerAs: 'vm',
     //@ngInject
-    controller: function ($element, annotationUI, features) {
+    controller: function ($element, annotationUI, features,datacollect) {
       this.TAB_OWN_ANNOTATIONS = 'ownannotation';
       this.TAB_SHARED_ANNOTATIONS = 'sharedannotation';
 
       this.selectTab = function (type) {
         annotationUI.clearSelectedAnnotations()
         annotationUI.selectSharedTab(type);
+        console.log(datacollect.hasSharingUpdates());
       };
       this.switchAnnotationView = function (type) {
         switchAnnotationTab(type);
@@ -28,6 +29,9 @@ module.exports = function () {
         return this.selectedSharedTab === this.TAB_SHARED_ANNOTATIONS &&
           this.totalSharedAnnotations === 0;
       };
+      this.showSharingEventMessage = function() {
+       return datacollect.hasSharingUpdates();
+      };
    },
     restrict: 'E',
     scope: {
@@ -37,6 +41,7 @@ module.exports = function () {
       selectedSharedTab: '<',
       gotoSearchSelection: '&',
       switchAnnotationTab: '&',
+      onClearSharing: '&',
       totalAnnotations: '<',
       totalNotes: '<',
       totalOrphans: '<',

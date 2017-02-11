@@ -176,7 +176,11 @@ module.exports = function AppController(
     annotationUI.clearSelectedAnnotations();
     annotationUI.selectTab(selectedTab);
   };
- 
+
+
+   $scope.clearSharing = function () {
+       $rootScope.$emit(events.SHARING_CLEARED)
+  }; 
   $scope.gotoMainSelection = function () {
     $scope.mainTab = true;
     $route.reload()

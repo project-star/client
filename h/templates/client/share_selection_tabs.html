@@ -23,9 +23,17 @@
     </span>
   </a>
 </div>
+
+<div ng-if="!vm.isLoading() && vm.showSharingEventMessage()" class="selection-tabs__empty-message">
+<button class="primary-action-btn primary-action-btn--short" ng-click="vm.onClearSharing()"
+          title="You have unread shared ReNotes" 
+  >
+    <i class="primary-action-btn__icon h-icon-close"></i> You have unread shared ReNotes
+  </button>
+<br><br>
+</div>
 <div ng-if="!vm.isLoading()" class="selection-tabs__empty-message">
   <!-- Anshul: Removing the Page Notes and Orphans functionality -->
-
   <div ng-if="vm.showNotesUnavailableMessage()"  class="annotation-unavailable-message">
     <p class="annotation-unavailable-message__label">
       There are no shared ReNotes on this page.

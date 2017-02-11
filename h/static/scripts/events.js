@@ -15,7 +15,7 @@ module.exports = {
    * The session state was updated.
    */
   SESSION_CHANGED: 'sessionChanged',
-
+  SHARING_CLEARED: 'sharingCleared',
   // UI state changes
 
   /** The currently selected group changed */

@@ -142,6 +142,10 @@ module.exports = function AppController(
   $scope.toggleSharedStream = function (flag) {
     console.log("Entering here to switch stream page with flag " + flag);
     datacollect.connectionsend("SharedStreamToggled")
+    console.log(datacollect.hasSharingUpdates())
+//    if (flag) {
+//       $rootScope.$emit(events.SHARING_CLEARED)
+//      }
     $scope.isSharedStream = flag;
 
   };
@@ -183,6 +187,17 @@ module.exports = function AppController(
     annotationUI.clearSelectedAnnotations();
     annotationUI.selectTab(selectedTab);
   };
+  $scope.clearSharing = function () {
+       $rootScope.$emit(events.SHARING_CLEARED)
+  };
+
+  $scope.ifSharing = function () {
+       return datacollect.hasSharingUpdates
+  };
+
+  $scope.numberShared = function(){
+       return datacollect.sharedUpdates.sharecount
+  };
 
   $scope.search = {
     query: function () {
@@ -195,4 +210,7 @@ module.exports = function AppController(
 
   $scope.countPendingUpdates = streamer.countPendingUpdates;
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;
+  $scope.hasSharingUpdates = datacollect.hasSharingUpdates;
+  $scope.sharedUpdates = datacollect.sharedUpdates.sharecount;
+  
 };

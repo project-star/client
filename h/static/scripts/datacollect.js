@@ -101,8 +101,13 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     console.log("+++msg received at server+++")
     console.log(message.type);
     console.log(sharingUpdates)
-    sharingUpdates["status"] = true;
-    sharingUpdates["sharecount"] = message.shareCount
+    if (message.type=="sharing") {
+        sharingUpdates["status"] = true;
+        sharingUpdates["sharecount"] = message.shareCount
+       }
+    else {
+        sharingUpdates={}
+       }
     console.log(sharingUpdates)
   }
 

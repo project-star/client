@@ -20,6 +20,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.h-icon-redirect2:before {
+  content: "\e945";
+}
+.h-icon-redirect:before {
+  content: "\e946";
+}
 .h-icon-media-record-active .path1:before {
   content: "\e91a";
   color: rgb(0, 0, 0);

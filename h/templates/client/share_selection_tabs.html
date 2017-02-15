@@ -32,6 +32,38 @@
   </button>
 <br><br>
 </div>
+
+<div ng-if="!vm.isLoading() && vm.selectedSharedTab === vm.TAB_OWN_ANNOTATIONS" ng-show="vm.totalOwnAnnotations > 0" style="background-color: #cbd5d8;padding-bottom: 5px; margin-bottom: 10px;padding-right: 10px;padding-left: 10px;padding-top: 5px;font-size: 13px;">
+  <span 
+    class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; margin-bottom: 10px display: block; overflow: hidden;" title="Choose Knowledge Stack">
+    <strong><i class="h-icon-stack" style="font-size: 25px"></i> </strong>
+    <div class="top-bar__expander"></div>
+      <select placeholder="choose" ng-options="option for option in vm.kStackList" ng-model="vm.kStack" ng-change="vm.setKStackForPage()" style="width: 90%; height: 25px;" title="Choose Knowledge Stack"></select>
+
+  </span>
+
+  <span ng-show="vm.isCreatingNewStack()"
+    class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; margin-bottom: 10px; display: block; overflow: hidden;">
+    
+    <input type="text" name="stack_name" placeholder="Stack Name" style="width: 75%; height: 25px" ng-model="vm.kStackName" title="Enter the Stack Name">
+   
+    <button class= "primary-action-btn primary-action-btn__short" ng-click="vm.setKStackForPageOnSave()">Save</button>
+  
+  </span>
+
+<!--   <span 
+    class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; margin-bottom: 10px; display: block; overflow: hidden;">
+    
+    <input type="text" name="page_title" placeholder="Add your page title" style="width: 75%; height: 25px" ng-model="vm.pageTitle" ng-disabled="!vm.editTitle" >
+    <button class="btn btn-clean annotation-action-btn" ng-show="!vm.editTitle" ng-click="vm.enableTitleEdit()">
+      <i class="h-icon-annotation-edit btn-icon "></i>
+    </button>
+   
+    <button class= "primary-action-btn primary-action-btn__short" ng-show="vm.editTitle"  ng-click="vm.setPageTitle()" style="">Save</button>
+  
+  </span> -->
+</div>
+
 <div ng-if="!vm.isLoading()" class="selection-tabs__empty-message">
   <!-- Anshul: Removing the Page Notes and Orphans functionality -->
   <div ng-if="vm.showNotesUnavailableMessage()"  class="annotation-unavailable-message">
@@ -40,6 +72,7 @@
       <br />
     </p>
   </div>
+
   <div ng-if="vm.showAnnotationsUnavailableMessage()"  class="annotation-unavailable-message">
     <p class="annotation-unavailable-message__label">
       There are no ReNotes on this page.

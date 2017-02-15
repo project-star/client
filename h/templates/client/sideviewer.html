@@ -26,7 +26,8 @@
   switch-annotation-tab="switchAnnotationTab()"
   on-clear-sharing="clearSharing()"
   on-visit-shared = "visitShared()"
-  goto-search-selection="gotoSearchSelection()">
+  goto-search-selection="gotoSearchSelection()"
+  get-search-uris="getSearchUris()">
 </share-selection-tabs>
 
 <search-status-bar
@@ -63,6 +64,8 @@
     </span>
   </p>
 </div>
+
+
 <span ng-if="!mainTab && auth.status === 'logged-in'">
 <div>
 <b> {{sidebarquery}} </b> Results Found 
@@ -85,7 +88,11 @@ ReNotes
 </span>
 
 
+
+
 <span window-scroll="loadMore(20)">
+  <!-- Add the Choose Stack dropdown and the Edit page title elements here -->
+
   <thread-list 
     on-change-collapsed="setCollapsed(id, collapsed)"
     on-clear-selection="clearSelection()"

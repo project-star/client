@@ -47,6 +47,8 @@ module.exports = function WidgetController(
     $scope.rootThread = thread();
     $scope.selectedTab = state.selectedTab;
     $scope.selectedSharedTab = state.selectedSharedTab;
+
+
     var counts = tabCounts(state.annotations, {
       separateOrphans: features.flagEnabled('orphans_tab'),
     });
@@ -206,6 +208,22 @@ module.exports = function WidgetController(
     }
 
     return false;
+  }
+
+  //Get the URLs associated with frames
+  function getSearchUris() {
+
+    var searchUris = frameSync.frames.reduce(function (uris, frame) {
+      for (var i = 0; i < frame.searchUris.length; i++) {
+        var uri = frame.searchUris[i];
+        if (uris.indexOf(uri) === -1) {
+          uris.push(uri);
+        }
+      }
+      return uris;
+    }, []);
+
+    return searchUris;
   }
 
   /**
@@ -372,6 +390,10 @@ module.exports = function WidgetController(
       return count + visibleCount(child);
     }, thread.visible ? 1 : 0);
   });
+
+  $scope.getSearchUris = function() {
+    return getSearchUris();
+  };
 
   $scope.visibleCount = function () {
     return visibleCount(thread());

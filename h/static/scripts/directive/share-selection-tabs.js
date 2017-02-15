@@ -7,7 +7,7 @@ module.exports = function () {
     bindToController: true,
     controllerAs: 'vm',
     //@ngInject
-    controller: function ($element, annotationUI, features,datacollect) {
+    controller: function ($element, annotationUI, features,datacollect, store, $document) {
       this.TAB_OWN_ANNOTATIONS = 'ownannotation';
       this.TAB_SHARED_ANNOTATIONS = 'sharedannotation';
 
@@ -28,7 +28,6 @@ module.exports = function () {
       // };
 
       this.isCreatingNewStack = function() {
-        console.log("090909090 Inside isCreatingNewStack with " + this.kStack);
         if(this.kStack === "Create New Stack")
           return true;
 
@@ -40,10 +39,24 @@ module.exports = function () {
 
         var uris = this.getSearchUris();
         var docURI = uris[0]; //extract the first URI
+        console.log("=-=-=-=- Document URL =-=-" +  $document[ 0 ].title );
         console.log("=-=-=-Document URI is: " + docURI);
+
+        var docURI2 = this.url;
+        console.log("=-=-=- !!!! Document URI is by SCOPE!!!!: " + docURI2);
+
+
+        var payload = {"uriaddress": docURI};
 
         //TODO:
         //Make the API call to list all the Knowledge stacks
+        var result = store.stack.update({}, payload);
+
+        result.then(function(response) {
+          console.log("Successful retrieval of Stack List " + response);
+        });
+
+
         var retrievedStackList = ["one", "two", "three"];
 
         //Assign these to kStackList
@@ -140,6 +153,7 @@ module.exports = function () {
       totalSharedAnnotations: '<',
       totalOwnAnnotations: '<',
       getSearchUris: '&',
+      url: '<',
     },
     template: require('../../../templates/client/share_selection_tabs.html'),
   };

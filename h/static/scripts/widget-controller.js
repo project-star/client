@@ -63,6 +63,7 @@ module.exports = function WidgetController(
     });
   });
 
+  $scope.url = "";
 
   $scope.$on('$destroy', unsubscribeAnnotationUI);
 
@@ -193,6 +194,7 @@ module.exports = function WidgetController(
     });
     console.log("+++in widget controller search++++")
     console.log(uris)
+    $scope.url=uris[0];
     searchClient.get({uri: uris, group: group});
   }
 
@@ -223,6 +225,8 @@ module.exports = function WidgetController(
       return uris;
     }, []);
 
+    console.log("RETURNING SEARCH URIS " + searchUris)
+
     return searchUris;
   }
 
@@ -250,6 +254,8 @@ module.exports = function WidgetController(
       }
       return uris;
     }, []);
+
+    $scope.url = searchUris[0];
 
     // If there is no selection, load annotations only for the focused group.
     //

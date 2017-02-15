@@ -7,14 +7,17 @@ module.exports = function () {
     bindToController: true,
     controllerAs: 'vm',
     //@ngInject
-    controller: function ($element, annotationUI, features,datacollect, store, $document) {
+    controller: function ($element, annotationUI, features,datacollect, store) {
+      var self = this;
       this.TAB_OWN_ANNOTATIONS = 'ownannotation';
       this.TAB_SHARED_ANNOTATIONS = 'sharedannotation';
+
 
 
       this.kStackList = ["Create New Stack"]; //api call to retrieve the list of knowledge stacks
       this.kStack = "Create New Stack"; //default to My Renotes
       this.kStackName ="";
+
       
 
       // this.pageTitle = "";
@@ -39,28 +42,33 @@ module.exports = function () {
 
         var uris = this.getSearchUris();
         var docURI = uris[0]; //extract the first URI
-        console.log("=-=-=-=- Document URL =-=-" +  $document[ 0 ].title );
-        console.log("=-=-=-Document URI is: " + docURI);
+
 
         var docURI2 = this.url;
-        console.log("=-=-=- !!!! Document URI is by SCOPE!!!!: " + docURI2);
-
 
         var payload = {"uriaddress": docURI};
+        var stackRes ="";
 
         //TODO:
         //Make the API call to list all the Knowledge stacks
         var result = store.stack.update({}, payload);
 
         result.then(function(response) {
-          console.log("Successful retrieval of Stack List " + response);
+          console.log("Successful retrieval of Stack List " + JSON.stringify(response.stacks));
+          var total = response.total;
+
+          for(var i=0; i< total; i++)
+          {
+
+            if(response.stacks[i].status) {
+              stackRes=response.stacks[i].name;
+              self.kStack = stackRes;
+            }
+
+            self.kStackList.push(response.stacks[i].name);
+          }
+
         });
-
-
-        var retrievedStackList = ["one", "two", "three"];
-
-        //Assign these to kStackList
-        this.kStackList.concat(retrievedStackList);
 
       };
 
@@ -69,12 +77,28 @@ module.exports = function () {
         //Make API call to update URL stack property with supplied stack name
         if(this.isCreatingNewStack()) {
 
-          this.kStack = this.kStackName;
-          console.log("Creating new stack with name " + this.kStack);
+          var stackToSend =[];
+          console.log("Creating new stack with name " + this.kStackName);
           
           //Add to the kStackList
-          this.kStackList.push(this.kStack);
-          this.kStackName="";
+          stackToSend.push(this.kStackName);
+
+          var payload = {"uriaddress": this.url,
+                          "stacks": stackToSend};
+
+          var result = store.stack.update({}, payload);
+
+          result.then(function(response) {
+            console.log("Successful creation of Stacks " + response);
+
+            //Add to the dropdown list and assign as the selection
+            self.kStack = self.kStackName;
+            self.kStackList.push(self.kStackName);
+            self.kStackName=""; //Next time the value will not be pre-populated with last value
+          }, function(failure) {
+            console.log("Failed to create Stack " + failure);
+          });
+
         }
 
         //Otherwise set the flag for the corresponding Stack as true and send to the API
@@ -87,10 +111,18 @@ module.exports = function () {
           return;
 
         //TODO:
-
+        var stackToSend =[];
+        stackToSend.push(this.kStack);
 
         //Otherwise set the flag for the corresponding Stack as true and send to the API
+        var payload = {"uriaddress": this.url,
+                          "stacks": stackToSend};
 
+          var result = store.stack.update({}, payload);
+
+          result.then(function(response) {
+            console.log("Successful creation of Stacks " + response);
+          });
       };
 
       // this.getPageTitle = function() {

@@ -33,7 +33,7 @@
 <br><br>
 </div>
 
-<div ng-if="!vm.isLoading() && vm.selectedSharedTab === vm.TAB_OWN_ANNOTATIONS" ng-show="vm.totalOwnAnnotations > 0" style="background-color: #cbd5d8;padding-bottom: 5px; margin-bottom: 10px;padding-right: 10px;padding-left: 10px;padding-top: 5px;font-size: 13px;">
+<div ng-if="!vm.isLoading() && vm.selectedSharedTab === vm.TAB_OWN_ANNOTATIONS" ng-show="vm.totalOwnAnnotations > 0" style="background-color: #cbd5d8;padding-bottom: 5px;margin-bottom: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;font-size: 13px;">
   <span 
     class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; margin-bottom: 10px display: block; overflow: hidden;" title="Choose Knowledge Stack">
     <strong><i class="h-icon-stack" style="font-size: 25px"></i> </strong>
@@ -43,11 +43,14 @@
   </span>
 
   <span ng-show="vm.isCreatingNewStack()"
-    class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; margin-bottom: 10px; display: block; overflow: hidden;">
+    class="top-bar__inner content" style="padding-left: 0px;padding-right: 0px;margin-bottom: 7px;display: block;overflow: hidden;margin-top: 10px;margin-left: 35px;"">
     
-    <input type="text" name="stack_name" placeholder="Stack Name" style="width: 75%; height: 25px" ng-model="vm.kStackName" title="Enter the Stack Name">
-   
-    <button class= "primary-action-btn primary-action-btn__short" ng-click="vm.setKStackForPageOnSave()">Save</button>
+    <input type="text" name="stack_name" placeholder="Stack Name" style="width: 80%; height: 25px" ng-model="vm.kStackName" title="Enter the Stack Name">
+    <button class= "primary-action-btn primary-action-btn__short" ng-click="vm.setKStackForPageOnSave()" style="
+    padding-bottom: 3px;
+    padding-top: 2px;
+    height: 27px;
+    ">Save</button>
   
   </span>
 

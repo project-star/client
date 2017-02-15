@@ -163,6 +163,9 @@ function store($http, settings) {
     urlupdate: {
       update: createAPICall($http, links, 'urlupdate.update'),
       delete: createAPICall($http, links, 'urlupdate.delete')
+    },
+    stack: {
+      update: createAPICall($http, links, 'stack.update'),
     }
   };
 }

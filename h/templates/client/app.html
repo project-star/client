@@ -26,7 +26,7 @@
   <!--
   <a href="{{ serviceUrl('signup') }}" target="_blank">
     Please log in
-  </a>
+  </a
   -->
   <a href="" ng-click="login()">log in</a>
 </div>
@@ -42,8 +42,18 @@
         </a>
       </li>
       <li><a class="sidebar__nav-label" href="/shared" ng-click="toggleSharedStream(true)" ng-class="{sidebar__active: isSharedStream}" title="Received Notes">
-      <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li>
+      <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li>      
     </ul>
+
+    <!-- INSERT the code for Stacks here -->
+    <!-- <ul ng-if="auth.status === 'logged-in'">
+      <li class="sidebar__nav-label">Knowledge Stacks</li>
+      <li class="sidebar__nav-label">Stack 1</li>
+    </ul> -->
+    <k-stack-list ng-if="auth.status === 'logged-in'">
+    
+    </k-stack-list>
+
   </nav>
 
 

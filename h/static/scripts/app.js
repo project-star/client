@@ -215,6 +215,7 @@ module.exports = angular.module('h', [
   .directive('renotedurlthreadList', require('./directive/renotedurlthread-list'))
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
+  .directive('kStackList', require('./directive/k-stack-list'))
   .directive('windowScroll', require('./directive/window-scroll'))
   .directive('annotationActions', require('./directive/annotation-actions'))
   .directive('scWidget',['scService', function(scService) {

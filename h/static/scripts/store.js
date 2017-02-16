@@ -163,6 +163,9 @@ function store($http, settings) {
       deleteannot: createAPICall($http, links, 'sharing.annotdelete'),
       deleteurl: createAPICall($http, links, 'sharing.urldelete'),
     },
+    stack: {
+      update: createAPICall($http, links, 'stack.update'),
+    },
     url: createAPICall($http, links, 'url'),
     recall: createAPICall($http, links, 'recall'), 
     urls: createAPICall($http, links, 'urls'),

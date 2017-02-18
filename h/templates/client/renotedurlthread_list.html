@@ -94,6 +94,7 @@
       ng-mouseenter="vm.onFocus({url: child.url})"
       ng-click="vm.onSelect({url: child.url})"
       ng-mouseleave="vm.onFocus({url: null})"
+      ng-show="vm.onUrlFilter({url : child.url})"
       ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | limitTo:displayedNumber track by child.id">
       <url ng-class="vm.urlClasses()"
            url="child.url"

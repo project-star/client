@@ -37,6 +37,11 @@ TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ANNOTATIONS] = ['Newest', 'Oldest', 'Loca
 TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_NOTES] = ['Newest', 'Oldest', 'Relevance', 'Newest Created', 'Oldest Created'];
 TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ORPHANS] = ['Newest', 'Oldest', 'Location', 'Relevance', 'Oldest Created', 'Newest Created'];
 
+
+var URL_FILTER_KEYS_AVAILABLE = ['all','text','video','audio'];
+
+var URL_FILTER_DEFAULT = 'all';
+
 function initialSelection(settings) {
   var selection = {};
   if (settings.urls) {
@@ -84,6 +89,7 @@ function init(settings) {
     filterQuery: null,
 
     selectedTab: TAB_DEFAULT,
+    selectedUrlFilterKey: URL_FILTER_DEFAULT,
 
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
@@ -146,6 +152,10 @@ var update = {
 
   SET_SORT_KEY: function (state, action) {
     return {sortKey: action.key};
+  },
+
+  SET_URL_FILTER_KEY: function (state, action) {
+    return {selectedUrlFilterKey: action.key};
   },
 };
 
@@ -248,6 +258,14 @@ function selectTab(type) {
   };
 }
 
+function setUrlFilterKey(key) {
+  return {
+    type: actions.SET_URL_FILTER_KEY,
+    key: key,
+  };
+}
+
+
 /** Set the query used to filter displayed annotations. */
 function setFilterQuery(query) {
   return {
@@ -312,6 +330,7 @@ module.exports = {
     setFilterQuery: setFilterQuery,
     setForceVisible: setForceVisible,
     setSortKey: setSortKey,
+    setUrlFilterKey: setUrlFilterKey,
     toggleSelectedUrls: toggleSelectedUrls,
   },
 

@@ -62,7 +62,9 @@ module.exports = function AppController(
   if ($scope.isSidebar) {
     frameSync.connect();
   }
-
+  $scope.selectedUrlFilterKey = function() {
+    return urlUI.getState().selectedUrlFilterKey;
+  }
   $scope.serviceUrl = serviceUrl;
 
   $scope.sortKey = function () {
@@ -84,6 +86,25 @@ module.exports = function AppController(
 
 
   $scope.setSortKey = urlUI.setSortKey;
+  $scope.setUrlFilterKeyAll = function(value) {
+      urlUI.setUrlFilterKey('all')
+      console.log(urlUI.getState().selectedUrlFilterKey);
+  }
+  $scope.setUrlFilterKeyText = function(value) {
+      urlUI.setUrlFilterKey('text')
+      console.log(urlUI.getState().selectedUrlFilterKey);
+  }
+
+ $scope.setUrlFilterKeyVideo = function(value) {
+      urlUI.setUrlFilterKey('video')
+      console.log(urlUI.getState().selectedUrlFilterKey);
+  }
+
+ $scope.setUrlFilterKeyAudio = function() {
+      urlUI.setUrlFilterKey('audio')
+      console.log(urlUI.getState().selectedUrlFilterKey);
+  }
+
 
   // Reload the view when the user switches accounts
   $scope.$on(events.USER_CHANGED, function (event, data) {

@@ -129,6 +129,12 @@ module.exports = function AppController(
 
   $scope.leftNavVisible = true;
 
+  $scope.filterByStack = function(stackName) {
+
+    console.log("I am in the app-controller printing the stackname of the clicked stack " + stackName);
+
+  };
+
   $scope.toggleLeftNav = function() {
 
     if($scope.leftNavVisible)

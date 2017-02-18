@@ -13,6 +13,7 @@ module.exports = function () {
       this.kStackList = []; //empty list
       this.kStackName = "";
       this.isCreatingNewStack=false;
+      this.newKStackName = "";
 
       this.getKStackList = function() {
 
@@ -40,10 +41,6 @@ module.exports = function () {
           }
 
         });
-        // var tempList = ["one", "two", "three"];
-
-        // this.kStackList.push(tempList[0]);
-        // this.kStackList.push(tempList[1]);
 
       };
 
@@ -78,9 +75,7 @@ module.exports = function () {
 
         //Otherwise set the flag for the corresponding Stack as true and send to the API
 
-      };      
-
-
+      }; 
 
 
       this.getKStackList(); //Populating the Stack list

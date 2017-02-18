@@ -23,10 +23,21 @@
 		</span>
 
       </li>
+      <!-- Create another directive here to handle all stack level actions --> 
       <li class="sidebar__nav-label sidebar__stack"
-      	id="{{option}}"
-      	ng-repeat="option in vm.kStackList" 
-        style="padding-left: 40px">
-      		{{option}}
-      	</li>
+      	id="{{stackName}}"
+        ng-mouseenter="visible=true"
+        ng-mouseleave="visible=false"  
+        ng-click="filterByStack(stackName)"      
+      	ng-repeat="stackName in vm.kStackList" 
+        style="padding-left: 35px"
+        title={{stackName}}
+        >
+          <stack-item
+            stack-name="stackName"
+            stack-list="vm.kStackList"
+            visible="visible"
+          >
+          </stack-item>          
+      </li>
 </ul>

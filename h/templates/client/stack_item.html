@@ -1,0 +1,36 @@
+<span ng-show=!vm.isEditing>
+		{{vm.prunedStackName()}}
+    <span class="url-actions" ng-show=vm.visible>
+      <button class="btn btn-clean annotation-action-btn" style="color: white" 
+        ng-click="vm.isEditing=true"
+        title="Edit"
+        >
+        <i class="h-icon-edit btn-icon" ></i>
+      </button>
+      <button class="btn btn-clean annotation-action-btn" style="color: white"
+        ng-click="vm.deleteStack()"
+        title="Delete"
+        >
+        <i class="h-icon-delete btn-icon" ></i>
+      </button>
+    </span> 
+</span> 
+<span ng-show=vm.isEditing>
+
+    <input type="text" name="stack_name" placeholder={{vm.stackName}} ng-model="vm.newName" title="Enter New Stack Name" style="width: 100%;height: 30px;padding-left: 5px; color: grey">
+    <div style="
+      margin-top: 7px;
+      margin-left: 50px;
+      ">
+      <button class="primary-action-btn primary-action-btn--short"
+        ng-click="vm.replaceStackName()"
+        title="Save">Save
+      </button>
+      <button class="btn btn-clean annotation-action-btn"
+      ng-click="vm.cancelEditing()"
+      title="Cancel">
+        <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon" ></i>
+      </button>
+    </div>
+            
+</span>  

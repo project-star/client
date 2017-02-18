@@ -165,6 +165,7 @@ function store($http, settings) {
     },
     stack: {
       update: createAPICall($http, links, 'stack.update'),
+      get: createAPICall($http, links, 'stack.read'),
     },
     url: createAPICall($http, links, 'url'),
     recall: createAPICall($http, links, 'recall'), 

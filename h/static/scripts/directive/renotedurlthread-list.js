@@ -153,7 +153,15 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   };
 
        
+  this.onUrlFilter = function(url){
+     console.log(url.url.typeFilter)
+     if (url.url.typeFilter.indexOf(urlUI.getState().selectedUrlFilterKey)!= -1){
+     return true;
+     }
+      else
+     return false
 
+   }
   this.$onDestroy = function () {
     visibleThreads.detach();
   };
@@ -180,6 +188,7 @@ module.exports = function () {
       onForceVisible: '&',
       /** Called when the user focuses an annotation by hovering it. */
       onFocus: '&',
+      onUrlFilter: '&',
       /** Called when a user selects an annotation. */
       onSelect: '&',
       /** Called when a user toggles the expansion state of an annotation thread. */

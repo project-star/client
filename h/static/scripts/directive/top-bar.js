@@ -2,7 +2,9 @@
 
 module.exports = function () {
   return {
-    controller: function () {},
+    controller: function () {
+
+    },
     restrict: 'E',
     scope: {
       auth: '<',
@@ -18,6 +20,10 @@ module.exports = function () {
       sortKey: '<',
       sortKeysAvailable: '<',
       onChangeSortKey: '&',
+      setUrlFilterKeyAll: '&',
+      setUrlFilterKeyText: '&',
+      setUrlFilterKeyVideo: '&',
+      setUrlFilterKeyAudio: '&',
       pendingUpdateCount: '<',
       onApplyPendingUpdates: '&',
       toggleLeftNav: '&',

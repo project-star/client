@@ -42,6 +42,8 @@ var URL_FILTER_KEYS_AVAILABLE = ['all','text','video','audio'];
 
 var URL_FILTER_DEFAULT = 'all';
 
+var URL_STACK_DEFAULT = 'serversideaddedstack';
+
 function initialSelection(settings) {
   var selection = {};
   if (settings.urls) {
@@ -90,7 +92,7 @@ function init(settings) {
 
     selectedTab: TAB_DEFAULT,
     selectedUrlFilterKey: URL_FILTER_DEFAULT,
-
+    selectedUrlStackKey:  URL_STACK_DEFAULT,
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     // Keys by which annotations can be sorted.
@@ -156,6 +158,10 @@ var update = {
 
   SET_URL_FILTER_KEY: function (state, action) {
     return {selectedUrlFilterKey: action.key};
+  },
+
+  SET_URL_STACK_KEY: function (state, action) {
+    return {selectedUrlStackKey: action.key};
   },
 };
 
@@ -265,6 +271,12 @@ function setUrlFilterKey(key) {
   };
 }
 
+function setUrlStackKey(key) {
+  return {
+    type: actions.SET_URL_STACK_KEY,
+    key: key,
+  };
+}
 
 /** Set the query used to filter displayed annotations. */
 function setFilterQuery(query) {
@@ -331,6 +343,7 @@ module.exports = {
     setForceVisible: setForceVisible,
     setSortKey: setSortKey,
     setUrlFilterKey: setUrlFilterKey,
+    setUrlStackKey: setUrlStackKey,
     toggleSelectedUrls: toggleSelectedUrls,
   },
 

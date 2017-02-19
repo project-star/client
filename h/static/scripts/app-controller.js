@@ -151,9 +151,9 @@ module.exports = function AppController(
   $scope.leftNavVisible = true;
 
   $scope.filterByStack = function(stackName) {
-
+    urlUI.setUrlStackKey(stackName)
     console.log("I am in the app-controller printing the stackname of the clicked stack " + stackName);
-
+    console.log("uiselectedstack " + urlUI.getState().selectedUrlStackKey)
   };
 
   $scope.toggleLeftNav = function() {

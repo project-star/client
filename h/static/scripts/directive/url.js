@@ -111,7 +111,6 @@ function UrlController(
     console.log(vm.url.annotation)
     vm.serviceUrl = serviceUrl;
     vm.inSharedView = false;
-    vm.url.typeFilter = ["all"]
     vm.selectedForSharing = [];
 //    vm.renotedIdsForSharing ="renoted username";
     vm.annotationHoverFlag = false;
@@ -175,15 +174,12 @@ function UrlController(
 
   vm.setTitleIcon = function() {
     if(vm.url.uriaddress.includes("youtube.com")){
-      vm.url.typeFilter=["all","video"];
       return "youtube";
     }
     else if (vm.url.uriaddress.includes("soundcloud.com")){
-      vm.url.typeFilter=["all","audio"];
       return "soundcloud";
     }
     else {
-      vm.url.typeFilter=["all","text"];
       return "text";
     }
   }

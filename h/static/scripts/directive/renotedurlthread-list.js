@@ -153,9 +153,9 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   };
 
        
-  this.onUrlFilter = function(url){
+  $scope.onUrlFilter = function(url){
      console.log(url.url.typeFilter)
-     if (url.url.typeFilter.indexOf(urlUI.getState().selectedUrlFilterKey)!= -1){
+     if (url.url.typeFilter.indexOf(urlUI.getState().selectedUrlFilterKey)!= -1 && url.url.typeFilter.indexOf(urlUI.getState().selectedUrlStackKey)!= -1){
      return true;
      }
       else

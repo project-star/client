@@ -38,6 +38,15 @@
               timestamp=vm.url.created
               ng-show="!vm.onSharedStream">
             </timestamp>
+
+            <span ng-show="!vm.onSharedStream">
+            &nbsp; &nbsp;
+            <!-- CONVERT TO DIRECTIVE -->
+              <select class="annotation-header__timestamp" ng-show="!vm.onSharedStream" id={{vm.url.id}}
+              ng-options="stackName for stackName in vm.kStackList" ng-model=vm.kStack ng-change="vm.setKStackForPage()"
+              ></select>
+            </span>
+
             <span ng-show="vm.onSharedStream">Shared:</span>
             <timestamp
               class-name="'annotation-header__timestamp'"

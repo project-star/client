@@ -112,6 +112,9 @@ function UrlController(
     vm.serviceUrl = serviceUrl;
     vm.inSharedView = false;
     vm.selectedForSharing = [];
+    vm.kStackList =[];
+    vm.kStack="Select Stack";
+    vm.getKStackList();
 //    vm.renotedIdsForSharing ="renoted username";
     vm.annotationHoverFlag = false;
  }
@@ -474,6 +477,68 @@ function UrlController(
       }
     }, true);
   };
+
+  vm.getKStackList = function() {
+
+    var uri = vm.titleLink();
+
+    var payload = {"uriaddress": uri};
+    // var stackRes ="";
+
+    //Make the API call to list all the Knowledge stacks
+    var result = store.stack.update({}, payload);
+
+    result.then(function(response) {
+      var total = response.total;
+
+      for(var i=0; i< total; i++)
+      {
+
+        if(response.stacks[i].status) {
+          vm.kStack=response.stacks[i].name;
+        }
+
+        vm.kStackList.push(response.stacks[i].name);
+        
+      }
+      return vm.kStackList;
+
+    }, function(failure){
+
+        return [];
+
+    });
+
+  };
+
+  vm.setKStackForPage = function() {
+
+    var uri = vm.titleLink();
+
+    //TODO:
+    var stackToSend =[];
+    stackToSend.push(vm.kStack);
+
+    //Otherwise set the flag for the corresponding Stack as true and send to the API
+    var payload = {"uriaddress": uri,
+                      "stacks": stackToSend};
+
+      var result = store.stack.update({}, payload);
+
+      result.then(function(response) {
+
+        console.log("Successful creation of Stacks " + response);
+        return vm.kStackList;
+        
+      }, function(failure){
+
+        return [];
+
+    });
+  };
+
+
+
   vm.sharedurldelete = function() {
     return $timeout(function() {  // Don't use confirm inside the digest cycle.
       var msg = 'Are you sure you want to delete this sharedurl?';

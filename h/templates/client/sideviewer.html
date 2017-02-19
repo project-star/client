@@ -12,7 +12,7 @@
 </selection-tabs>
 -->
 <share-selection-tabs
-  ng-if="selectedAnnotationCount() === 0 && mainTab && auth.status === 'logged-in'"
+  ng-if="selectedAnnotationCount() === 0 && mainTab && auth.status === 'logged-in' && !isLoading()"
   is-waiting-to-anchor-annotations="waitingToAnchorAnnotations"
   is-loading="isLoading"
   selected-tab="selectedTab"

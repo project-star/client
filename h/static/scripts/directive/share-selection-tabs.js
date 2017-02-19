@@ -1,13 +1,13 @@
 'use strict';
 
 var uiConstants = require('../ui-constants');
-
+var events = require('../events');
 module.exports = function () {
    return {
     bindToController: true,
     controllerAs: 'vm',
     //@ngInject
-    controller: function ($element, annotationUI, features,datacollect, store) {
+    controller: function ($element, annotationUI, features,datacollect, store,$rootScope) {
       var self = this;
       this.TAB_OWN_ANNOTATIONS = 'ownannotation';
       this.TAB_SHARED_ANNOTATIONS = 'sharedannotation';
@@ -42,11 +42,14 @@ module.exports = function () {
 
         var uris = this.getSearchUris();
         var docURI = uris[0]; //extract the first URI
-
-
+        if (this.url==null){
+        console.log("calling with null addresss")
+        }
+        console.log(this.url)
         var docURI2 = this.url;
-
-        var payload = {"uriaddress": docURI};
+        console.log (docURI)
+        console.log (docURI2)
+        var payload = {"uriaddress": this.url};
         var stackRes ="";
 
         //TODO:
@@ -82,6 +85,7 @@ module.exports = function () {
           
           //Add to the kStackList
           stackToSend.push(this.kStackName);
+          console.log(this.url)
 
           var payload = {"uriaddress": this.url,
                           "stacks": stackToSend};
@@ -121,7 +125,7 @@ module.exports = function () {
           var result = store.stack.update({}, payload);
 
           result.then(function(response) {
-            console.log("Successful creation of Stacks " + response);
+            console.log("Successful creation of Stacks1 " + response);
           });
       };
 
@@ -167,6 +171,7 @@ module.exports = function () {
        return datacollect.sharedUpdates().sharecount
      };
 
+     
      this.getKStackList(); //Populating the Stack dropdown list
    },
     restrict: 'E',

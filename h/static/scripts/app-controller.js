@@ -174,7 +174,8 @@ module.exports = function AppController(
 //       $rootScope.$emit(events.SHARING_CLEARED)
 //      }
     $scope.isSharedStream = flag;
-
+    urlUI.setUrlFilterKey('all')
+    urlUI.setUrlStackKey('serversideaddedstack')
   };
 
 

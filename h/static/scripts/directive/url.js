@@ -290,8 +290,29 @@ function UrlController(
      console.log("collapse clicked")
      vm.showAnnotations = false;
    }
-
+   
+   vm.allstackslist = function(){
+     return vm.url.allstackslist;
+   }
   
+   vm.assignedstack = function(){
+     var typefilter = vm.url.typeFilter.slice();
+     var toRemove = ["all","text","video","audio","serversideaddedstack"]
+     for (var i=0;i<toRemove.length;i++){
+         var index = typefilter.indexOf(toRemove[i]);
+         if (index != -1){
+           typefilter.splice(index,1)
+       }
+     }
+      if (typefilter.length == 0){
+          return "None"
+       }
+      else{
+          return typefilter[0]
+       
+     }
+  }
+   
    vm.setTags = function (tags) {
     urldrafts.urlupdate(vm.url, {
       tags: tags,

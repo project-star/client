@@ -15,7 +15,8 @@ module.exports = {
    * The session state was updated.
    */
   SESSION_CHANGED: 'sessionChanged',
-
+  STACK_DELETED: 'stackdeleted',
+  STACK_EDITED: 'stackedited',
   // UI state changes
 
   /** The currently selected group changed */

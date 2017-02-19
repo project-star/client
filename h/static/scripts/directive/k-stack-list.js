@@ -1,5 +1,5 @@
 'use strict';
-
+var urlevents = require('../urlevents');
 module.exports = function () {
   return {
     
@@ -7,7 +7,7 @@ module.exports = function () {
     controllerAs: 'vm',
     
     //@ngInject
-    controller: function (store) {
+    controller: function (store,urlUI) {
       var self=this;
 
       this.kStackList = []; //empty list
@@ -38,7 +38,9 @@ module.exports = function () {
             // }
 
             self.kStackList.push(response.stacks[i].name);
+            urlUI.addToAvailableStackList(response.stacks[i].name);
           }
+           console.log(urlUI.getState().availableStackList)
 
         });
 
@@ -65,6 +67,8 @@ module.exports = function () {
 
             //Add to the dropdown list and assign as the selection
             self.kStackList.push(self.kStackName);
+            urlUI.addToAvailableStackList(self.kStackName);
+            console.log(urlUI.getState().availableStackList)
             self.kStackName=""; //Next time the value will not be pre-populated with last value
             self.isCreatingNewStack=false;
           }, function(failure) {

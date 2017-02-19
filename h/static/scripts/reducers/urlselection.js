@@ -40,6 +40,8 @@ TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ORPHANS] = ['Newest', 'Oldest', 'Location
 
 var URL_FILTER_KEYS_AVAILABLE = ['all','text','video','audio'];
 
+var AVAILABLE_STACK_LIST = []
+
 var URL_FILTER_DEFAULT = 'all';
 
 var URL_STACK_DEFAULT = 'serversideaddedstack';
@@ -93,6 +95,7 @@ function init(settings) {
     selectedTab: TAB_DEFAULT,
     selectedUrlFilterKey: URL_FILTER_DEFAULT,
     selectedUrlStackKey:  URL_STACK_DEFAULT,
+    availableStackList: AVAILABLE_STACK_LIST,
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     // Keys by which annotations can be sorted.
@@ -159,7 +162,20 @@ var update = {
   SET_URL_FILTER_KEY: function (state, action) {
     return {selectedUrlFilterKey: action.key};
   },
+  REMOVE_FROM_AVAILABLE_STACK_LIST: function(state,action){
+     if (state.availableStackList.indexOf(action.key) != -1){
+          var index = state.availableStackList.indexOf(action.key);
+          state.availableStackList.splice(index,1);
+     }
+    return {availableStackList: state.availableStackList};
+  },
 
+  ADD_TO_AVAILABLE_STACK_LIST: function(state,action){
+     if (state.availableStackList.indexOf(action.key) == -1){
+        state.availableStackList.push(action.key)
+     }
+    return {availableStackList: state.availableStackList};
+  },
   SET_URL_STACK_KEY: function (state, action) {
     return {selectedUrlStackKey: action.key};
   },
@@ -270,6 +286,19 @@ function setUrlFilterKey(key) {
     key: key,
   };
 }
+function addToAvailableStackList(key) {
+  return {
+    type: actions.ADD_TO_AVAILABLE_STACK_LIST,
+    key: key,
+  };
+}
+
+function removeFromAvailableStackList(key) {
+  return {
+    type: actions.REMOVE_FROM_AVAILABLE_STACK_LIST,
+    key: key,
+  };
+}
 
 function setUrlStackKey(key) {
   return {
@@ -341,6 +370,8 @@ module.exports = {
     setCollapsed: setCollapsed,
     setFilterQuery: setFilterQuery,
     setForceVisible: setForceVisible,
+    addToAvailableStackList: addToAvailableStackList,
+    removeFromAvailableStackList: removeFromAvailableStackList,
     setSortKey: setSortKey,
     setUrlFilterKey: setUrlFilterKey,
     setUrlStackKey: setUrlStackKey,

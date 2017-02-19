@@ -168,6 +168,28 @@ function UrlController(
     });
   });
 
+
+  $scope.$on(urlevents.STACK_EDITED, function (event, eventdata) {
+      console.log("+++in url.js on listening the edit event++++")
+       console.log(eventdata["oldstackname"])
+       console.log(eventdata["newstackname"])
+      if (vm.url.typeFilter.indexOf(eventdata["oldstackname"]) !=-1){
+          var index = vm.url.typeFilter.indexOf(eventdata["oldstackname"]);
+          vm.url.typeFilter.splice(index,1)
+          vm.url.typeFilter.push(eventdata["newstackname"])
+          vm.kStack = eventdata["newstackname"]
+      }
+  });
+
+   $scope.$on(urlevents.STACK_DELETED, function (event, eventdata) {
+      console.log("+++in url.js on listening the edit event++++")
+       console.log(eventdata["stackname"])
+      if (vm.url.typeFilter.indexOf(eventdata["stackname"]) !=-1){
+          var index = vm.url.typeFilter.indexOf(eventdata["stackname"]);
+          vm.url.typeFilter.splice(index,1)
+      }
+  });
+
   vm.id = function() {
      return vm.url.id || "success"
   }
@@ -295,7 +317,7 @@ function UrlController(
    }
    
    vm.allstackslist = function(){
-     return vm.url.allstackslist;
+     return urlUI.getState().availableStackList;
    }
   
    vm.assignedstack = function(){
@@ -308,7 +330,7 @@ function UrlController(
        }
      }
       if (typefilter.length == 0){
-          return "None"
+          return ""
        }
       else{
           return typefilter[0]
@@ -487,7 +509,8 @@ function UrlController(
   vm.setKStackForPage = function() {
 
     var uri = vm.titleLink();
-
+    console.log(vm.assignedstack())
+    var initialStack=vm.assignedstack()
     //TODO:
     var stackToSend =[];
     stackToSend.push(vm.kStack);
@@ -499,9 +522,17 @@ function UrlController(
       var result = store.stack.update({}, payload);
 
       result.then(function(response) {
-
+        if (initialStack != null){
+         console.log("+++this was not null++++")
+         var index = vm.url.typeFilter.indexOf(initialStack);
+          vm.url.typeFilter.splice(index,1)
+         
+        }
+      
+         console.log(initialStack)
+        vm.url.typeFilter.push(vm.kStack)        
         console.log("Successful assignment of Stack " + response);
-        return vm.kStackList;
+        return [];
         
       }, function(failure){
 

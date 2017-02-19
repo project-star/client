@@ -34,25 +34,30 @@ module.exports = function () {
 
           //TODO:
           //Make API call
+          var payload = {"oldname": self.stackName,
+                          "newname":self.newName};
 
+          var result = store.stack.edit({}, payload);
         //On success
+        result.then(function(response) {
+          console.log("New Name is " + self.newName);
 
-        console.log("New Name is " + self.newName);
+          var index = self.stackList.indexOf(self.stackName);
+          if( index > -1)
+            self.stackList[index]=self.newName;
 
-        var index = self.stackList.indexOf(self.stackName);
-        if( index > -1)
-          self.stackList[index]=self.newName;
+          console.log("Stack list now " + self.stackList);
 
-        console.log("Stack list now " + self.stackList);
+          //self.newName="";
+          self.isEditing=false;
 
-        //self.newName="";
-        self.isEditing=false;
+        }, function(failure) {
+            //On failure
+            //self.newName="";
+            self.isEditing=false;
 
-        //On failure
-        //self.newName="";
-        self.isEditing=false;
-
-
+        });
+        
       };
 
 
@@ -61,9 +66,22 @@ module.exports = function () {
           //Make API call to delete the stack
           //On success remove the stackname from the kStackList
 
-        var index = self.stackList.indexOf(self.stackName);
-        if( index > -1)
-          self.stackList.splice(index, 1);         
+          var payload = {"name":self.stackName};
+
+          var result = store.stack.delete({}, payload);
+          result.then(function(response) {
+
+            var index = self.stackList.indexOf(self.stackName);
+            if( index > -1)
+              self.stackList.splice(index, 1);  
+
+            console.log("Stack list now " + self.stackList);
+
+          }, function(failure) {
+            console.log("Unable to delete stack");
+
+          });
+       
       };     
      
     },

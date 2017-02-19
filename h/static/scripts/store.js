@@ -177,6 +177,8 @@ function store($http, settings) {
     stack: {
       update: createAPICall($http, links, 'stack.update'),
       get: createAPICall($http, links, 'stack.read'),
+      edit: createAPICall($http, links, 'stack.edit'),
+      delete: createAPICall($http, links, 'stack.delete'),
     }
   };
 }

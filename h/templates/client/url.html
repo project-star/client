@@ -9,12 +9,14 @@
       <div class="panel panel-info" style="margin-bottom: 5px">
         <div class="panel-heading">
           <span class="badge" style="font-size: 22px;  background-color: white"> 
-            <a href="{{vm.titleLink()}}">
-            <img width="32" height="32" src="https://grabicon.com/icon?domain={{vm.titleLink()}}">
-            </a>
-<!--             <i class="h-icon-youtube url-header-icon__youtube" ng-show="vm.setTitleIcon() == 'youtube'"></i>
+<!--            <a href="{{vm.titleLink()}}">
+            <img width="32" height="32" src="https://grabicon.com/icon?domain={{vm.titleLink()}}"> 
+            </a>  -->
+             <a href="{{vm.titleLink()}}">
+             <i class="h-icon-youtube url-header-icon__youtube" ng-show="vm.setTitleIcon() == 'youtube'"></i>
             <i class="h-icon-soundcloud2 url-header-icon__soundcloud" ng-show="vm.setTitleIcon() == 'soundcloud'"></i>
-            <i class="h-icon-newspaper url-header-icon__text" ng-show="vm.setTitleIcon() == 'text'"></i> -->
+            <i class="h-icon-newspaper url-header-icon__text" ng-show="vm.setTitleIcon() == 'text'"></i> 
+            </a>
           </span> &nbsp;
 
           <a class="url-header__user" target="_blank" ng-href="{{vm.titleLink()}}" ng-show="!vm.showAnnotations" title="Click to visit the page"> {{vm.titleText()}} </a>

@@ -18,6 +18,7 @@ module.exports = function () {
       accountDialog: '<',
       shareDialog: '<',
       sortKey: '<',
+      selectedUrlFilterKey: '<',
       sortKeysAvailable: '<',
       onChangeSortKey: '&',
       setUrlFilterKeyAll: '&',

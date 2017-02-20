@@ -33,18 +33,18 @@
       </search-input>
 
     &nbsp;
-    <button class="top-bar__btn" type="button" title="All" style="font-size: 16px" ng-click="setUrlFilterKeyAll()">
+    <button class="top-bar__btn" type="button" title="All" style="font-size: 16px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='all'}" ng-click="setUrlFilterKeyAll()">
     all</button>
     &nbsp;
-    <button class="top-bar__btn" type="button" title="Filter results by Text notes" style="font-size: 20px"  ng-click="setUrlFilterKeyText()">
+    <button class="top-bar__btn" type="button" title="Filter results by Text notes" style="font-size: 20px"  ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='text'}" ng-click="setUrlFilterKeyText()">
     <i class="h-icon-file-text" ></i></button>
     &nbsp;
 
-    <button class="top-bar__btn" type="button" title="Filter results by Video notes" style="font-size: 20px" ng-click="setUrlFilterKeyVideo()">
+    <button class="top-bar__btn" type="button" title="Filter results by Video notes" style="font-size: 20px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='video'}" ng-click="setUrlFilterKeyVideo()">
     <i class="h-icon-youtube" ></i></button>
 
     &nbsp;
-    <button class="top-bar__btn" type="button" title="Filter results by Audio notes" style="font-size: 20px" ng-click="setUrlFilterKeyAudio()">
+    <button class="top-bar__btn" type="button" title="Filter results by Audio notes" style="font-size: 20px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='audio'}" ng-click="setUrlFilterKeyAudio()">
     <i class="h-icon-soundcloud2" ></i></button>
 
 

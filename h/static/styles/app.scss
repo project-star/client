@@ -221,6 +221,12 @@ body {
   
 }
 
+.sidebar__activebtnnew {
+    background-color: white;;
+    font-weight: bold;
+    color: $topbar-background-dark;
+}
+
 .sidebar__activenew {
     background-color: rgba(97, 97, 97, 0.62);;
     font-weight: bold;

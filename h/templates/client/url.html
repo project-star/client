@@ -42,6 +42,7 @@
             <span ng-show="!vm.onSharedStream">
             &nbsp; &nbsp;
             <!-- CONVERT TO DIRECTIVE -->
+            <i class="h-icon-stack"></i>&nbsp;
               <select class="annotation-header__timestamp" ng-show="!vm.onSharedStream" id={{vm.url.id}}
               ng-options="stackName for stackName in vm.allstackslist()" ng-model=vm.kStack ng-change="vm.setKStackForPage()"
               ></select>

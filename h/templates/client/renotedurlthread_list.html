@@ -1,5 +1,5 @@
 <section style="margin-top: 14px" ng-if="vm.loggedin()">
-<div class="btn-group top-bar__inner" style="margin-bottom: 7px; padding-right: 0px">
+<div class="btn-group top-bar__inner" style="margin-bottom: 7px; padding-right: 0px padding-left: 0px">
 <!--   <div class="btn-group">
     <a href="/renote?q="><button type="button" class="primary-action-btn" style="font-size: 15px">
     All  </button></a>
@@ -21,6 +21,16 @@
     Audio</button></a>
     &nbsp;
   </div> -->
+  <span ng-show="!vm.onSharedStream && sn !== 'serversideaddedstack'" style="
+    background-color: #616161;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    color: white">
+  <strong><i class="h-icon-stack"></i>&nbsp;&nbsp;{{sn}}</strong>
+  </span>
   <div class="top-bar__expander"></div>
   <div class="btn-group" style="justify-content: flex-end;">
   <strong>Sort By:</strong> <select ng-options="option for option in names" 

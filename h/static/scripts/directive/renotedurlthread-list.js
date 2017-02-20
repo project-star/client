@@ -152,13 +152,15 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
      }
   };
 
-       
+  $scope.sn ="";
+
   $scope.onUrlFilter = function(url){
-     console.log(url.url.typeFilter)
+     console.log(url.url.typeFilter);
+     $scope.sn = urlUI.getState().selectedUrlStackKey;
      if (url.url.typeFilter.indexOf(urlUI.getState().selectedUrlFilterKey)!= -1 && url.url.typeFilter.indexOf(urlUI.getState().selectedUrlStackKey)!= -1){
      return true;
      }
-      else
+     else
      return false
 
    }

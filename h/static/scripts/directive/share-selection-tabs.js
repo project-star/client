@@ -7,7 +7,7 @@ module.exports = function () {
     bindToController: true,
     controllerAs: 'vm',
     //@ngInject
-    controller: function ($element, annotationUI, features,datacollect, store,$rootScope) {
+    controller: function ($element, annotationUI, features,datacollect, store,$rootScope, $scope) {
       var self = this;
       this.TAB_OWN_ANNOTATIONS = 'ownannotation';
       this.TAB_SHARED_ANNOTATIONS = 'sharedannotation';
@@ -17,7 +17,12 @@ module.exports = function () {
       this.kStackList = ["Create New Stack"]; //api call to retrieve the list of knowledge stacks
       this.kStack = "Create New Stack"; //default to My Renotes
       this.kStackName ="";
+      $scope.loading;
 
+      // $scope.$watch(
+      //   function () { return self.kStack; },
+      //   function () { self.loading = false; }
+      // );
       
 
       // this.pageTitle = "";
@@ -40,15 +45,16 @@ module.exports = function () {
 
       this.getKStackList = function() {
 
-        var uris = this.getSearchUris();
-        var docURI = uris[0]; //extract the first URI
+        //set the spinner
+        $scope.loading = true;
+
+        //var uris = this.getSearchUris();
+        //var docURI = uris[0]; //extract the first URI
         if (this.url==null){
         console.log("calling with null addresss")
         }
         console.log(this.url)
         var docURI2 = this.url;
-        console.log (docURI)
-        console.log (docURI2)
         var payload = {"uriaddress": this.url};
         var stackRes ="";
 
@@ -69,13 +75,25 @@ module.exports = function () {
             }
 
             self.kStackList.push(response.stacks[i].name);
+            $scope.$apply(
+              function() {
+                $scope.loading=false;
+            });
+
           }
 
-        });
+        }, function(failure) {
+            console.log("Failed to get Stack list " + failure);
+            $scope.$apply(
+              function() {
+                $scope.loading=false;
+            });
+          });
 
       };
 
       this.setKStackForPageOnSave = function() {
+        $scope.loading=true;
         //TODO:
         //Make API call to update URL stack property with supplied stack name
         if(this.isCreatingNewStack()) {
@@ -99,8 +117,18 @@ module.exports = function () {
             self.kStack = self.kStackName;
             self.kStackList.push(self.kStackName);
             self.kStackName=""; //Next time the value will not be pre-populated with last value
+            
+            $scope.$apply(
+              function() {
+                $scope.loading=false;
+              });
           }, function(failure) {
             console.log("Failed to create Stack " + failure);
+            $scope.$apply(
+              function() {
+                $scope.loading=false;
+              });
+           
           });
 
         }
@@ -110,6 +138,7 @@ module.exports = function () {
       };      
 
       this.setKStackForPage = function() {
+        //this.loading=true;
 
         if(this.isCreatingNewStack()) 
           return;
@@ -126,6 +155,17 @@ module.exports = function () {
 
           result.then(function(response) {
             console.log("Successful creation of Stacks1 " + response);
+            $scope.$apply(
+              function() {
+                $scope.loading=false;
+              });
+
+          }, function(failure) {
+            console.log("Failed to set Stack " + failure);
+            $scope.$apply(
+              function() {
+                $scope.loading=false;
+              });
           });
       };
 

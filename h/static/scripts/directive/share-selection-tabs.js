@@ -48,8 +48,8 @@ module.exports = function () {
         //set the spinner
         $scope.loading = true;
 
-        //var uris = this.getSearchUris();
-        //var docURI = uris[0]; //extract the first URI
+        var uris = this.getSearchUris();
+        var docURI = uris[0]; //extract the first URI
         if (this.url==null){
         console.log("calling with null addresss")
         }
@@ -75,12 +75,12 @@ module.exports = function () {
             }
 
             self.kStackList.push(response.stacks[i].name);
+
+          }
             $scope.$apply(
               function() {
                 $scope.loading=false;
             });
-
-          }
 
         }, function(failure) {
             console.log("Failed to get Stack list " + failure);

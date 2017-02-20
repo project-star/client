@@ -33,9 +33,9 @@
 <br><br>
 </div>
 
-<div ng-if="!vm.isLoading() && vm.selectedSharedTab === vm.TAB_OWN_ANNOTATIONS" ng-show="vm.totalOwnAnnotations > 0" style="background-color: #616161;padding-bottom: 10px;margin-bottom: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;font-size: 13px; border-radius: 15px">
+<div ng-if="!vm.isLoading() && vm.selectedSharedTab === vm.TAB_OWN_ANNOTATIONS" ng-show="vm.totalOwnAnnotations > 0" style="background-color: #616161;padding-bottom: 10px;margin-bottom: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;font-size: 13px; border-radius: 15px" title="Choose Knowledge Stack">
   <span 
-    class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; margin-bottom: 10px display: block; overflow: hidden;" title="Choose Knowledge Stack">
+    class="top-bar__inner content" style="padding-left: 0px; padding-right: 0px; overflow: hidden;" title="Choose Knowledge Stack">
     <strong><i class="h-icon-stack" ng-hide=loading style="font-size: 15px; color: white"></i> </strong>
     <span class="btn-icon" ng-show=loading ><span class="spinner"></span></span> 
     <div class="top-bar__expander"></div>
@@ -44,9 +44,9 @@
   </span>
 
   <span ng-show="vm.isCreatingNewStack()"
-    class="top-bar__inner content" style="padding-left: 0px;padding-right: 0px;margin-bottom: 7px;display: block;overflow: hidden;margin-top: 10px;margin-left: 35px;"">
+    class="top-bar__inner content" style="padding-left: 0px;padding-right: 0px;margin-bottom: 0px;display: block;overflow: hidden;margin-top: 10px;margin-left: 35px;"">
     
-    <input type="text" name="stack_name" placeholder="Stack Name" style="width: 80%; height: 25px" ng-model="vm.kStackName" title="Enter the Stack Name" ng-disabled="vm.loading">
+    <input type="text" name="stack_name" placeholder="Stack Name" style="width: 80%; height: 25px" ng-model="vm.kStackName" title="Enter the Stack Name" ng-disabled="loading">
     <button class= "primary-action-btn primary-action-btn__short" ng-click="vm.setKStackForPageOnSave()" style="
     padding-bottom: 3px;
     padding-top: 2px;

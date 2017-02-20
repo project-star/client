@@ -221,11 +221,18 @@ body {
   
 }
 
+.sidebar__activenew {
+    background-color: rgba(97, 97, 97, 0.62);;
+    font-weight: bold;
+    color: #fff;
+}
 .sidebar__active {
     background-color: #616161;
     font-weight: bold;
     color: #fff;
 }
+
+
 
 
 .sidebar ul li.active a{

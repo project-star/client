@@ -30,6 +30,7 @@
         ng-mouseleave="visible=false"  
         ng-click="filterByStack(stackName)"      
       	ng-repeat="stackName in vm.kStackList" 
+        ng-class="{sidebar__activenew: vm.isStackSelected(stackName)}"
         style="padding-left: 35px"
         title={{stackName}}
         >

@@ -14,7 +14,15 @@ module.exports = function () {
       this.kStackName = "";
       this.isCreatingNewStack=false;
       this.newKStackName = "";
-
+      this.isStackSelected = function(stackname){ 
+      if (stackname == urlUI.getState().selectedUrlStackKey){
+      console.log(stackname)
+          return true
+      }
+      else {
+          return false
+      }
+      };
       this.getKStackList = function() {
 
         var uri = "https://akeuriforcall.com";

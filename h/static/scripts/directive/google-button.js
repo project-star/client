@@ -75,7 +75,8 @@ this.submit = function submit(form) {
     gapi.auth.authorize(
                 {
                         client_id: '947422137587-h3h5620i7tirkdf2nr9e6023e88f2oet.apps.googleusercontent.com',
-                        immediate: true,
+                        interactive: true,
+                        authuser: -1,
                         scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/userinfo.profile']
                 },
                 function(token){

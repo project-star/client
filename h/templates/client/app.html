@@ -37,6 +37,16 @@
 </div>
 
 <button class="primary-action-btn" ng-click="toggleLeftNav()" style="position: fixed; left: 0; top: 0;">Nav Drawer</button>
+<div class="content" ng-cloak>
+<google-button  
+   ng-if="accountDialog.visible"
+    on-close="accountDialog.visible = false">
+  </google-button>
+  <login-form
+    ng-if="accountDialog.visible"
+    on-close="accountDialog.visible = false">
+  </login-form>
+</div>
 
 <div class="body-wrapper">
   <nav class="sidebar col-md-2" ng-show=leftNavVisible>

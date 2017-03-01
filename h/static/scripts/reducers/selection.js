@@ -16,10 +16,13 @@ var uiConstants = require('../ui-constants');
 
 var util = require('./util');
 
+
+
 /**
 * Default starting tab.
 */
 var TAB_DEFAULT = uiConstants.TAB_ANNOTATIONS;
+var USER_IMAGE = "";
 
  /**
   * Default sort keys for each tab.
@@ -89,6 +92,7 @@ function init(settings) {
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     // Keys by which annotations can be sorted.
     sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[TAB_DEFAULT],
+    userImage: USER_IMAGE,
   };
 }
 
@@ -146,6 +150,9 @@ var update = {
 
   SET_SORT_KEY: function (state, action) {
     return {sortKey: action.key};
+  },
+  SET_USER_IMAGE: function(state, action) {
+    return {userImage: action.key};
   },
 };
 
@@ -263,6 +270,12 @@ function setSortKey(key) {
     key: key,
   };
 }
+function setUserImage(key) {
+  return {
+    type: actions.SET_USER_IMAGE,
+    key: key,
+  };
+}
 
 /**
  * Returns true if the annotation with the given `id` is selected.
@@ -310,6 +323,7 @@ module.exports = {
     selectTab: selectTab,
     setCollapsed: setCollapsed,
     setFilterQuery: setFilterQuery,
+    setUserImage: setUserImage,
     setForceVisible: setForceVisible,
     setSortKey: setSortKey,
     toggleSelectedAnnotations: toggleSelectedAnnotations,

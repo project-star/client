@@ -19,6 +19,25 @@ function parseAccountID(user) {
   };
 }
 
+function parseAllData(data) {
+  console.log(data)
+  if (!data.userid) {
+    return null;
+  }
+  if (data.img_url) {
+    return {
+    img_url: data.img_url,
+    authenticated: data.authenticated,
+  } 
+  }
+  else {
+  return {
+    img_url: null,
+    authenticated: 'renoted',
+  }
+  };
+}
+
 /**
  * Returns the username part of an account ID or an empty string.
  */
@@ -32,5 +51,6 @@ function username(user) {
 
 module.exports = {
   parseAccountID: parseAccountID,
+  parseAllData: parseAllData,
   username: username,
 };

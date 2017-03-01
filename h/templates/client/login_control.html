@@ -15,8 +15,8 @@
      data-toggle="dropdown"
      dropdown-toggle
      title="{{vm.auth.username}}">
-    <i class="h-icon-account" ng-if="vm.auth.status === 'logged-in'" style="font-size: 25px"></i><!--
-    <img ng-if="vm.auth.status === 'logged-in' && vm.auth.authenticated !== 'renoted'" ng-src="{{vm.auth.img_url}}" height="32" width="32" />
+    <i class="h-icon-account" ng-if="vm.auth.status === 'logged-in' && vm.auth.authenticated === 'renoted'" style="font-size: 25px"></i>
+    <img ng-if="vm.auth.status === 'logged-in' && vm.auth.authenticated !== 'renoted'" ng-src="{{vm.auth.img_url}}" height="32" width="32" /><!--
     <i class="h-icon-account" ng-if="vm.auth.status === 'logged-in' && vm.auth.authenticated === 'renoted'"></i><!--
     !--><i class="h-icon-arrow-drop-down top-bar__dropdown-arrow"></i>
   </a>

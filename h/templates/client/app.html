@@ -28,8 +28,11 @@
   </a>
   -->
 </div>
-
 <div class="content" ng-cloak>
+<google-button  
+   ng-if="accountDialog.visible"
+    on-close="accountDialog.visible = false">
+  </google-button>
   <login-form
     ng-if="accountDialog.visible"
     on-close="accountDialog.visible = false">

@@ -177,6 +177,7 @@ module.exports = angular.module('h', [
   .directive('loggedoutMessage', require('./directive/loggedout-message'))
   .directive('loginControl', require('./directive/login-control'))
   .directive('loginForm', require('./directive/login-form').directive)
+  .directive('googleButton', require('./directive/google-button').directive)
   .directive('markdown', require('./directive/markdown'))
   .directive('vidmarkdown', require('./directive/vidmarkdown'))
   .directive('publishAnnotationBtn', require('./directive/publish-annotation-btn'))
@@ -309,6 +310,24 @@ module.exports = angular.module('h', [
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       
       console.log("Injected the sound Cloud widget script in the document");
+    };
+  })
+  .provider('googleAuth', function() {
+    //constructor function of the Provider
+    var apiUrl = "https://apis.google.com/js/client.js";
+    var apiUrl2 = "https://apis.google.com/js/platform.js";
+    //$get gets automatically executed by AngularJS
+
+    this.$get = function() {
+      console.log("...Instantiating the googleAuth ...");
+
+      var tag = document.createElement('script');
+      tag.src = apiUrl;
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      tag.src = apiUrl2;
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      console.log("Injected the googleApi script in the document");
     };
   })
   

@@ -15,7 +15,8 @@
      data-toggle="dropdown"
      dropdown-toggle
      title="{{vm.auth.username}}">
-    <i class="h-icon-account" ng-if="vm.auth.status === 'logged-in'"></i><!--
+    <img ng-if="vm.auth.status === 'logged-in' && vm.auth.authenticated !== 'renoted'" ng-src="{{vm.auth.img_url}}" height="32" width="32" />
+    <i class="h-icon-account" ng-if="vm.auth.status === 'logged-in' && vm.auth.authenticated === 'renoted'"></i><!--
     !--><i class="h-icon-arrow-drop-down top-bar__dropdown-arrow"></i>
   </a>
   <ul class="dropdown-menu pull-right" role="menu">
@@ -23,7 +24,7 @@
       <a href="{{vm.serviceUrl('user',{user: vm.auth.username})}}"
          class="dropdown-menu__link"
          title="View all your annotations"
-         target="_blank">{{vm.auth.username}}</a>
+         target="_blank">{{vm.auth.username}} {{vm.auth.authenticated}}</a>
     </li>
     <!--
     <li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">

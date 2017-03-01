@@ -4,17 +4,21 @@ var scrollIntoView = require('scroll-into-view');
 
 var events = require('./events');
 var parseAccountID = require('./filter/persona').parseAccountID;
+var parseAllData = require('./filter/persona').parseAllData;
 var scopeTimeout = require('./util/scope-timeout');
 var uiConstants = require('./ui-constants');
 
-function authStateFromUserID(userid) {
-  if (userid) {
-    var parsed = parseAccountID(userid);
+function authStateFromUserID(data) {
+  if (data.userid) {
+    var parsed = parseAccountID(data.userid);
+    var googleparsed = parseAllData(data);
     return {
       status: 'logged-in',
-      userid: userid,
+      userid: data.userid,
       username: parsed.username,
       provider: parsed.provider,
+      img_url: googleparsed.img_url,
+      authenticated: googleparsed.authenticated,
     };
   } else {
     return {status: 'logged-out'};
@@ -86,6 +90,8 @@ module.exports = function AppController(
     return annotationUI.getState().sortKey;
   };
 
+  console.log(annotationUI.getState().userImage);
+
   $scope.sortKeysAvailable = function () {
     return annotationUI.getState().sortKeysAvailable;
   };
@@ -94,7 +100,7 @@ module.exports = function AppController(
 
   // Reload the view when the user switches accounts
   $scope.$on(events.USER_CHANGED, function (event, data) {
-    $scope.auth = authStateFromUserID(data.userid);
+    $scope.auth = authStateFromUserID(data);
     $scope.accountDialog.visible = false;
 
     if (!data || !data.initialLoad) {
@@ -106,7 +112,7 @@ module.exports = function AppController(
     // When the authentication status of the user is known,
     // update the auth info in the top bar and show the login form
     // after first install of the extension.
-    $scope.auth = authStateFromUserID(state.userid);
+    $scope.auth = authStateFromUserID(state);
 
     if (!state.userid && settings.openLoginForm) {
       $scope.login();

@@ -13,6 +13,10 @@ function sessionActions(options) {
       method: 'POST',
       params: { __formid__: 'login' },
     },
+    googlelogin: {
+      method: 'POST',
+      params: { __formid__: 'googlelogin' },
+    },
 
     logout: {
       method: 'POST',
@@ -132,6 +136,8 @@ function session($http, $resource, $rootScope, flash, raven, settings) {
       $rootScope.$broadcast(events.USER_CHANGED, {
         initialLoad: isInitialLoad,
         userid: model.userid,
+        img_url: model.img_url,
+        authenticated: model.authenticated,
       });
 
       // associate error reports with the current user in Sentry

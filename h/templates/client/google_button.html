@@ -1,0 +1,24 @@
+  <div class="form-vertical"
+       ng-form="form"
+       ng-submit="vm.submit(form['googlelogin'])">
+    <div class="tab-content">
+      <form data-value="googlelogin"
+            class="form"
+            name="googlelogin"
+            form-validate
+            novalidate>
+
+        <p class="form-description form-error"
+           ng-show="login.responseErrorMessage">
+          {{login.responseErrorMessage}}
+        </p>
+
+        <div class="form-actions">
+          <div class="form-actions-buttons">
+            <button class="btn btn-danger" type="submit" name="login"
+                    status-button="login"><svg-icon class="top-bar__apply-icon" name="'GoogleLogo'"></svg-icon> </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

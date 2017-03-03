@@ -48,6 +48,25 @@ module.exports = function AppController(
   $scope.shareDialog = {visible: false};
   $scope.helpPanel = {visible: false};
 
+  //Intro variable
+  $scope.showIntro = true;
+  $scope.totalIntroItems = 4;
+  $scope.currentIntroItem = 1; //Skip condition
+
+  $scope.incrIntroCount = function() {
+    if($scope.currentIntroItem < $scope.totalIntroItems)
+      $scope.currentIntroItem = $scope.currentIntroItem + 1;
+    else {
+      $scope.currentIntroItem = 1; //Skip condition
+      $scope.showIntro = false; //Also set intro completed in user profile (backend)
+    }
+  };
+
+  $scope.skipIntro = function() {
+    $scope.currentIntroItem = 1;
+    $scope.showIntro = false; //Do not set intro completed; user will see the intro till the time he doesn't finish it
+  };
+
   //Variable to set Stream page
  // $scope.isSharedStream = false;
   console.log($location.path())

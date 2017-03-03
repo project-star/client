@@ -16,8 +16,8 @@ module.exports = function () {
 
       this.prunedStackName = function() {
         var prunedName = this.stackName;
-        if (this.stackName.length > 12) {
-          prunedName = this.stackName.slice(0, 12) + '…';
+        if (this.stackName.length > 18) {
+          prunedName = this.stackName.slice(0, 18) + '…';
         }
         return prunedName;        
       };

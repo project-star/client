@@ -236,8 +236,8 @@ function UrlController(
   vm.total = vm.url.allannotation.length
   vm.titleText = function() {
     var titletext = vm.url.title;
-     if (titletext.length > 70) {
-    titletext = titletext.slice(0, 70) + '…';
+     if (titletext.length > 60) {
+    titletext = titletext.slice(0, 60) + '…';
       }
      return titletext;
    }

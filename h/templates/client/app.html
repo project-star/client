@@ -21,9 +21,11 @@
   set-url-filter-key-video = "setUrlFilterKeyVideo()"
   set-url-filter-key-audio = "setUrlFilterKeyAudio()"
   toggle-left-nav="toggleLeftNav()"
-  left-nav-visible="leftNavVisible">
+  left-nav-visible="leftNavVisible"
+  ng-class="{'focus_element': introItem}">
 </top-bar>
 
+<!-- The Modal -->
 
 
 <div class="create-account-banner" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
@@ -37,6 +39,82 @@
 </div>
 
 <button class="primary-action-btn" ng-click="toggleLeftNav()" style="position: fixed; left: 0; top: 0;">Nav Drawer</button>
+
+<div id="myModal" class="modal" ng-if="auth.status === 'logged-in' && !isSharedStream && showIntro">
+  <div style="position: fixed">
+    <div class="intro_content">
+      <span class="close">
+      <button class="primary-action-btn primary-action-btn--short" ng-click=incrIntroCount()>Next</button>
+      <button class="primary-action-btn primary-action-btn--short" ng-click=skipIntro()>Skip</button>
+      </span>
+      <strong>GETTING STARTED GUIDE</strong>&nbsp;&nbsp;&nbsp;&nbsp; Step {{currentIntroItem}} of {{totalIntroItems}}
+    </div>
+
+    <div class="intro_content" ng-show="currentIntroItem == 1">
+      <p>    
+      <span class="badge">1</span>&nbsp;&nbsp;
+      <strong>Create Knowledge Stacks</strong> 
+      </p>      
+      <p>
+        Stacks are like folders. Use them to hold your notes on a project or a topic.
+      </p>
+      <br>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/jMYDVcmCHtE?ecver=1" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="intro_content" ng-show="currentIntroItem == 2">
+      <p>    
+      <span class="badge">2</span>&nbsp;&nbsp;
+      <strong>Understand the Cards</strong> 
+      </p>      
+      <p>
+        Each Card groups together all the notes from a page. By default, the card shows only 1 note.
+      </p>
+      <p>
+        Use the <i class="h-icon-circle-down btn-icon"></i> icon  to expand the card to show all the annotations from the page. <br>
+        And use the <i class="h-icon-circle-up btn-icon"></i> icon to collapse the card to default view.
+      </p>
+      <p>
+        Expanding the card also makes some other properties visible such as the create date, <br> the update date and the stack the card belongs to, if any. <br> You can easily assign a Stack <i class="h-icon-stack"></i> to the card by selecting from the list in the drop down.
+      </p>
+      <br>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/pOWM_QWOTVA?ecver=1" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="intro_content" ng-show="currentIntroItem == 3">
+      <p>    
+      <span class="badge">3</span>&nbsp;&nbsp;
+      <strong>ReNotes actions</strong> 
+      </p>      
+      <p>
+        ReNotes stands for highlights, annotations, and multimedia clip notes.
+      </p>
+      <p>
+        A card contains one or more ReNotes. Every ReNote has a <i class="h-icon-dots-three-vertical2 btn-icon "></i> button that contains all <br> the actions that can be performed on a ReNote - Share, Edit, Delete.
+      </p>
+      <br>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/03PXXCTOuNw?ecver=1" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="intro_content" ng-show="currentIntroItem == 4">
+      <p>    
+      <span class="badge">4</span>&nbsp;&nbsp;
+      <strong>Search</strong> 
+      </p>      
+      <p>
+        ReNoted supports plain text as well as facetted search. <br>
+        You can either type a plain text query or prefix them with "tag:", "type:" to filter the search results.
+      </p>
+      <p>
+        Alternatively, you can use the filter buttons next to the search box to filter the results by type.
+      </p>
+      <br>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/T2s7Rh6clqw?ecver=1" frameborder="0" allowfullscreen></iframe>
+    </div>  
+
+  </div>
+</div>
+
 
 <div class="body-wrapper">
   <nav class="sidebar col-md-2" ng-show=leftNavVisible>

@@ -9,7 +9,7 @@ module.exports = function () {
     //@ngInject
     controller: function (store,urlUI) {
       var self=this;
-
+      this.isUrlLoading = urlUI.getState().urlLoading;
       this.kStackList = []; //empty list
       this.kStackName = "";
       this.isCreatingNewStack=false;

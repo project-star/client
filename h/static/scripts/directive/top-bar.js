@@ -9,6 +9,7 @@ module.exports = function () {
     scope: {
       auth: '<',
       isSidebar: '<',
+      onUrlLoading: '<',
       onShowHelpPanel: '&',
       onLogin: '&',
       onLogout: '&',

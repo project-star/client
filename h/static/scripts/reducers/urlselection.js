@@ -46,6 +46,7 @@ var URL_FILTER_DEFAULT = 'all';
 
 var URL_STACK_DEFAULT = 'serversideaddedstack';
 
+var URL_LOADING = true;
 function initialSelection(settings) {
   var selection = {};
   if (settings.urls) {
@@ -98,6 +99,7 @@ function init(settings) {
     availableStackList: AVAILABLE_STACK_LIST,
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
+    urlLoading: URL_LOADING,
     // Keys by which annotations can be sorted.
     sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[TAB_DEFAULT],
   };
@@ -157,6 +159,9 @@ var update = {
 
   SET_SORT_KEY: function (state, action) {
     return {sortKey: action.key};
+  },
+  SET_URL_LOADING: function (state,action) {
+    return {urlLoading: action.key};
   },
 
   SET_URL_FILTER_KEY: function (state, action) {
@@ -272,6 +277,7 @@ function highlightUrls(ids) {
 }
 
 
+
 /** Set the type annotations to be displayed. */
 function selectTab(type) {
   return {
@@ -283,6 +289,13 @@ function selectTab(type) {
 function setUrlFilterKey(key) {
   return {
     type: actions.SET_URL_FILTER_KEY,
+    key: key,
+  };
+}
+
+function setUrlLoading(key) {
+  return {
+    type: actions.SET_URL_LOADING,
     key: key,
   };
 }
@@ -375,6 +388,7 @@ module.exports = {
     setSortKey: setSortKey,
     setUrlFilterKey: setUrlFilterKey,
     setUrlStackKey: setUrlStackKey,
+    setUrlLoading: setUrlLoading,
     toggleSelectedUrls: toggleSelectedUrls,
   },
 

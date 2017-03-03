@@ -15,6 +15,17 @@
   order: 0;
 }
 
+
+.simple-loading-icon {
+  color: $gray-dark;
+  display: inline-block;
+  order: 0;
+  font-size: 100px;
+  margin-top: 300px;
+  margin-left: 300px;
+}
+
+
 :not(:focus) ~ .simple-search-icon {
  // color: $white;
   background-color: $white;

@@ -34,12 +34,16 @@ module.exports = class SharedStreamController
         if searchParams.hasOwnProperty('any')
             toSort = false
         query = angular.extend(searchParams)
+        $scope.isLoading = true;
+        urlUI.setUrlLoading(true)
         store.sharing.get(query).then(loadurllist).catch((err) -> console.error err)
         #call the shared urls query
 
     loadurllist = ({total,urllist}) ->
         console.log("+++in new loadurllist function++++")
         console.log(urllist)
+        $scope.isLoading = false;
+        urlUI.setUrlLoading(false)
         urlMapper.loadUrls(urllist)
 
     fetchurl = (urlid) ->

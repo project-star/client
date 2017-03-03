@@ -33,12 +33,18 @@ module.exports = class NewStreamController
         console.log(Object.keys(searchParams).length)
         if searchParams.hasOwnProperty('any')
             toSort = false
+        $scope.isLoading=true;
+        urlUI.setUrlLoading(true)
+        console.log(urlUI.getState().urlLoading)
         query = angular.extend(searchParams)
         store.urls(query).then(loadurllist).catch((err) -> console.error err)
 
     loadurllist = ({total,urllist}) ->
         console.log("+++in new loadurllist function++++")
         console.log(urllist)
+        $scope.isLoading=false;
+        urlUI.setUrlLoading(false)
+        console.log(urlUI.getState().urlLoading)
         urlMapper.loadUrls(urllist)
 
     fetchurl = (urlid) ->

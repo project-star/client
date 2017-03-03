@@ -1,4 +1,5 @@
 <top-bar
+  on-url-loading ="urlLoading()"
   auth="auth"
   on-login="login()"
   on-logout="logout()"
@@ -36,17 +37,17 @@
   <a href="" ng-click="login()">log in</a>
 </div>
 
-<button class="primary-action-btn" ng-click="toggleLeftNav()" style="position: fixed; left: 0; top: 0;">Nav Drawer</button>
+<button class="primary-action-btn" ng-click="toggleLeftNav()" style="position: fixed; left: 0; top: 0;" ng-disabled="urlLoading()">Nav Drawer</button>
 
 <div class="body-wrapper">
-  <nav class="sidebar col-md-2" ng-show=leftNavVisible>
+  <nav class="sidebar col-md-2" ng-show=leftNavVisible ng-disabled="urlLoading()">
     <ul style="margin-bottom: 0px">
       <li>
-        <a class="sidebar__nav-label" href="/renote" ng-click="toggleSharedStream(false)" ng-class="{sidebar__active: !isSharedStream}" title="Your Personal Notes">
+        <a class="sidebar__nav-label" ng-href="{{urlLoading() ? '' : '/renote'}}" ng-click="toggleSharedStream(false)" ng-class="{sidebar__active: !isSharedStream && !urlLoading()}" title="Your Personal Notes">
         <i class="h-icon-user2"></i> My ReNotes
         </a>
       </li>
-      <li><a class="sidebar__nav-label" href="/shared" ng-click="toggleSharedStream(true)" ng-class="{sidebar__active: isSharedStream}" title="Received Notes">
+      <li><a class="sidebar__nav-label" ng-href="{{urlLoading() ? '' : '/shared'}}" ng-click="toggleSharedStream(true)" ng-class="{sidebar__active: isSharedStream && !urlLoading()}" title="Received Notes">
       <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li>      
     </ul>
 

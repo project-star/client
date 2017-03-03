@@ -9,7 +9,7 @@
     <font face="Roboto,Helvetica,Arial,sans-serif" style="font-size: 20px"><strong>ReNoted</strong> </font>
     </a>
 
-    <button class="top-bar__btn" type="button" title="Click to Open/Close Left Navigation bar" style="font-size: 15px" ng-click="toggleLeftNav()">
+    <button class="top-bar__btn" type="button" title="Click to Open/Close Left Navigation bar" style="font-size: 15px" ng-click="toggleLeftNav()" ng-disabled="onUrlLoading">
       <i class="h-icon-circle-left2" ng-show="leftNavVisible"></i>
       <i class="h-icon-circle-right2" ng-show="!leftNavVisible"></i>
       </button>
@@ -25,6 +25,7 @@
 
 
       <search-input 
+        ng-disabled="onUrlLoading"
         class="search-input"
         query="searchController.query()"
         on-search="searchController.update($query)"
@@ -33,18 +34,18 @@
       </search-input>
 
     &nbsp;
-    <button class="top-bar__btn" type="button" title="All" style="font-size: 16px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='all'}" ng-click="setUrlFilterKeyAll()">
+    <button class="top-bar__btn" type="button" title="All" style="font-size: 16px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='all'}" ng-click="setUrlFilterKeyAll()" ng-disabled="onUrlLoading">
     all</button>
     &nbsp;
-    <button class="top-bar__btn" type="button" title="Filter results by Text notes" style="font-size: 20px"  ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='text'}" ng-click="setUrlFilterKeyText()">
+    <button class="top-bar__btn" type="button" title="Filter results by Text notes" style="font-size: 20px"  ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='text'}" ng-click="setUrlFilterKeyText()" ng-disabled="onUrlLoading">
     <i class="h-icon-file-text" ></i></button>
     &nbsp;
 
-    <button class="top-bar__btn" type="button" title="Filter results by Video notes" style="font-size: 20px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='video'}" ng-click="setUrlFilterKeyVideo()">
+    <button class="top-bar__btn" type="button" title="Filter results by Video notes" style="font-size: 20px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='video'}" ng-click="setUrlFilterKeyVideo()" ng-disabled="onUrlLoading">
     <i class="h-icon-youtube" ></i></button>
 
     &nbsp;
-    <button class="top-bar__btn" type="button" title="Filter results by Audio notes" style="font-size: 20px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='audio'}" ng-click="setUrlFilterKeyAudio()">
+    <button class="top-bar__btn" type="button" title="Filter results by Audio notes" style="font-size: 20px" ng-class="{'sidebar__activebtnnew': selectedUrlFilterKey=='audio'}" ng-click="setUrlFilterKeyAudio()" ng-disabled="onUrlLoading">
     <i class="h-icon-soundcloud2" ></i></button>
 
 

@@ -34,7 +34,7 @@ module.exports = function AppController(
   // logged-in or not, so it has an initial status of 'unknown'. This can be
   // used by templates to show an intermediate or loading state.
   $scope.auth = {status: 'unknown'};
-
+  console.log(urlUI.getState().urlLoading)
   // Allow all child scopes to look up feature flags as:
   //
   //     if ($scope.feature('foo')) { ... }
@@ -51,6 +51,7 @@ module.exports = function AppController(
   //Variable to set Stream page
  // $scope.isSharedStream = false;
   console.log($location.path())
+  console.log(urlUI.getState().urlLoading)
   if ($location.path() == "/renote"){
     $scope.isSharedStream = false;
   }
@@ -64,6 +65,10 @@ module.exports = function AppController(
   }
   $scope.selectedUrlFilterKey = function() {
     return urlUI.getState().selectedUrlFilterKey;
+  }
+
+  $scope.urlLoading = function() {
+    return urlUI.getState().urlLoading;
   }
   $scope.serviceUrl = serviceUrl;
 
@@ -151,9 +156,11 @@ module.exports = function AppController(
   $scope.leftNavVisible = true;
 
   $scope.filterByStack = function(stackName) {
+    if (!urlUI.getState().urlLoading){
     urlUI.setUrlStackKey(stackName)
     console.log("I am in the app-controller printing the stackname of the clicked stack " + stackName);
     console.log("uiselectedstack " + urlUI.getState().selectedUrlStackKey)
+   }
   };
 
   $scope.toggleLeftNav = function() {
@@ -240,5 +247,5 @@ module.exports = function AppController(
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;
   $scope.hasSharingUpdates = datacollect.hasSharingUpdates;
   $scope.sharedUpdates = datacollect.sharedUpdates.sharecount;
-  
+  console.log(urlUI.getState().urlLoading)  
 };

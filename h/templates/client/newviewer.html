@@ -41,13 +41,13 @@
 
 <span>
 
-  <div ng-show="isLoading">
+  <div ng-show="isLoading" ng-hide="auth.status === 'logged-out'">
    <button type="button" class="simple-loading-icon btn btn-clean">
     <span class="btn-icon"><span class="spinner" style="font-size: 100px; display: block"></span></span>
   </button>
   </div>
   <renotedurlthread-list
-    ng-show="!isLoading"
+    ng-show="!isLoading || auth.status === 'logged-out'"
     on-change-collapsed="setCollapsed(id, collapsed)"
     on-clear-selection="clearSelection()"
     on-focus="focus(annotation)"

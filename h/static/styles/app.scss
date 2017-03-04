@@ -147,7 +147,7 @@ body {
 
 .sidebar {
   position: fixed;
-  z-index: 99;
+  z-index: 10;
       background: #dedede;
   top: 55px;
   bottom: 0;
@@ -380,5 +380,57 @@ body {
     text-decoration: none;
   //border-bottom: 1px solid #d0d0d0;
 }
+
+
+//Starting the modal css part
+/* The Modal (background) */
+
+.modal {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 500; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: -10;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.intro_content {
+    background-color: #fefefe;
+    //margin: auto;
+    margin-left: 400px;
+    padding: 20px;
+    border: 1px solid #888;  
+    width: 60%;
+}
+
+.modal-content .intro_topbar_account {
+  align: right;
+  width: 50%;
+}
+
+
+/* The Close Button */
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+
 
 

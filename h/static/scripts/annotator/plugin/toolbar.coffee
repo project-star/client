@@ -1,16 +1,51 @@
 
 Annotator = require('annotator')
 $ = Annotator.$
-
 isMedia = ->
   uri = document.location.href
   matchYT = uri.includes("youtube.com")
   matchSC = uri.includes("soundcloud.com")
-
+#  anyYTplayer=document.getElementById("article_body")
+#  iframe = document.getElementsByTagName('video')
+  iframe = document.getElementsByTagName('iframe')[0]
+#  innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+  tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+#  innerDoc = iframe.contentWindow.postMessage(JSON.stringify({'event': 'command','func': 'playVideo'}), '*');
+  pid = iframe.getAttribute('id');
+  player = new YT.Player(pid, {
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+#  anyYTplayer = document.getElementsByTagName("video")
+#  anyYTplayer=document.getElementsByClassName("html5-video-container")
+#  anyYTplayer =  document.querySelector('div[aria-label="YouTube Video Player"]');
+#  anystarttime=iframe.getDuration()
+  console.log("+++this is on any page where anyYTplayer in instantiated+++++")
+  console.log(iframe)
+#  console.log(innerDoc)
+#  anyYTplayer = document.getElementById("movie_player");
+#  anystarttime=anyYTplayer.getCurrentTime();
+  #player = new playerjs.Player('iframe');
+  console.log(player)
+  #anystarttime=player.getDuration();
+  #console.log(anystarttime)
   if matchYT or matchSC
     return true
   
   return false
+
+
+onPlayerStateChange = ->
+  console.log("true")
+
+onPlayerReady = (event) ->
+  console.log(event.target.getDuration())
+  event.target.playVideo();
 
 makeButton = (item) ->
   anchor = $('<button></button>')

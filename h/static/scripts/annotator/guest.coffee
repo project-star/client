@@ -51,7 +51,7 @@ module.exports = class Guest extends Annotator
   visibleHighlights: false
 
   html: extend {}, Annotator::html,
-    adder: '<hypothesis-adder></hypothesis-adder>';
+    adder: '<renoted-adder></renoted-adder>';
 
   constructor: (element, options) ->
     super

@@ -154,7 +154,7 @@ module.exports = angular.module('h', [
   })
 
   // The root component for the application
-  .directive('hypothesisApp', require('./directive/app'))
+  .directive('renotedApp', require('./directive/app'))
 
   // UI components and helpers
   .directive('annotation', require('./directive/annotation').directive)
@@ -335,5 +335,5 @@ module.exports = angular.module('h', [
 
 processAppOpts();
 
-var appEl = document.querySelector('hypothesis-app');
+var appEl = document.querySelector('renoted-app');
 angular.bootstrap(appEl, ['h'], {strictDi: true});

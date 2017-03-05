@@ -110,7 +110,6 @@ module.exports = class Guest extends Annotator
       tempSC = docURI.includes("soundcloud.com")
 
       if tempYT
-        console.log("=-=-=-=- inside the Youtube condition =-=-=-=-")
         uriPromise = Promise.resolve(decodeURIComponent(window.location.href))
         metadataPromise = Promise.resolve({
           title: document.title
@@ -118,7 +117,6 @@ module.exports = class Guest extends Annotator
         })
         
       else if tempSC
-        console.log "inside the Soundcloud condition"
         
         if annotation?
           uriPromise = Promise.resolve(annotation.auddata[0].uri)
@@ -144,7 +142,6 @@ module.exports = class Guest extends Annotator
     })
 
     return Promise.all([metadataPromise, uriPromise]).then ([metadata, href]) ->
-      console.log(" URI promise: " + JSON.stringify(metadata) + " Metadata promise: " + JSON.stringify(href))
       return {uri: normalizeURI(href, baseURI), metadata}
 
   _connectAnnotationSync: (crossframe) ->
@@ -344,7 +341,6 @@ module.exports = class Guest extends Annotator
     setDocumentInfo = (info) ->
       annotation.document = info.metadata
       annotation.uri = info.uri
-      console.log("In setDocumentInfor annotation " + JSON.stringify(annotation))
 
     setTargets = ([info, selectors]) ->
       # `selectors` is an array of arrays: each item is an array of selectors
@@ -420,7 +416,6 @@ module.exports = class Guest extends Annotator
     this.adderCtrl.showAt(left, top, arrowDirection)
 
   _onClearSelection: () ->
-    console.log ("+++ on clear selection ++++")
     this.adderCtrl.hide()
     @selectedRanges = []
 

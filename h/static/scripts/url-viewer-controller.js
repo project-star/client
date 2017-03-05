@@ -9,9 +9,7 @@ var angular = require('angular');
  */
 function fetchThread(store, id) {
   var annot;
-  console.log("in prefetch thread")
   return store.url({id: id}).then(function (annot) {
-    console.log("in fetch thread")
     if (annot.references && annot.references.length) {
       // This is a reply, fetch the top-level annotation
       return store.annotation.get({id: annot.references[0]});
@@ -33,9 +31,7 @@ function renotedfetchThread(store, id) {
   var result;
   var i=0;
   result=[]
-  console.log("in prefetch thread")
   return store.url({id: id}).then(function (urlwise) {
-    console.log("in renotedfetch thread")
       for (i = 0; i < urlwise.rows.total; i++) { 
           annot = urlwise.rows.annotations[i]
           result = result.concat(annot)     
@@ -74,8 +70,6 @@ function RenotedAnnotationViewerController (
   };
 
   this.ready = renotedfetchThread(store, id).then(function (annots) {
-    console.log("++++++ in ready renoted annotation++++++") 
-    console.log(annots)
     annotationMapper.loadAnnotations(annots);
     var topLevelAnnot = annots.filter(function (annot) {
       return (annot.references || []).length === 0;

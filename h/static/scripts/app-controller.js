@@ -24,7 +24,6 @@ function authStateFromUserID(userid) {
 function fetchSearch(store, query) {
   var urllistvalue={};
   
-  console.log("+++++ in prefetch thread +++++")
   return store.urls(query).then(function (searchResult) {
     urllistvalue=searchResult;
     return urllistvalue
@@ -38,16 +37,12 @@ module.exports = function AppController(
   serviceUrl, session, settings, streamer, searchFilter,store,datacollect
 ) {
   $controller('AnnotationUIController', {$scope: $scope});
-  console.log(annotationUI.getState().selectedAnnotationMap)
   annotationUI.selectSharedTab('ownannotation')
-  console.log(annotationUI.getState().selectedSharedTab)  
   $scope.mainTab = true;
   $scope.switchUpperTabs = function() {
       $scope.mainTab = !$scope.mainTab;
       if ($scope.mainTab){
-          console.log($scope.mainTab)
 //          annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
-          console.log(annotationUI.getState().selectedTab);
       }
   } 
   $scope.getMainTab = function(){
@@ -168,7 +163,6 @@ module.exports = function AppController(
     $scope.sidebarsearchresult=""
     $scope.displayedNumber = 5;
     var selectedTab = annotationUI.getState().selectedTab;
-    console.log(selectedTab)
     if (!annotationUI.getState().selectedTab || annotationUI.getState().selectedTab === uiConstants.TAB_ORPHANS) {
       selectedTab = uiConstants.TAB_ANNOTATIONS;
     }
@@ -227,7 +221,6 @@ module.exports = function AppController(
       var actualquery = angular.extend(searchParams)
       $scope.sidebarquery1 = query
       var actualsearchResult = fetchSearch(store,actualquery).then(function(results){
-      console.log(results)
       $scope.$apply(function() {
           $scope.sidebarquery = results.total
           $scope.sidebarsearchresult = results
@@ -248,8 +241,6 @@ module.exports = function AppController(
 
   $scope.loadMore = function() {
   var presentNumber = $scope.displayedNumber;
-  console.log("in load more function")
-  console.log (presentNumber)
   $scope.displayedNumber = presentNumber + 5;
   
   }

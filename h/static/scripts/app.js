@@ -301,14 +301,12 @@ module.exports = angular.module('h', [
     //$get gets automatically executed by AngularJS
     
     this.$get = function() {
-      console.log("...Instantiating the scService ...");
       
       var tag = document.createElement('script');
       tag.src = apiUrl;
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       
-      console.log("Injected the sound Cloud widget script in the document");
     };
   })
   

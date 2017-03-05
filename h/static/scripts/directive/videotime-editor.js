@@ -3,8 +3,6 @@
 // @ngInject
 function VideoTimeEditorController(starttime,endtime) {
   this.onTimeChanged = function () {
-    console.log(starttime)
-    console.log(endtime)
     starttime.store(this.starttime);
     endtime.store(this.endtime)
     var newstarttime = this.starttime.map(function (item) { return item.text; });

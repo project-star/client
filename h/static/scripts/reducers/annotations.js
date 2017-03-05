@@ -89,8 +89,6 @@ var update = {
     var nextTag = state.nextTag;
 
     action.annotations.forEach(function (annot) {
-      console.log("+++++in action add annotations+++++")
-      console.log(annot)
       var existing;
       if (annot.id) {
         existing = findByID(state.annotations, annot.id);
@@ -120,8 +118,6 @@ var update = {
         unchanged.push(annot);
       }
     });
-    console.log("+++before returning from add_annotations+++")
-    console.log(added.concat(updated).concat(unchanged))
     return {
       annotations: added.concat(updated).concat(unchanged),
       nextTag: nextTag,
@@ -169,10 +165,6 @@ var actions = util.actionTypes(update);
 /** Add annotations to the currently displayed set. */
 function addAnnotations(annotations, now) {
   now = now || new Date();
-  console.log("+++++++++in reducers add annoation++++++++++")
-  console.log(now)
-  console.log("++++++++++++++++++++++++++++")
-  console.log(annotations)
   // Add dates to new annotations. These are ignored by the server but used
   // when sorting unsaved annotation cards.
   annotations = annotations.map(function (annot) {
@@ -192,8 +184,6 @@ function addAnnotations(annotations, now) {
 
   return function (dispatch, getState) {
     var added = annotations.filter(function (annot) {
-      console.log("+++++in filter call in reducers++++++")
-      console.log(annot)
       return !findByID(getState().annotations, annot.id);
     });
 

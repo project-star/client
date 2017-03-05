@@ -76,8 +76,6 @@ function AnnotationController(
         }
       });
       //DOMtoString(document,savedAnnot.id);
-      console.log("in save function")
-      console.log(JSON.stringify(savedAnnot))
       return savedAnnot;
     });
   }
@@ -188,8 +186,6 @@ function AnnotationController(
       // Highlights are always private.
       vm.annotation.permissions = permissions.private();
       
-      console.log(vm.annotation.text)
-      console.log(vm.annotation.page_data)
       save(vm.annotation).then(function(model) {
         model.$$tag = vm.annotation.$$tag;
         $rootScope.$broadcast(events.ANNOTATION_CREATED, model);
@@ -298,7 +294,6 @@ function AnnotationController(
   //Generates unique Id for the sc player
   vm.getPlayerId = function() {
     var playerId = vm.annotation.renoted_id.toString();
-    console.log("Creating playerId: " + playerId);
     return playerId;
   }
 
@@ -309,7 +304,6 @@ function AnnotationController(
 
     if(vm.annotation.hasOwnProperty('auddata')) {
       var soundURL = scUrl + vm.annotation.auddata[0].uri;
-      console.log("This is the URL: " + soundURL);
       return soundURL;
     }
     else
@@ -319,16 +313,13 @@ function AnnotationController(
   //Load the soundcloud Widget with correct settings
   vm.loadAudioWidget = function() {
     var playerId = vm.getPlayerId();
-    console.log("Loading Widget with playerId as " + playerId);
     //Get the start and end times from the auddata
     var startTime = vm.annotation.auddata[0].starttime;
     var endTime = vm.annotation.auddata[0].endtime;
     //var audUrl = "http://w.soundcloud.com/player/?url=" + vm.annotation.auddata[0].uri;
     //var audioFrame = $scope.getElementById("renotedSCWidget");
-    //console.log("Audio Frame successfully found " + audioFrame);
     var vmWidget = SC.Widget(playerId);
     //vmWidget.load(vm.annotation.auddata[0].uri);
-    console.log("Widget created");
 
 
     vmWidget.bind(SC.Widget.Events.READY, function() {
@@ -343,9 +334,7 @@ function AnnotationController(
   
     vmWidget.bind(SC.Widget.Events.PLAY_PROGRESS, function() {
       vmWidget.getPosition(function (audioPos) {
-        //console.log("Playing! at " + audioPos);
         if ( audioPos <= endTime ) {
-        console.log("Keep playing as position is: " + audioPos);
         }
         else {
           vmWidget.pause();
@@ -359,16 +348,13 @@ function AnnotationController(
   //URL to be embedded into Video player
   vm.videoembedurl = function() {    
      if (vm.annotation.hasOwnProperty('viddata')){
-       console.log(vm.annotation.viddata)
        var urival=vm.annotation.viddata
-       console.log(urival)
        var annotateduri=urival[0].uri
        var id=annotateduri.split('v=')[1]
        id = id.split('&')[0]
        var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
        var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
        var val="https://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
-       console.log(val)
        if(vm.loadVideo)
         return val;
        else
@@ -400,7 +386,6 @@ function AnnotationController(
      var starttime = 0;
 
      if (vm.annotation.hasOwnProperty('viddata')) {
-       console.log(vm.annotation.viddata);
        starttime=(vm.annotation.viddata[0].starttime);
      }
      else if (vm.annotation.hasOwnProperty('auddata')) {
@@ -440,7 +425,6 @@ function AnnotationController(
       var endtime = 0;
 
      if (vm.annotation.hasOwnProperty('viddata')) {
-       console.log(vm.annotation.viddata);
        endtime=(vm.annotation.viddata[0].endtime);
       
      }
@@ -665,14 +649,11 @@ function AnnotationController(
     if (vm.isVideo()) {
       var ytPlayer = document.getElementById("movie_player");
       endtime = ytPlayer.getCurrentTime();
-      console.log("Endtime is : "+endtime)
 
 //      var recordButton = document.getElementsByName("insert-video-clip-start");
 //      recordButton[0].disabled = false;
-//      console.log("Enabled the record button on saving" + recordButton[0]);
     }
     */
-    console.log(vm.state())
     var updatedModel = updateModel(vm.annotation, vm.state(), permissions);
 
     // Optimistically switch back to view mode and display the saving
@@ -819,8 +800,6 @@ function AnnotationController(
 
 
   vm.setStarttime = function (starttime) {
-    console.log ("++++in starttime+++");
-    console.log (starttime);
     var val = starttime.split(":");
     var retstarttime=0;
     if (val.length == 2){
@@ -833,7 +812,6 @@ function AnnotationController(
      if(vm.isVideo()) {
 
       var viddata=vm.annotation.viddata;
-      console.log(viddata);
       viddata[0].starttime = retstarttime ;   
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -844,7 +822,6 @@ function AnnotationController(
     }
     else if(vm.isAudio()) {
       var auddata=vm.annotation.auddata;
-      console.log(auddata);
       auddata[0].starttime = retstarttime*1000; //Convert to milliseconds for SC
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -857,8 +834,6 @@ function AnnotationController(
 
 
   vm.setEndtime = function (endtime) {
-    console.log ("++++in endtime+++")
-    console.log (endtime)
     var val = endtime.split(":");
     var retendtime=0
     if (val.length == 2){
@@ -871,7 +846,6 @@ function AnnotationController(
      if(vm.isVideo()) {
 
       var viddata=vm.annotation.viddata;
-      console.log(viddata);
       viddata[0].endtime = retendtime;
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -882,7 +856,6 @@ function AnnotationController(
     }
     else if(vm.isAudio()) {
       var auddata=vm.annotation.auddata;
-      console.log(auddata);
       auddata[0].endtime = retendtime*1000; //Convert to milliseconds for SC
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,

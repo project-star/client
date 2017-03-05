@@ -39,7 +39,6 @@ function AnnotationUISync($rootScope, $window, annotationUI, bridge) {
       var ids = findIDsForTags(tags || []);
       annotationUI.selectAnnotations(ids);
       annotationUI.selectTab(uiConstants.TAB_ANNOTATIONS);
-      console.log(annotationUI.getState().selectedAnnotationMap)
     },
     focusAnnotations: function (tags) {
       annotationUI.focusAnnotations(tags || []);

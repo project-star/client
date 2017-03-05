@@ -26,7 +26,6 @@ makeButton = (item) ->
       anchor.css('display', 'none');
       anchor.attr('disabled', 'true')
       anchor.css('color', '#969696')
-      console.log ("Disabling the button!")
     else
       anchor.attr('display', 'inline')
       anchor.css('color', 'red')
@@ -62,7 +61,6 @@ module.exports = class Toolbar extends Annotator.Plugin
           event.preventDefault()
           event.stopPropagation()
           collapsed = @annotator.frame.hasClass('annotator-collapsed')
-#         console.log "chevron icon clicked!"
           if collapsed
             @annotator.show()
           else
@@ -93,7 +91,6 @@ module.exports = class Toolbar extends Annotator.Plugin
           val={}
           
           if matchSC
-              console.log("inside SoundCloud")
               scDomainURI = "https://soundcloud.com"
               scPlayer=document.getElementsByClassName("playbackTimeline__progressWrapper")
 
@@ -117,9 +114,6 @@ module.exports = class Toolbar extends Annotator.Plugin
                   val.uri = scDomainURI + scPlayerURI
                   val.title = scPlayerTitle
                   IDLIST.push(val) 
-                  console.log(IDLIST)
-                  console.log("+++++starttime+++++")
-                  console.log "Start time " + starttime + "End time " + endtime
                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, auddata: IDLIST)
                   
                   IDLIST = []
@@ -135,10 +129,7 @@ module.exports = class Toolbar extends Annotator.Plugin
                     
                   else
                     endtime=scPlayer[0].getAttribute('aria-valuenow')
-                    console.log("+++++endtime+++++")
-                    console.log(endtime)
                     IDLIST[0].endtime=endtime
-                    console.log(IDLIST)
                     @annotator.createAnnotation($renoted_id : IDLIST[0].id, auddata: IDLIST)
                   
                   IDLIST=[]
@@ -148,14 +139,10 @@ module.exports = class Toolbar extends Annotator.Plugin
           else if matchYT
               ytplayer=document.getElementById("movie_player")
               
-              console.log("already on youtube")
               # Currently the below condition will never be hit as we are capturing the endtime in a single click
               if IDLIST.length > 0
                    endtime=ytplayer.getCurrentTime()
-                   console.log("+++++endtime+++++")
-                   console.log(endtime)
                    IDLIST[0].endtime=endtime
-                   console.log(IDLIST)
 
                    # FIX ME:Reset the endtime on clicking the end recording button
                    @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
@@ -176,10 +163,6 @@ module.exports = class Toolbar extends Annotator.Plugin
                    val.endtime = endtime
                    val.uri=uri
                    IDLIST.push(val) 
-                   console.log(IDLIST)
-                   console.log("+++++starttime+++++")
-                   console.log(starttime)
-                   console.log "default endtime or duration" + endtime
                    
                    # Create a new annotation and get its reference
                    @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
@@ -208,18 +191,15 @@ module.exports = class Toolbar extends Annotator.Plugin
       .removeClass('h-icon-visibility-off')
       .addClass('h-icon-visibility')
       .prop('title', 'Hide Highlights');
-      console.log "Visible highlights call server in toolbar.coffee"
 
     else
       $('[name=highlight-visibility]')
       .removeClass('h-icon-visibility')
       .addClass('h-icon-visibility-off')
       .prop('title', 'Show Highlights');
-      console.log "Visible highlights call server in toolbar.coffee"
 
 
   onSetVideoSnippetButton: (state) ->
-    console.log "Video snippets button call in toolbar.coffee"
     
     if state
       $('[name=insert-video-clip-start]')

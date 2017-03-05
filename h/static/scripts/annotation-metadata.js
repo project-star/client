@@ -159,8 +159,6 @@ function isAnnotation(annotation) {
  */
 function location(annotation) {
   if (annotation) {
-    console.log("+++in location finder++++")
-    console.log(annotation)
     var targets = annotation.target || [];
     for (var i = 0; i < targets.length; i++) {
       var selectors = targets[i].selector || [];

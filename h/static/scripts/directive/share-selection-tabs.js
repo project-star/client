@@ -51,9 +51,7 @@ module.exports = function () {
         var uris = this.getSearchUris();
         var docURI = uris[0]; //extract the first URI
         if (this.url==null){
-        console.log("calling with null addresss")
         }
-        console.log(this.url)
         var docURI2 = this.url;
         var payload = {"uriaddress": this.url};
         var stackRes ="";
@@ -63,7 +61,6 @@ module.exports = function () {
         var result = store.stack.update({}, payload);
 
         result.then(function(response) {
-          console.log("Successful retrieval of Stack List " + JSON.stringify(response.stacks));
           var total = response.total;
 
           for(var i=0; i< total; i++)
@@ -83,7 +80,6 @@ module.exports = function () {
             });
 
         }, function(failure) {
-            console.log("Failed to get Stack list " + failure);
             $scope.$apply(
               function() {
                 $scope.loading=false;
@@ -99,11 +95,9 @@ module.exports = function () {
         if(this.isCreatingNewStack()) {
 
           var stackToSend =[];
-          console.log("Creating new stack with name " + this.kStackName);
           
           //Add to the kStackList
           stackToSend.push(this.kStackName);
-          console.log(this.url)
 
           var payload = {"uriaddress": this.url,
                           "stacks": stackToSend};
@@ -111,7 +105,6 @@ module.exports = function () {
           var result = store.stack.update({}, payload);
 
           result.then(function(response) {
-            console.log("Successful creation of Stacks " + response);
 
             //Add to the dropdown list and assign as the selection
             self.kStack = self.kStackName;
@@ -123,7 +116,6 @@ module.exports = function () {
                 $scope.loading=false;
               });
           }, function(failure) {
-            console.log("Failed to create Stack " + failure);
             $scope.$apply(
               function() {
                 $scope.loading=false;
@@ -154,14 +146,12 @@ module.exports = function () {
           var result = store.stack.update({}, payload);
 
           result.then(function(response) {
-            console.log("Successful creation of Stacks1 " + response);
             $scope.$apply(
               function() {
                 $scope.loading=false;
               });
 
           }, function(failure) {
-            console.log("Failed to set Stack " + failure);
             $scope.$apply(
               function() {
                 $scope.loading=false;
@@ -178,7 +168,6 @@ module.exports = function () {
       //   //TODO: On enter key, update the URL data with the text written inside the textbox
          
       //     //Pressing Enter
-      //     console.log("Here is what has been supplied as the page title: " + this.pageTitle); 
       //     //Call the URL update API       
 
       //     //Disable the title editing

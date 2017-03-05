@@ -143,7 +143,6 @@ var update = {
     // Do nothing if the "new tab" is not a valid tab.
     // Shortcut if the tab is already correct, to avoid resetting the sortKey
     // unnecessarily.
-    console.log(action.tab)
     if (state.selectedSharedTab === action.tab) {
       return {};
     }

@@ -12,8 +12,6 @@ querySelector = (type, root, selector, options) ->
       anchor = type.fromSelector(root, selector, options)
       range = anchor.toRange(options)
       resolve(range)
-      console.log("in root resolver")
-      console.log(JSON.stringify(root))
     catch error
       reject(error)
   return new Promise(doQuery)

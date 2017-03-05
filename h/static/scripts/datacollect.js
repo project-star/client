@@ -53,7 +53,6 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
   function handleAnnotationNotification(message) {
     var action = message.options.action;
     var annotations = message.payload;
-    console.log(action)
 
     switch (action) {
     case 'create':
@@ -98,9 +97,6 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
   }
 
   function handleReNotedNotification(message) {
-    console.log("+++msg received at server+++")
-    console.log(message.type);
-    console.log(sharingUpdates)
     if (message.type=="sharing") {
         sharingUpdates["status"] = true;
         sharingUpdates["sharecount"] = message.shareCount
@@ -108,7 +104,6 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     else {
         sharingUpdates={}
        }
-    console.log(sharingUpdates)
   }
 
   function handleSocketOnError (event) {
@@ -130,11 +125,8 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
     // Wrap message dispatches in $rootScope.$apply() so that
     // scope watches on app state affected by the received message
     // are updated
-    console.log("this is awesome in websocket")
-    console.log(event)
     $rootScope.$apply(function () {
       var message = JSON.parse(event.data);
-      console.log (message)
       if (!message) {
         return;
       }
@@ -170,7 +162,6 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
   function setConfig(key, configMessage) {
     configMessages[key] = configMessage;
     if (socket && socket.isConnected()) {
-      console.log(configMessage)
       socket.send(configMessage);
     }
   }
@@ -178,7 +169,6 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
 
   function sendMessage(){
      if (socket && socket.isConnected()) {
-         console.log("++++in new send message+++++")
 //         socket.send("hello")
      }
 
@@ -282,12 +272,10 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
   }
 
   function clearSharingUpdates() {
-   console.log("Msg to clear sharing received")
     sharingUpdates = {};
   }
 
   function removeSharingUpdates() {
-   console.log("Msg to clear sharing received")
     sharingUpdates = {};
     if (socket) {
       var toSend={}
@@ -304,7 +292,6 @@ function Datacollect($rootScope, annotationMapper, annotationUI, features, group
 
   updateEvents.forEach(function (event) {
     $rootScope.$on(event, removePendingUpdates);
-    console.log(event)
     
   });
   $rootScope.$on(events.GROUP_FOCUSED, clearPendingUpdates);

@@ -35,15 +35,11 @@ SearchClient.prototype._getBatch = function (query, offset) {
     order: 'asc',
     _separate_replies: true,
   }, query);
-  console.log ("++++ in query of search client +++++++")
-  console.log (query.uri[0])
   var self = this;
   this._searchFn(searchQuery).then(function (results) {
     if (self._canceled) {
       return;
     }
-    console.log("+++++in search client+++++")
-    console.log(results)
     var chunk = results.rows.concat(results.replies || []);
     if (self._incremental) {
       self.emit('results', chunk);

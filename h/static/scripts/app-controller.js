@@ -34,7 +34,6 @@ module.exports = function AppController(
   // logged-in or not, so it has an initial status of 'unknown'. This can be
   // used by templates to show an intermediate or loading state.
   $scope.auth = {status: 'unknown'};
-  console.log(urlUI.getState().urlLoading)
   // Allow all child scopes to look up feature flags as:
   //
   //     if ($scope.feature('foo')) { ... }
@@ -69,8 +68,6 @@ module.exports = function AppController(
 
   //Variable to set Stream page
  // $scope.isSharedStream = false;
-  console.log($location.path())
-  console.log(urlUI.getState().urlLoading)
   if ($location.path() == "/renote"){
     $scope.isSharedStream = false;
   }
@@ -112,21 +109,17 @@ module.exports = function AppController(
   $scope.setSortKey = urlUI.setSortKey;
   $scope.setUrlFilterKeyAll = function(value) {
       urlUI.setUrlFilterKey('all')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
   $scope.setUrlFilterKeyText = function(value) {
       urlUI.setUrlFilterKey('text')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
 
  $scope.setUrlFilterKeyVideo = function(value) {
       urlUI.setUrlFilterKey('video')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
 
  $scope.setUrlFilterKeyAudio = function() {
       urlUI.setUrlFilterKey('audio')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
 
 
@@ -177,8 +170,6 @@ module.exports = function AppController(
   $scope.filterByStack = function(stackName) {
     if (!urlUI.getState().urlLoading){
     urlUI.setUrlStackKey(stackName)
-    console.log("I am in the app-controller printing the stackname of the clicked stack " + stackName);
-    console.log("uiselectedstack " + urlUI.getState().selectedUrlStackKey)
    }
   };
 
@@ -193,9 +184,7 @@ module.exports = function AppController(
   };
 
   $scope.toggleSharedStream = function (flag) {
-    console.log("Entering here to switch stream page with flag " + flag);
     datacollect.connectionsend("SharedStreamToggled")
-    console.log(datacollect.hasSharingUpdates())
 //    if (flag) {
 //       $rootScope.$emit(events.SHARING_CLEARED)
 //      }
@@ -266,5 +255,4 @@ module.exports = function AppController(
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;
   $scope.hasSharingUpdates = datacollect.hasSharingUpdates;
   $scope.sharedUpdates = datacollect.sharedUpdates.sharecount;
-  console.log(urlUI.getState().urlLoading)  
 };

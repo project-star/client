@@ -16,7 +16,6 @@ module.exports = function () {
       this.newKStackName = "";
       this.isStackSelected = function(stackname){ 
       if (stackname == urlUI.getState().selectedUrlStackKey){
-      console.log(stackname)
           return true
       }
       else {
@@ -34,7 +33,6 @@ module.exports = function () {
         var result = store.stack.update({}, payload);
 
         result.then(function(response) {
-          console.log("Successful retrieval of Stack List " + JSON.stringify(response.stacks));
           var total = response.total;
 
           for(var i=0; i< total; i++)
@@ -48,7 +46,6 @@ module.exports = function () {
             self.kStackList.push(response.stacks[i].name);
             urlUI.addToAvailableStackList(response.stacks[i].name);
           }
-           console.log(urlUI.getState().availableStackList)
 
         });
 
@@ -60,7 +57,6 @@ module.exports = function () {
         if(this.isCreatingNewStack) {
 
           var stackToSend =[];
-          console.log("Creating new stack with name " + this.kStackName);
 
           //Add to the kStackList
           stackToSend.push(this.kStackName);
@@ -71,16 +67,13 @@ module.exports = function () {
           var result = store.stack.update({}, payload);
 
           result.then(function(response) {
-            console.log("Successful creation of Stacks " + response);
 
             //Add to the dropdown list and assign as the selection
             self.kStackList.push(self.kStackName);
             urlUI.addToAvailableStackList(self.kStackName);
-            console.log(urlUI.getState().availableStackList)
             self.kStackName=""; //Next time the value will not be pre-populated with last value
             self.isCreatingNewStack=false;
           }, function(failure) {
-            console.log("Failed to create Stack " + failure);
           });
 
         }

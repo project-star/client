@@ -52,7 +52,6 @@ function DOMtoString(document_root,renoted_id) {
 
     var data = {"msg": html,"annot":renoted_id};
     var data1 = JSON.stringify(data);
-//    console.log(data1);
 
 //    var xhr = new XMLHttpRequest();
 //    xhr.open("POST", "http://52.220.118.188:5010/sendmsg", true);
@@ -62,7 +61,6 @@ function DOMtoString(document_root,renoted_id) {
 //      xhr.setRequestHeader("Access-Control-Allow-Origin","*");
 //    xhr.onreadystatechange = function() {
  //      if (xhr.readyState == 4) {
- //         console.log('xhr response: '+ xhr.responseText);
  //     }
  //   }
  //   xhr.send(data1);
@@ -173,20 +171,14 @@ function Adder(container, options) {
     if (command === 'annotate') {
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id);
-      console.log("Renoted Begins Now")
-      console.log(renoted_id);
       options.onAnnotate(renoted_id);
     } else if (command === 'search'){
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id)
-      console.log("Renoted Begins Now")
-      console.log(renoted_id);
       options.onSearch(check2);
     } else {
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id);
-      console.log("Renoted Begins Now")
-      console.log(renoted_id);
       options.onHighlight(renoted_id);
   
     }

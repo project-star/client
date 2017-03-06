@@ -42,8 +42,6 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   // to reserve space for threads which are not actually rendered.
   var self = this;
   var visibleThreads = new UrlVirtualThreadList($scope, window, this.thread);
-  console.log("+++++ visibleThreads +++++")
-  console.log(visibleThreads)
   visibleThreads.on('changed', function (state) {
     self.UrlVirtualThreadList = {
       visibleThreads: state.visibleThreads,
@@ -103,8 +101,6 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
 
   $scope.loadMore = function() {
   var presentNumber = $scope.displayedNumber;
-  console.log("in load more function")
-  console.log (presentNumber)
   $scope.displayedNumber = presentNumber + 10;
   
   }
@@ -155,7 +151,6 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
   $scope.sn ="";
 
   $scope.onUrlFilter = function(url){
-     console.log(url.url.typeFilter);
      $scope.sn = urlUI.getState().selectedUrlStackKey;
      if (url.url.typeFilter.indexOf(urlUI.getState().selectedUrlFilterKey)!= -1 && url.url.typeFilter.indexOf(urlUI.getState().selectedUrlStackKey)!= -1){
      return true;

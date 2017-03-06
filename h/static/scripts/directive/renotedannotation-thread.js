@@ -77,12 +77,9 @@ function RenotedAnnotationThreadController() {
   };
 
   this.isTopLevelThread = function () {
-    console.log("++++++ in top level thread in directive++++++")
-    console.log(this.thread)
     return !this.thread.parent;
   };
   this.uri_id = function() {
-    console.log("+++++ in uri_id returning functoion++++")
     return this.thread.annotation.uri_id;
   };
   /**

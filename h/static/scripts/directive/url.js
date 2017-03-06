@@ -38,7 +38,6 @@ function errorMessage(reason) {
  * Return a copy of `annotation` with changes made in the editor applied.
  */
 function updateModel(url,changes) {
-  console.log (changes)
   return Object.assign({}, url, {
     // Explicitly copy across the non-enumerable local tag for the annotation
     $$tag: url.$$tag,
@@ -58,8 +57,6 @@ function UrlController(
   var newlyCreatedSearchCustom;
   /** Save an annotation to the server. */
   function save(url) {
-    console.log("+++before sending to save+++")
-    console.log(url)
     var saved;
     saved = store.urlupdate.update({id: url.id}, url);
     return saved.then(function (savedUrl) {
@@ -72,8 +69,6 @@ function UrlController(
         }
       });
       //DOMtoString(document,savedAnnot.id);
-      console.log("in save function")
-      console.log(JSON.stringify(savedUrl))
       return savedUrl;
     });
   }
@@ -96,9 +91,7 @@ function UrlController(
   function list(uri_id) {
     var list;
     list = store.url({id:uri_id})
-    console.log (list)
     return list.then(function (receivedlist) {
-    console.log(receivedlist)
     return receivedlist;
     });
    }
@@ -106,9 +99,6 @@ function UrlController(
   function init() {
     // The remaining properties on vm are read-only properties for the
     // templates.
-    console.log("+++ in init in url.js++++")
-    console.log(vm)
-    console.log(vm.url.annotation)
     vm.serviceUrl = serviceUrl;
     vm.inSharedView = false;
     vm.selectedForSharing = [];
@@ -125,9 +115,6 @@ function UrlController(
   var counter = 0;
   loadEvents.forEach(function (event) {
     $rootScope.$on(event, function (event, annotation) {
-      console.log("+++++++++++++++in url.js +++++++++++++")
-      console.log(event)
-      console.log(annotation.id)
       for (var i=0; i <(vm.annotation().length); i++) {
           if (event.name=="annotationUpdated" && annotation.id==vm.annotation()[i].id){
               vm.annotation()[i] = annotation
@@ -163,16 +150,11 @@ function UrlController(
       }
       counter = counter +1;
       
-      console.log("+++++++++++++++++++++++++++++")
-      console.log(event.name)
     });
   });
 
 
   $scope.$on(urlevents.STACK_EDITED, function (event, eventdata) {
-      console.log("+++in url.js on listening the edit event++++")
-       console.log(eventdata["oldstackname"])
-       console.log(eventdata["newstackname"])
       if (vm.url.typeFilter.indexOf(eventdata["oldstackname"]) !=-1){
           var index = vm.url.typeFilter.indexOf(eventdata["oldstackname"]);
           vm.url.typeFilter.splice(index,1)
@@ -182,8 +164,6 @@ function UrlController(
   });
 
    $scope.$on(urlevents.STACK_DELETED, function (event, eventdata) {
-      console.log("+++in url.js on listening the edit event++++")
-       console.log(eventdata["stackname"])
       if (vm.url.typeFilter.indexOf(eventdata["stackname"]) !=-1){
           var index = vm.url.typeFilter.indexOf(eventdata["stackname"]);
           vm.url.typeFilter.splice(index,1)
@@ -272,14 +252,12 @@ function UrlController(
   };
 
    vm.expand = function() {
-     console.log("expand clicked")
      vm.showAnnotations = true;
      vm.callFunc = true
     
    }
 
    vm.urledit = function(){
-     console.log("urledit clicked")
      vm.isurlediting = true;
   }
   
@@ -289,7 +267,6 @@ function UrlController(
      var receivedList
      vm.showAnnotations=true;
      store.url({id:vm.url.id}).then(function(receivedList) { 
-     console.log(receivedList)
      vm.callFunc = false  
      vm.List = receivedList
      return receivedList
@@ -312,7 +289,6 @@ function UrlController(
 
 
    vm.collapse = function() {
-     console.log("collapse clicked")
      vm.showAnnotations = false;
    }
    
@@ -351,10 +327,7 @@ function UrlController(
       flash.info('Please log in to save your annotations.');
       return Promise.resolve();
     }
-    console.log(vm.state())
     var updatedModel = updateModel(vm.url, vm.state());
-    console.log("++++in save function click call +++")
-    console.log(updatedModel)
 
     // Optimistically switch back to view mode and display the saving
     // indicator
@@ -389,7 +362,6 @@ function UrlController(
   };
 
   vm.toggleShareView = function () {
-    console.log("In shared view: " + vm.inSharedView);
     if(vm.inSharedView)
       vm.inSharedView = false;
     else
@@ -397,12 +369,10 @@ function UrlController(
       vm.inSharedView = true;
       //vm.showAnnotations = true;
 
-      //console.log("Adding all annotations to the array!");
 
       for(var i=0; i<vm.url.allannotation.length; i++)
         vm.selectedForSharing.push(vm.url.allannotation[i].id);
     }
-    console.log("In shared view now: " + vm.inSharedView);    
   };
 
   vm.selectedForSharingCount = function () {
@@ -413,7 +383,6 @@ function UrlController(
 
 
     var sharingLength = vm.selectedForSharingCount();
-    console.log("Length of sharing array on entering: "+sharingLength);
 
     //If anything is selected already, flush everything out
     if(sharingLength > 0) {
@@ -421,14 +390,12 @@ function UrlController(
     }
     //If nothing is selected already, select everything
     else {
-      console.log("Adding all annotations to the array!");
       for(var i=0; i<vm.url.allannotation.length; i++)
         vm.selectedForSharing.push(vm.url.allannotation[i].id);
     }
   };
 
   vm.cancelShare = function() {
-    //console.log("Entering the cancelShare method");
     //Flush any selected annotations
     vm.selectedForSharing.length=0;
 
@@ -440,7 +407,6 @@ function UrlController(
   };
 
   vm.clickToShare = function() {
-    console.log("Entering the clickToShare method with emailid: " + vm.renotedIdsForSharing );
     //Call share API with selectedForSharing id list and ReNoted Id list
     //This should be an async call, have success and failure functions
     var data = {
@@ -452,7 +418,6 @@ function UrlController(
     
     var onSuccess = function(sharedval) {
 
-      console.log("Shared successfully!??!" + shared);
       //On success, flush any selected annotations
    
       vm.selectedForSharing.length = 0;
@@ -460,7 +425,6 @@ function UrlController(
       //vm.renotedIdsForSharing = "";
       //Hide the Sharing header
       vm.inSharedView = false;
-      console.log(sharedval.status)
       if (sharedval.status=="failure"){
          
          flash.error('Sharing failed due to ' + sharedval.reason);
@@ -473,14 +437,12 @@ function UrlController(
        };
 
     var onFailure = function() {
-      console.log("Couldn't share ..."+ shared);
     };
 
     shared.then(onSuccess,onFailure);    
   };
 
   vm.toggleHoverAnnotation = function(flag) {
-    console.log("toggling on mouse " + flag);
     vm.annotationHoverFlag = flag;
   };
 
@@ -509,7 +471,6 @@ function UrlController(
   vm.setKStackForPage = function() {
 
     var uri = vm.titleLink();
-    console.log(vm.assignedstack())
     var initialStack=vm.assignedstack()
     //TODO:
     var stackToSend =[];
@@ -523,15 +484,12 @@ function UrlController(
 
       result.then(function(response) {
         if (initialStack != null){
-         console.log("+++this was not null++++")
          var index = vm.url.typeFilter.indexOf(initialStack);
           vm.url.typeFilter.splice(index,1)
          
         }
       
-         console.log(initialStack)
         vm.url.typeFilter.push(vm.kStack)        
-        console.log("Successful assignment of Stack " + response);
         return [];
         
       }, function(failure){

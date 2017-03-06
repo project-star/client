@@ -9,9 +9,7 @@ var angular = require('angular');
  */
 function fetchThread(store, id) {
   var annot;
-  console.log("+++++ in prefetch thread +++++")
   return store.annotation.get({id: id}).then(function (annot) {
-    console.log("in fetch thread")
     if (annot.references && annot.references.length) {
       // This is a reply, fetch the top-level annotation
       return store.annotation.get({id: annot.references[0]});

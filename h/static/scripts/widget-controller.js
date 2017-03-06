@@ -148,7 +148,6 @@ module.exports = function WidgetController(
       var data={}
       data.url=uris[0]
       store.recall({},data).then(function (resultrecall) { 
-         console.log (resultrecall)
          var todisplay = resultrecall.annotations.length
          if (resultrecall.annotations.length > 6){
              todisplay= 6
@@ -159,13 +158,10 @@ module.exports = function WidgetController(
              results.push(resultrecall.annotations[i])
           }
           }
-         console.log (results)
          annotationMapper.loadAnnotations(results);
          return results
                   });
 */      if (results.length) {
-        // console.log("+++ in widget controller load annotations+++")
-        // console.log(results.length)
         annotationMapper.loadAnnotations(results); //COMMENT THIS OUT WHEN RECALL IS ENABLED AGAIN
       }
     });
@@ -179,8 +175,6 @@ module.exports = function WidgetController(
         searchClients.splice(searchClients.indexOf(searchClient), 1);
       });
     });
-    console.log("+++in widget controller search++++")
-    console.log(uris)
     searchClient.get({uri: uris, group: group});
   }
 

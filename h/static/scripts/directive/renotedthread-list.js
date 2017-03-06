@@ -42,8 +42,6 @@ function RenotedThreadListController($scope, VirtualThreadList) {
   // to reserve space for threads which are not actually rendered.
   var self = this;
   var visibleThreads = new VirtualThreadList($scope, window, this.thread);
-  console.log("+++++ visibleThreads +++++")
-  console.log(visibleThreads)
   visibleThreads.on('changed', function (state) {
     self.virtualThreadList = {
       visibleThreads: state.visibleThreads,

@@ -87,10 +87,6 @@ function createAPICall($http, links, route) {
     return links.then(function (links) {
       var descriptor = get(links, route);
       var url = urlUtil.replaceURLParams(descriptor.url, params);
-      console.log("before createAPI call");
-      console.log ("url in before createAPI call");
-      console.log(url)
-      console.log(data);
       var req = {
         data: data ? stripInternalProperties(data) : null,
         method: descriptor.method,
@@ -100,8 +96,6 @@ function createAPICall($http, links, route) {
       };
       return $http(req);
     }).then(function (result) {
-      console.log("in createAPI Call");
-      console.log (result.data);
       return result.data;
     });
   };
@@ -113,10 +107,6 @@ function renotedcreateAPICall($http, links, route) {
     return links.then(function (links) {
       var descriptor = get(links, route);
       var url = urlUtil.replaceURLParams(descriptor.url, params);
-      console.log("before createAPI call");
-      console.log ("url in before createAPI call");
-      console.log(url)
-      console.log(data);
       var req = {
         data: data ? stripInternalProperties(data) : null,
         method: descriptor.method,
@@ -126,8 +116,6 @@ function renotedcreateAPICall($http, links, route) {
       };
       return $http(req);
     }).then(function (result) {
-      console.log("in createAPI Call");
-      console.log (result.data);
       return result.data.rows.annotations[0];
     });
   };
@@ -144,8 +132,6 @@ function store($http, settings) {
   var links = retryUtil.retryPromiseOperation(function () {
     return $http.get(settings.apiUrl);
   }).then(function (response) {
-    console.log("+++ in store function +++")
-    console.log(response.data.links)
     return response.data.links;
   });
 

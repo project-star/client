@@ -84,8 +84,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
         };
       } else {
         threadFilterFn = function (thread) {
-          console.log("+++in root thread threadFilterFn ++++")
-          console.log(thread)
           if (!thread.annotation) {
             return false;
           }
@@ -153,8 +151,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
         };
       } else {
         threadFilterFn = function (thread) {
-          console.log("+++in root thread threadFilterFn ++++")
-          console.log(thread)
           if (!thread.url) {
             return false;
           }
@@ -207,10 +203,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
                     events.ANNOTATIONS_LOADED,urlevents.URLS_LOADED,urlevents.URL_UPDATED];
   loadEvents.forEach(function (event) {
     $rootScope.$on(event, function (event, annotation) {
-      console.log("+++++++++++++++in root thread+++++++++++++")
-      console.log(event)
-      console.log("+++++++++++++++++++++++++++++")
-      console.log(event.name)
       if (event.name.match(/annotation.*/)){
           annotationUI.addAnnotations([].concat(annotation));
           datacollect.connectionsend(event.name);

@@ -141,9 +141,6 @@ UrlVirtualThreadList.prototype._updateVisibleThreads = function () {
   var newallThreads = []
   for (var i = 0; i < allThreads.length; i++) {
     thread = allThreads[i];
-    console.log("++++in virtual thread list++++")
-    console.log(thread)
-    console.log(thread.id)
     var threadHeight = this._height(thread.id);
     if (usedHeight + threadHeight < this.window.pageYOffset - MARGIN_ABOVE) {
       // Thread is above viewport

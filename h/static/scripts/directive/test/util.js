@@ -56,7 +56,6 @@ function ngModule(inject, name) {
  *
  * var domElement = createDirective(document, 'myComponent', {
  *  onEvent: function () {
- *    console.log('event triggered');
  *  }
  * });
  *
@@ -67,7 +66,6 @@ function ngModule(inject, name) {
  *   onEvent: {
  *     args: ['arg1'],
  *     callback: function (arg1) {
- *       console.log('callback called with arg', arg1);
  *     }
  *   }
  * });

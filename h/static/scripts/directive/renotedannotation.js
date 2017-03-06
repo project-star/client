@@ -73,8 +73,6 @@ function RenotedAnnotationController(
         }
       });
       //DOMtoString(document,savedAnnot.id);
-      console.log("in save function")
-      console.log(JSON.stringify(savedAnnot))
       return savedAnnot;
     });
   }
@@ -183,8 +181,6 @@ function RenotedAnnotationController(
       // Highlights are always private.
       vm.annotation.permissions = permissions.private();
       
-      console.log(vm.annotation.text)
-      console.log(vm.annotation.page_data)
       save(vm.annotation).then(function(model) {
         model.$$tag = vm.annotation.$$tag;
         $rootScope.$broadcast(events.ANNOTATION_CREATED, model);
@@ -281,11 +277,7 @@ function RenotedAnnotationController(
     }
   };
   vm.urledit = function() {
-    console.log("+++++in urledit function++++")
-    console.log(urldrafts)
     if (!urldrafts.get(vm.annotation)) {
-       console.log("+++++in urledit function++++")
-       console.log(vm.annotation)
        urldrafts.urlupdate(vm.annotation,vm.state());
     }
   };
@@ -338,7 +330,6 @@ function RenotedAnnotationController(
     //Generates unique Id for the sc player
    vm.getPlayerId = function() {
      var playerId = vm.annotation.renoted_id.toString();
-     console.log("Creating playerId: " + playerId);
      return playerId;
    }
  
@@ -348,7 +339,6 @@ function RenotedAnnotationController(
      var scUrl = "https://w.soundcloud.com/player/?url="; 
      if(vm.annotation.hasOwnProperty('auddata')) {
        var soundURL = scUrl + vm.annotation.auddata[0].uri;
-       console.log("This is the URL: " + soundURL);      
        return soundURL;
      }
      else
@@ -359,15 +349,12 @@ function RenotedAnnotationController(
    //Load the soundcloud Widget with correct settings
    vm.loadAudioWidget = function() {
      var playerId = vm.getPlayerId();
-     console.log("Loading Widget with playerId as " + playerId);
      //Get the start and end times from the auddata
      var startTime = vm.annotation.auddata[0].starttime;
      var endTime = vm.annotation.auddata[0].endtime;
  
      //var audioFrame = $scope.getElementById("renotedSCWidget");
-     //console.log("Audio Frame successfully found " + audioFrame);
      var vmWidget = SC.Widget(playerId);
-     console.log("Widget created");
  
      vmWidget.bind(SC.Widget.Events.READY, function() {
        vmWidget.play();
@@ -381,9 +368,7 @@ function RenotedAnnotationController(
    
      vmWidget.bind(SC.Widget.Events.PLAY_PROGRESS, function() {
        vmWidget.getPosition(function (audioPos) {
-         //console.log("Playing! at " + audioPos);
          if ( audioPos <= endTime ){
-           console.log("Keep playing as position is: " + audioPos);
           }
          else {
            vmWidget.pause();
@@ -396,18 +381,13 @@ function RenotedAnnotationController(
    //URL to be embedded into Video player
   vm.videoembedurl = function() {
      if (vm.annotation.hasOwnProperty('viddata')){
-       console.log(vm.annotation.viddata)
        var urival=vm.annotation.viddata
-       console.log(urival)
        var annotateduri=urival[0].uri
        var id=annotateduri.split('v=')[1]
        id = id.split('&')[0]
-       console.log("in video id")
-       console.log(id)
        var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
        var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
        var val="https://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
-       console.log(val)
        if(vm.loadVideo)
          return val;
         else
@@ -438,7 +418,6 @@ function RenotedAnnotationController(
      var starttime = 0;
 
      if (vm.annotation.hasOwnProperty('viddata')) {
-       console.log(vm.annotation.viddata);
        starttime=(vm.annotation.viddata[0].starttime);
      }
      else if (vm.annotation.hasOwnProperty('auddata')) {
@@ -478,7 +457,6 @@ function RenotedAnnotationController(
       var endtime = 0;
 
      if (vm.annotation.hasOwnProperty('viddata')) {
-       console.log(vm.annotation.viddata);
        endtime=(vm.annotation.viddata[0].endtime);
       
      }
@@ -829,8 +807,6 @@ function RenotedAnnotationController(
   };
 
   vm.setStarttime = function (starttime) {
-    console.log ("++++in starttime+++");
-    console.log (starttime);
     var val = starttime.split(":");
     var retstarttime=0;
     if (val.length == 2){
@@ -843,7 +819,6 @@ function RenotedAnnotationController(
      if(vm.isVideo()) {
 
       var viddata=vm.annotation.viddata;
-      console.log(viddata);
       viddata[0].starttime = retstarttime ;
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -854,7 +829,6 @@ function RenotedAnnotationController(
     }
     else if(vm.isAudio()) {
       var auddata=vm.annotation.auddata;
-      console.log(auddata);
       auddata[0].starttime = retstarttime*1000; //Convert to milliseconds for SC
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -866,8 +840,6 @@ function RenotedAnnotationController(
   };
 
   vm.setEndtime = function (endtime) {
-    console.log ("++++in endtime+++")
-    console.log (endtime)
     var val = endtime.split(":");
     var retendtime=0
     if (val.length == 2){
@@ -880,7 +852,6 @@ function RenotedAnnotationController(
      if(vm.isVideo()) {
 
       var viddata=vm.annotation.viddata;
-      console.log(viddata);
       viddata[0].endtime = retendtime;
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -891,7 +862,6 @@ function RenotedAnnotationController(
     }
     else if(vm.isAudio()) {
       var auddata=vm.annotation.auddata;
-      console.log(auddata);
       auddata[0].endtime = retendtime*1000; //Convert to milliseconds for SC
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,
@@ -904,7 +874,6 @@ function RenotedAnnotationController(
   };
 
   vm.toggleAnnotationShareView = function() {
-    // console.log("In shared view: " + vm.inSharedView);
     // if(vm.inSharedView)
     //   vm.inSharedView = false;
     // else
@@ -914,12 +883,10 @@ function RenotedAnnotationController(
       if(idx <= -1)
         vm.selectedForSharing.push(vm.annotation.id);
 
-    console.log("In shared view now: " + vm.inSharedView); 
   };
 
   vm.toggleSelectedForSharing = function() {
 
-    console.log("Selected for sharing entered, current values " + vm.selectedForSharing);
     var idx = vm.selectedForSharing.indexOf(vm.annotation.id);
       
     // is currently selected
@@ -931,7 +898,6 @@ function RenotedAnnotationController(
     else {
       vm.selectedForSharing.push(vm.annotation.id);
     }
-    console.log("Selected for sharing exiting, current values " + vm.selectedForSharing);
 
   };
 

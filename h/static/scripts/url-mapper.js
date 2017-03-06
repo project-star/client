@@ -14,12 +14,10 @@ function getExistingUrl(urlUI, id) {
 // @ngInject
 function urlMapper($rootScope, urlUI, store) {
   function loadUrls(urls) {
-    console.log("in url mpper load annotations")
     var loaded = [];
     urls.forEach(function (url) {
       var existing = getExistingUrl(urlUI, url.id);
       if (existing) {
-        console.log("in url mpper load annotations")
         $rootScope.$broadcast(urlevents.URL_UPDATED, url);
         return;
       }

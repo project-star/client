@@ -14,14 +14,11 @@ function getExistingAnnotation(annotationUI, id) {
 // @ngInject
 function annotationMapper($rootScope, annotationUI, store) {
   function loadAnnotations(annotations, replies) {
-    console.log("in annotation mpper load annotations")
     annotations = annotations.concat(replies || []);
-    console.log (annotations)
     var loaded = [];
     annotations.forEach(function (annotation) {
       var existing = getExistingAnnotation(annotationUI, annotation.id);
       if (existing) {
-        console.log("in annotation mpper load annotations broadcasting ANNOTAITON UPDATED");
         $rootScope.$broadcast(events.ANNOTATION_UPDATED, annotation);
         return;
       }

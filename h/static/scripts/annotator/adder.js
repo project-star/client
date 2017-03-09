@@ -15,7 +15,7 @@ var ARROW_POINTING_DOWN = 1;
  * selected text.
  */
 var ARROW_POINTING_UP = 2;
-
+var actual="id";
 function toPx(pixels) {
   return pixels.toString() + 'px';
 }
@@ -66,6 +66,51 @@ function DOMtoString(document_root,renoted_id) {
  //   xhr.send(data1);
     return "true";
  }
+
+function findIframes(document_root){
+var  iframe = document_root.getElementsByTagName('iframe');
+console.log(iframe)
+
+for (var i =0; i<iframe.length; i++){
+ if (iframe[i].src.indexOf("youtube.com")!= -1 ){
+    console.log(true)
+    var newEl = document.createElement('div');
+    console.log(iframe[i].id)
+    actual = iframe[i].id
+    newEl.innerHTML = '<button class="trial" style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+}
+else 
+    console.log(false)
+
+} 
+
+}
+
+
+function clickedbutton(){
+
+
+console.log("true")
+}
+
+function findVideos(document_root){
+var  iframe = document_root.getElementsByTagName('video');
+console.log(iframe)
+for (var i =0; i<iframe.length; i++){
+ if (iframe[i].src.indexOf("youtube.com")!= -1 ){
+    console.log(true)
+    var newEl = document.createElement('div');
+    newEl.innerHTML = '<p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+}
+else 
+    console.log(false)
+
+}
+
+}
+
 function attachShadow(element) {
   if (element.attachShadow) {
     // Shadow DOM v1 (Chrome v53, Safari 10)
@@ -136,7 +181,8 @@ function createAdderDOM(container) {
 function Adder(container, options) {
 
   var element = createAdderDOM(container);
-
+  findIframes(document)
+  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
     // property rather than `display` so that we can compute its size in order to
@@ -162,8 +208,8 @@ function Adder(container, options) {
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')
     .addEventListener('click', handleCommand.bind(this, 'highlight'));
-  //element.querySelector('.js-search-btn')
-  //  .addEventListener('click', handleCommand.bind(this, 'search'));
+  element.querySelector('.trial')
+    .addEventListener('click', handleCommand.bind(this, 'annotate'));
   function handleCommand(command, event) {
     event.preventDefault();
     event.stopPropagation();

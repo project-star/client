@@ -45,6 +45,7 @@
       on-sidebar-search="sidebarSearchController.update($query)"
       title="Search your ReNotes">
     </search-input>
+    
     <!--
     <sort-dropdown
       sort-keys-available="sortKeysAvailable"
@@ -59,6 +60,11 @@
       <i class="h-icon-annotation-share"></i>
     </a>
     -->
+  <button type="button" class="simple-search-icon top-bar__btn" title="Go to My ReNotes">
+  <a href="https://renoted.com/renote" target="_blank" style="color: white" class="top-bar__inner">
+    <i class="h-icon-redirect"></i>
+  </a>
+  </button>
     <login-control
       class="login-control"
       auth="auth"

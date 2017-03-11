@@ -70,6 +70,10 @@ function DOMtoString(document_root,renoted_id) {
 function findIframes(document_root){
 var  iframe = document_root.getElementsByTagName('iframe');
 console.log(iframe)
+var tag = document_root.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 for (var i =0; i<iframe.length; i++){
  if (iframe[i].src.indexOf("youtube.com")!= -1 ){
@@ -77,7 +81,11 @@ for (var i =0; i<iframe.length; i++){
     var newEl = document.createElement('div');
     console.log(iframe[i].id)
     actual = iframe[i].id
-    newEl.innerHTML = '<button class="trial" style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    var vclass = "video-renote " + actual
+    newEl.innerHTML = '<button  style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    var att = document.createAttribute("class");
+    att.value = vclass
+    newEl.setAttributeNode(att);
     iframe[i].parentNode.insertBefore(newEl,iframe[i])
 }
 else 
@@ -101,7 +109,7 @@ for (var i =0; i<iframe.length; i++){
  if (iframe[i].src.indexOf("youtube.com")!= -1 ){
     console.log(true)
     var newEl = document.createElement('div');
-    newEl.innerHTML = '<p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    newEl.innerHTML = '<p  class="video-renote" style="position: relative; z-index: 65535; color:red">Hello World!</p>';
     iframe[i].parentNode.insertBefore(newEl,iframe[i])
 }
 else 
@@ -179,7 +187,6 @@ function createAdderDOM(container) {
  *        event handlers.
  */
 function Adder(container, options) {
-
   var element = createAdderDOM(container);
   findIframes(document)
   findVideos(document)
@@ -198,18 +205,54 @@ function Adder(container, options) {
     // page
     zIndex: 999,
   });
-
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   this.element = element;
-
   var view = element.ownerDocument.defaultView;
   var enterTimeout;
-
+  var vidEl = document.querySelector('.video-renote')
+//  document.querySelector('.video-renote').addEventListener('click', handleCommand.bind(this,'videoiframe'));
+  if (vidEl) {
+  console.log(vidEl.getAttribute("class"))
+  var val = vidEl.getAttribute("class")
+  var newval= val.replace('video-renote ', '');
+  var playerE = new YT.Player(newval,{ events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }});
+  vidEl.addEventListener('click', function(){ onPlayerS(playerE)});
+  }
   element.querySelector('.js-annotate-btn')
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')
     .addEventListener('click', handleCommand.bind(this, 'highlight'));
-  element.querySelector('.trial')
-    .addEventListener('click', handleCommand.bind(this, 'annotate'));
+//  element.querySelector('.trial')
+//    .addEventListener('click', handleCommand.bind(this, 'annotate'));
+
+  function myRenoteFunction(val){
+    var newval= val.replace('video-renote ', '');
+    console.log(newval)
+    var check = true
+    console.log(val)
+    
+  }
+
+   function onPlayerReady(event){
+    
+    console.log(event.target)
+   }
+
+
+   function onPlayerStateChange(event){
+    console.log(event.target)
+   }
+
+  function onPlayerS(player){
+    console.log(player.getCurrentTime())
+   }
+  
   function handleCommand(command, event) {
     event.preventDefault();
     event.stopPropagation();
@@ -222,6 +265,10 @@ function Adder(container, options) {
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id)
       options.onSearch(check2);
+    } else if (command === 'videoiframe'){
+      console.log(this)
+      renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
+      options.onVideoiframe(renoted_id);
     } else {
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id);

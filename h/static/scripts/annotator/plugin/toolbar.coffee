@@ -5,10 +5,22 @@ isMedia = ->
   uri = document.location.href
   matchYT = uri.includes("youtube.com")
   matchSC = uri.includes("soundcloud.com")
+  if matchYT or matchSC
+    return true
+  
+  return false
+iframeyoutubes = []
+videoembeds = []
+player=null
+countYT =false 
+initialYT=false
+isEmbedIframe = ->
 #  anyYTplayer=document.getElementById("article_body")
 #  iframe = document.getElementsByTagName('video')
-#  iframe = document.getElementsByTagName('iframe')
+  iframes = document.getElementsByTagName('iframe')
+  videoiframes = document.getElementsByTagName('video')
 #  innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+  iframeyoutubes=[]
   tag = document.createElement('script');
   tag.src = "https://www.youtube.com/iframe_api";
   firstScriptTag = document.getElementsByTagName('script')[0];
@@ -34,18 +46,39 @@ isMedia = ->
 #  console.log(player)
   #anystarttime=player.getDuration();
   #console.log(anystarttime)
-  if matchYT or matchSC
-    return true
-  
-  return false
+  console.log(videoiframes)
+  for iframe in iframes
+    if iframe.src.includes("youtube.com")
+        pid = iframe.getAttribute('id');
+        console.log (pid)
+        if (YT?)
+          console.log ("YT is defined")
+          initialYT=true
+        else 
+          console.log("YT is not defined")
+          initialYT=false
+        if (initialYT)
+            player = new YT.Player(pid, {
+            events: {
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
+              }
+            });
+         
+        
+            iframeyoutubes.push(player)
+         else
+            iframeyoutubes.push(pid) 
+
+  console.log(iframeyoutubes)
+  return iframeyoutubes
 
 
 onPlayerStateChange = ->
   console.log("true")
-
+  console.log(player)
 onPlayerReady = (event) ->
-  console.log(event.target.getDuration())
-  event.target.playVideo();
+  console.log(player)
 
 makeButton = (item) ->
   anchor = $('<button></button>')
@@ -57,11 +90,15 @@ makeButton = (item) ->
   .addClass(item.class)
 
   if item.name.includes("insert-video-clip")
-    if not isMedia()
+    iframeyoutubes = isEmbedIframe()
+    if not isMedia() and iframeyoutubes.length == 0
       anchor.css('display', 'none');
       anchor.attr('disabled', 'true')
       anchor.css('color', '#969696')
-    else
+    else if not isMedia and not initialYT and iframeyoutubes.length > 0
+      anchor.attr('display', 'inline')
+      anchor.css('color', 'blue')
+    else 
       anchor.attr('display', 'inline')
       anchor.css('color', 'red')
   
@@ -205,6 +242,82 @@ module.exports = class Toolbar extends Annotator.Plugin
 
                    #state = true
                    #@toolbar.setVideoSnippetButton state
+          else if iframeyoutubes.length > 0
+              for iframe in iframeyoutubes
+                   if (!initialYT)
+                       if (player==null)
+                           console.log(true)
+                           player = new YT.Player(iframe, {events: {'onReady': onPlayerReady,'onStateChange': onPlayerStateChange } });
+                       if (player.getCurrentTime?)
+                           console.log(player.getCurrentTime())
+                           if IDLIST.length > 0
+                               endtime=player.getCurrentTime()
+                               IDLIST[0].endtime=endtime
+
+                               # FIX ME:Reset the endtime on clicking the end recording button
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST=[]
+                               #state = false
+                               #@toolbar.setVideoSnippetButton state
+
+                           else
+                               starttime=player.getCurrentTime()
+
+                               #set end time to duration by default
+                               endtime = player.getDuration()
+
+                               val.id =renoted_id
+                               val.starttime=starttime
+
+                               # resolving Bug#33
+                               val.endtime = endtime
+                               val.uri=player.getVideoUrl()
+                               IDLIST.push(val)
+
+                               # Create a new annotation and get its reference
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST = []
+                       else if !countYT
+                            console.log("You may need to press the button again if video has started or press this button after starting the video")
+                            countYT = true
+                       else 
+                            console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                          
+                   else
+                       if (iframe.getCurrentTime?)
+                           console.log(iframe.getCurrentTime())
+                           if IDLIST.length > 0
+                               endtime=iframe.getCurrentTime()
+                               IDLIST[0].endtime=endtime
+
+                               # FIX ME:Reset the endtime on clicking the end recording button
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST=[]
+                               #state = false
+                               #@toolbar.setVideoSnippetButton state
+
+                           else
+                               starttime=iframe.getCurrentTime()
+
+                               #set end time to duration by default
+                               endtime = iframe.getDuration()
+
+                               val.id =renoted_id
+                               val.starttime=starttime
+
+                               # resolving Bug#33
+                               val.endtime = endtime
+                               val.uri=iframe.getVideoUrl()
+                               IDLIST.push(val)
+
+                               # Create a new annotation and get its reference
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST = []
+                       else if !countYT
+                            console.log("You may need to press the button again if video has started or press this button after starting the video")
+                            countYT=true
+                       else
+                            console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
           else
               alert("only works with Youtube and SoundCloud for now")
 

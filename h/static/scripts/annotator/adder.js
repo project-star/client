@@ -188,8 +188,8 @@ function createAdderDOM(container) {
  */
 function Adder(container, options) {
   var element = createAdderDOM(container);
-  findIframes(document)
-  findVideos(document)
+//  findIframes(document)
+//  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
     // property rather than `display` so that we can compute its size in order to
@@ -212,18 +212,18 @@ function Adder(container, options) {
   this.element = element;
   var view = element.ownerDocument.defaultView;
   var enterTimeout;
-  var vidEl = document.querySelector('.video-renote')
+//  var vidEl = document.querySelector('.video-renote')
 //  document.querySelector('.video-renote').addEventListener('click', handleCommand.bind(this,'videoiframe'));
-  if (vidEl) {
-  console.log(vidEl.getAttribute("class"))
-  var val = vidEl.getAttribute("class")
-  var newval= val.replace('video-renote ', '');
-  var playerE = new YT.Player(newval,{ events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }});
-  vidEl.addEventListener('click', function(){ onPlayerS(playerE)});
-  }
+//  if (vidEl) {
+//  console.log(vidEl.getAttribute("class"))
+//  var val = vidEl.getAttribute("class")
+//  var newval= val.replace('video-renote ', '');
+//  var playerE = new YT.Player(newval,{ events: {
+//            'onReady': onPlayerReady,
+//            'onStateChange': onPlayerStateChange
+//          }});
+//  vidEl.addEventListener('click', function(){ onPlayerS(playerE)});
+//  }
   element.querySelector('.js-annotate-btn')
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')

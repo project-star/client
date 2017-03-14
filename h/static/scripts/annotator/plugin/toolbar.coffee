@@ -262,7 +262,7 @@ module.exports = class Toolbar extends Annotator.Plugin
                            #console.log(true)
                            eplayer = new YT.Player(iframe, {events: {'onStateChange': onPlayerStateChange } });
                        if !(eplayer.getCurrentTime?)
-                           sleep 4000
+                           sleep 1000
                        if (eplayer.getCurrentTime?)
                            #console.log(eplayer.getCurrentTime())
                            if IDLIST.length > 0

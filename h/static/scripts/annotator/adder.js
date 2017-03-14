@@ -69,7 +69,7 @@ function DOMtoString(document_root,renoted_id) {
 
 function findIframes(document_root){
 var  iframe = document_root.getElementsByTagName('iframe');
-console.log(iframe)
+//console.log(iframe)
 var tag = document_root.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -77,19 +77,25 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 for (var i =0; i<iframe.length; i++){
  if (iframe[i].src.indexOf("youtube.com")!= -1 ){
-    console.log(true)
+    var actualSrc = iframe[i].src
+    var newSrc = actualSrc.split("?")[0] + "?enablejsapi=1"
+    iframe[i].src = newSrc
+    ///console.log(iframe[i].src)
+    //console.log(true)
+   
     var newEl = document.createElement('div');
-    console.log(iframe[i].id)
+    //console.log(iframe[i].id)
     actual = iframe[i].id
     var vclass = "video-renote " + actual
     newEl.innerHTML = '<button  style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
     var att = document.createAttribute("class");
+    var att1 = document.createAttribute("id");
+    att1.value = "renoted-video"
+    iframe[i].setAttributeNode(att1)
     att.value = vclass
     newEl.setAttributeNode(att);
-    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+//    iframe[i].parentNode.insertBefore(newEl,iframe[i])
 }
-else 
-    console.log(false)
 
 } 
 
@@ -99,21 +105,19 @@ else
 function clickedbutton(){
 
 
-console.log("true")
+//console.log("true")
 }
 
 function findVideos(document_root){
 var  iframe = document_root.getElementsByTagName('video');
-console.log(iframe)
+//console.log(iframe)
 for (var i =0; i<iframe.length; i++){
  if (iframe[i].src.indexOf("youtube.com")!= -1 ){
-    console.log(true)
+    //console.log(true)
     var newEl = document.createElement('div');
     newEl.innerHTML = '<p  class="video-renote" style="position: relative; z-index: 65535; color:red">Hello World!</p>';
     iframe[i].parentNode.insertBefore(newEl,iframe[i])
 }
-else 
-    console.log(false)
 
 }
 
@@ -188,7 +192,7 @@ function createAdderDOM(container) {
  */
 function Adder(container, options) {
   var element = createAdderDOM(container);
-//  findIframes(document)
+  findIframes(document)
 //  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
@@ -212,18 +216,19 @@ function Adder(container, options) {
   this.element = element;
   var view = element.ownerDocument.defaultView;
   var enterTimeout;
-//  var vidEl = document.querySelector('.video-renote')
+  var playerE;
+  var vidEl = document.querySelector('.video-renote')
 //  document.querySelector('.video-renote').addEventListener('click', handleCommand.bind(this,'videoiframe'));
-//  if (vidEl) {
-//  console.log(vidEl.getAttribute("class"))
-//  var val = vidEl.getAttribute("class")
-//  var newval= val.replace('video-renote ', '');
-//  var playerE = new YT.Player(newval,{ events: {
-//            'onReady': onPlayerReady,
-//            'onStateChange': onPlayerStateChange
-//          }});
-//  vidEl.addEventListener('click', function(){ onPlayerS(playerE)});
-//  }
+  if (vidEl) {
+  //console.log(vidEl.getAttribute("class"))
+  var val = vidEl.getAttribute("class")
+  var newval= val.replace('video-renote ', '');
+ // var playerE = new YT.Player(newval,{ events: {
+ //           'onReady': onPlayerReady,
+ //           'onStateChange': onPlayerStateChange
+ //         }});
+  vidEl.addEventListener('click', function(){ myRenoteFunction(val)});
+  }
   element.querySelector('.js-annotate-btn')
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')
@@ -232,25 +237,42 @@ function Adder(container, options) {
 //    .addEventListener('click', handleCommand.bind(this, 'annotate'));
 
   function myRenoteFunction(val){
+    document.addEventListener('message', function (event) {console.log(event.data)}, false);
     var newval= val.replace('video-renote ', '');
     console.log(newval)
     var check = true
     console.log(val)
+  
+    if (playerE == null){
+    console.log("new instance created")
+    playerE = new YT.Player("renoted-video",{ events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }});
+   }
+    console.log(playerE)
     
   }
-
+   function readyYoutube(){
+    if((typeof YT !== "undefined") && YT && YT.Player){
+        console.log("not ready")
+    }else{
+        setTimeout(readyYoutube, 100);
+    }
+}
    function onPlayerReady(event){
-    
+    console.log(playerE.getCurrentTime())
     console.log(event.target)
    }
 
 
    function onPlayerStateChange(event){
+    console.log(playerE.getCurrentTime())
     console.log(event.target)
    }
 
   function onPlayerS(player){
-    console.log(player.getCurrentTime())
+    console.log(playerE.getCurrentTime())
    }
   
   function handleCommand(command, event) {

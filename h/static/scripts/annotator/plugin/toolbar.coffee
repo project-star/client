@@ -1,4 +1,3 @@
-
 Annotator = require('annotator')
 $ = Annotator.$
 isMedia = ->
@@ -11,9 +10,10 @@ isMedia = ->
   return false
 iframeyoutubes = []
 videoembeds = []
-player=null
+eplayer=null
 countYT =false 
 initialYT=false
+YTinitialized=false
 isEmbedIframe = ->
 #  anyYTplayer=document.getElementById("article_body")
 #  iframe = document.getElementsByTagName('video')
@@ -37,7 +37,7 @@ isEmbedIframe = ->
 #  anyYTplayer=document.getElementsByClassName("html5-video-container")
 #  anyYTplayer =  document.querySelector('div[aria-label="YouTube Video Player"]');
 #  anystarttime=iframe.getDuration()
-  console.log("+++this is on any page where anyYTplayer in instantiated+++++")
+#  console.log("+++this is on any page where anyYTplayer in instantiated+++++")
 #  console.log(iframe)
 #  console.log(innerDoc)
 #  anyYTplayer = document.getElementById("movie_player");
@@ -50,7 +50,12 @@ isEmbedIframe = ->
   for iframe in iframes
     if iframe.src.includes("youtube.com")
         pid = iframe.getAttribute('id');
-        console.log (pid)
+#        innerDoc = iframe.contentWindow.postMessage(JSON.stringify({'event': 'command','func': 'playVideo'}), '*');
+#        console.log(innerDoc)
+#        videoelement = iframe.contentWindow.getElementById('video');
+#        console.log(videoelement)
+        iframe.addEventListener("click",onListener.bind(this))       
+#        console.log (pid)
         if (YT?)
           console.log ("YT is defined")
           initialYT=true
@@ -58,7 +63,7 @@ isEmbedIframe = ->
           console.log("YT is not defined")
           initialYT=false
         if (initialYT)
-            player = new YT.Player(pid, {
+            eplayer = new YT.Player(pid, {
             events: {
               'onReady': onPlayerReady,
               'onStateChange': onPlayerStateChange
@@ -66,19 +71,30 @@ isEmbedIframe = ->
             });
          
         
-            iframeyoutubes.push(player)
+            iframeyoutubes.push(eplayer)
          else
             iframeyoutubes.push(pid) 
-
-  console.log(iframeyoutubes)
+         break;
+#  console.log(iframeyoutubes)
   return iframeyoutubes
 
 
+sleep = (ms) ->
+  start = new Date().getTime()
+  continue while new Date().getTime() - start < ms
+
+onListener = (event) ->
+#  console.log("in listener function")
+  if (YT?)
+      eplayer = new YT.Player(pid, {events: {'onStateChange': onPlayerStateChange } });
+      YTinitialized=true
 onPlayerStateChange = ->
-  console.log("true")
-  console.log(player)
+    countYT=true
+#  console.log("true")
+#  console.log(eplayer)
 onPlayerReady = (event) ->
-  console.log(player)
+    countYT=true
+#  console.log(eplayer)
 
 makeButton = (item) ->
   anchor = $('<button></button>')
@@ -95,9 +111,6 @@ makeButton = (item) ->
       anchor.css('display', 'none');
       anchor.attr('disabled', 'true')
       anchor.css('color', '#969696')
-    else if not isMedia and not initialYT and iframeyoutubes.length > 0
-      anchor.attr('display', 'inline')
-      anchor.css('color', 'blue')
     else 
       anchor.attr('display', 'inline')
       anchor.css('color', 'red')
@@ -245,13 +258,15 @@ module.exports = class Toolbar extends Annotator.Plugin
           else if iframeyoutubes.length > 0
               for iframe in iframeyoutubes
                    if (!initialYT)
-                       if (player==null)
-                           console.log(true)
-                           player = new YT.Player(iframe, {events: {'onReady': onPlayerReady,'onStateChange': onPlayerStateChange } });
-                       if (player.getCurrentTime?)
-                           console.log(player.getCurrentTime())
+                       if (eplayer==null)
+                           #console.log(true)
+                           eplayer = new YT.Player(iframe, {events: {'onStateChange': onPlayerStateChange } });
+                       if !(eplayer.getCurrentTime?)
+                           sleep 4000
+                       if (eplayer.getCurrentTime?)
+                           #console.log(eplayer.getCurrentTime())
                            if IDLIST.length > 0
-                               endtime=player.getCurrentTime()
+                               endtime=eplayer.getCurrentTime()
                                IDLIST[0].endtime=endtime
 
                                # FIX ME:Reset the endtime on clicking the end recording button
@@ -261,31 +276,33 @@ module.exports = class Toolbar extends Annotator.Plugin
                                #@toolbar.setVideoSnippetButton state
 
                            else
-                               starttime=player.getCurrentTime()
+                               starttime=eplayer.getCurrentTime()
 
                                #set end time to duration by default
-                               endtime = player.getDuration()
+                               endtime = eplayer.getDuration()
 
                                val.id =renoted_id
                                val.starttime=starttime
 
                                # resolving Bug#33
                                val.endtime = endtime
-                               val.uri=player.getVideoUrl()
+                               val.uri=eplayer.getVideoUrl()
                                IDLIST.push(val)
 
                                # Create a new annotation and get its reference
                                @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
                                IDLIST = []
                        else if !countYT
-                            console.log("You may need to press the button again if video has started or press this button after starting the video")
+                            alert("You may need to press the button again if video has started or press this button after starting the video")
+                            #console.log("You may need to press the button again if video has started or press this button after starting the video")
                             countYT = true
                        else 
-                            console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                            #console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                            countYT = true
                           
                    else
                        if (iframe.getCurrentTime?)
-                           console.log(iframe.getCurrentTime())
+                           #console.log(iframe.getCurrentTime())
                            if IDLIST.length > 0
                                endtime=iframe.getCurrentTime()
                                IDLIST[0].endtime=endtime
@@ -314,10 +331,11 @@ module.exports = class Toolbar extends Annotator.Plugin
                                @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
                                IDLIST = []
                        else if !countYT
-                            console.log("You may need to press the button again if video has started or press this button after starting the video")
+                            #console.log("You may need to press the button again if video has started or press this button after starting the video")
                             countYT=true
                        else
-                            console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                            #console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                            countYT=true
           else
               alert("only works with Youtube and SoundCloud for now")
 

@@ -50,8 +50,15 @@ module.exports = function AppController(
 
   //Intro variable
   $scope.showIntro = true;
-  $scope.totalIntroItems = 4;
+  $scope.totalIntroItems = 5;
   $scope.currentIntroItem = 1; //Skip condition
+
+    $scope.dcrIntroCount = function() {
+    if($scope.currentIntroItem > 1)
+      $scope.currentIntroItem = $scope.currentIntroItem - 1;
+
+      //Do NOTHING
+  };
 
   $scope.incrIntroCount = function() {
     if($scope.currentIntroItem < $scope.totalIntroItems)

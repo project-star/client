@@ -66,13 +66,17 @@ module.exports = function AppController(
       $scope.currentIntroItem = $scope.currentIntroItem + 1;
     else {
       $scope.currentIntroItem = 1; //Skip condition
-      $scope.showIntro = false; //Also set intro completed in user profile (backend)
+      urlUI.setShowTutorials(false); //Also set intro completed in user profile (backend)
     }
   };
 
   $scope.skipIntro = function() {
     $scope.currentIntroItem = 1;
     urlUI.setShowTutorials(false);
+  };
+
+   $scope.setShowTutorials = function() {
+    urlUI.setShowTutorials(true);
   };
 
   //Variable to set Stream page
@@ -136,7 +140,7 @@ module.exports = function AppController(
   $scope.$on(events.USER_CHANGED, function (event, data) {
     $scope.auth = authStateFromUserID(data.userid);
     $scope.accountDialog.visible = false;
-
+    urlUI.setShowTutorials(data.showTutorial)
     if (!data || !data.initialLoad) {
       $route.reload();
     }
@@ -147,7 +151,7 @@ module.exports = function AppController(
     // update the auth info in the top bar and show the login form
     // after first install of the extension.
     $scope.auth = authStateFromUserID(state.userid);
-
+    urlUI.setShowTutorials(state.showTutorial)
     if (!state.userid && settings.openLoginForm) {
       $scope.login();
     }

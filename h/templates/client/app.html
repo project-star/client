@@ -148,7 +148,11 @@
         </a>
       </li>
       <li><a class="sidebar__nav-label" ng-href="{{urlLoading() ? '' : '/shared'}}" ng-click="toggleSharedStream(true)" ng-class="{sidebar__active: isSharedStream && !urlLoading()}" title="Received Notes">
-      <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li>      
+      <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li> 
+     <li> <a class="sidebar__nav-label" ng-click="setShowTutorials()" title="Getting Started">
+       <i class="h-icon-star-full"></i> Getting Started
+        </a> 
+      </li>    
     </ul>
 
     <!-- INSERT the code for Stacks here -->

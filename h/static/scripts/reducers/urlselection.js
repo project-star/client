@@ -21,6 +21,8 @@ var util = require('./util');
 */
 var TAB_DEFAULT = uiConstants.TAB_ANNOTATIONS;
 
+var SHOW_TUTORIALS = true;
+
  /**
   * Default sort keys for each tab.
   */
@@ -102,6 +104,7 @@ function init(settings) {
     urlLoading: URL_LOADING,
     // Keys by which annotations can be sorted.
     sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[TAB_DEFAULT],
+    showTutorials: SHOW_TUTORIALS,
   };
 }
 
@@ -159,6 +162,9 @@ var update = {
 
   SET_SORT_KEY: function (state, action) {
     return {sortKey: action.key};
+  },
+  SET_SHOW_TUTORIALS: function (state, action) {
+    return {showTutorials: action.key};
   },
   SET_URL_LOADING: function (state,action) {
     return {urlLoading: action.key};
@@ -293,6 +299,12 @@ function setUrlFilterKey(key) {
   };
 }
 
+function setShowTutorials(key) {
+  return {
+    type: actions.SET_SHOW_TUTORIALS,
+    key: key,
+  };
+}
 function setUrlLoading(key) {
   return {
     type: actions.SET_URL_LOADING,
@@ -389,6 +401,7 @@ module.exports = {
     setUrlFilterKey: setUrlFilterKey,
     setUrlStackKey: setUrlStackKey,
     setUrlLoading: setUrlLoading,
+    setShowTutorials: setShowTutorials,
     toggleSelectedUrls: toggleSelectedUrls,
   },
 

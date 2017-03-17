@@ -41,7 +41,7 @@
 
 <button class="primary-action-btn" ng-click="toggleLeftNav()" style="position: fixed; left: 0; top: 0;" ng-disabled="urlLoading()">Nav Drawer</button>
 
-<div id="myModal" class="modal" ng-if="auth.status === 'logged-in' && !isSharedStream && showIntro">
+<div id="myModal" class="modal" ng-if="auth.status === 'logged-in' && !isSharedStream && showIntro()">
   <div style="position: fixed">
     <div class="intro_content">
       <span class="close">

@@ -13,6 +13,9 @@ module.exports = function () {
       this.kStackList = []; //empty list
       this.kStackName = "";
       this.isCreatingNewStack=false;
+      this.showTutorials = function(){
+        urlUI.setShowTutorials(true);
+      };
       this.newKStackName = "";
       this.isStackSelected = function(stackname){ 
       if (stackname == urlUI.getState().selectedUrlStackKey){

@@ -48,7 +48,9 @@ module.exports = function AppController(
   $scope.helpPanel = {visible: false};
 
   //Intro variable
-  $scope.showIntro = true;
+  $scope.showIntro = function () {
+    return urlUI.getState().showTutorials
+   };
   $scope.totalIntroItems = 5;
   $scope.currentIntroItem = 1; //Skip condition
 
@@ -70,7 +72,7 @@ module.exports = function AppController(
 
   $scope.skipIntro = function() {
     $scope.currentIntroItem = 1;
-    $scope.showIntro = false; //Do not set intro completed; user will see the intro till the time he doesn't finish it
+    urlUI.setShowTutorials(false);
   };
 
   //Variable to set Stream page

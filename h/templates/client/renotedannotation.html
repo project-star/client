@@ -287,12 +287,27 @@
   <!-- Body -->
   <section name="text" class="annotation-body">
     <excerpt enabled="!vm.editing()"
+      ng-if="!vm.editing()"
       inline-controls="false"
       on-collapsible-changed="vm.setBodyCollapsible(collapsible)"
       collapse="vm.collapseBody"
       collapsed-height="400"
       overflow-hysteresis="20"
-      ng-bind-html="highlightSearchText(vm.state().text,vm.searchController.query())"
+      content-data="vm.state().text">
+      <markdown text="vm.state().text"
+        ng-bind-html="highlightSearchText(vm.state().text,vm.searchController.query())"
+        on-edit-text="vm.setText(text)"
+        read-only="!vm.editing()">
+      </markdown>
+    </excerpt>
+
+    <excerpt enabled="!vm.editing()"
+      ng-if="vm.editing()"
+      inline-controls="false"
+      on-collapsible-changed="vm.setBodyCollapsible(collapsible)"
+      collapse="vm.collapseBody"
+      collapsed-height="400"
+      overflow-hysteresis="20"
       content-data="vm.state().text">
       <markdown text="vm.state().text"
         on-edit-text="vm.setText(text)"

@@ -98,7 +98,6 @@
 
 
 <ul class="thread-list">
- 
    <li id="{{child.id}}"
       class="thread-list__card"
       ng-mouseenter="vm.onFocus({url: child.url})"
@@ -107,6 +106,7 @@
       ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | filter:onUrlFilter | limitTo:displayedNumber as shownItems track by child.id">
       <url ng-class="vm.urlClasses()"
            url="child.url"
+           search-controller="vm.searchController"
            on-shared-stream="vm.onSharedStream">    
       </url>
   </li>

@@ -50,7 +50,7 @@ function updateModel(annotation, changes, permissions) {
 function RenotedAnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
   annotationMapper, drafts, urldrafts, flash, features, groups, permissions, serviceUrl,
-  session, store, streamer, scService) {
+  session, store, streamer, scService,$sce) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -616,7 +616,14 @@ function RenotedAnnotationController(
       vm.save();
     }
   };
-
+ $scope.highlightSearchText = function(haystack, needle) {
+    if(!needle) {
+        return $sce.trustAsHtml(haystack);
+    }
+    return $sce.trustAsHtml(haystack.replace(new RegExp(needle, "gi"), function(match) {
+        return '<span style="background-color: yellow;">' + match + '</span>';
+    }));
+};
   vm.toggleCollapseBody = function(event) {
     event.stopPropagation();
     vm.collapseBody = !vm.collapseBody;
@@ -939,6 +946,8 @@ function renotedannotation() {
       replyCount: '<',
       isCollapsed: '<',
       inSharedView: '=',
+      searchController: '<',
+      highlightSearchText: '&',
       selectedForSharing: '=',
       onSharedStream: '<',
 //      annotationHoverFlag: '=',

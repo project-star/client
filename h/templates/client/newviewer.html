@@ -50,6 +50,7 @@
     ng-show="!isLoading || auth.status === 'logged-out'"
     on-change-collapsed="setCollapsed(id, collapsed)"
     on-clear-selection="clearSelection()"
+    search-controller="search"
     on-focus="focus(annotation)"
     on-force-visible="forceVisible(thread)"
     on-select="scrollTo(annotation)"

@@ -208,7 +208,7 @@
       overflow-hysteresis="20"
       content-data="selector.exact">
       <blockquote class="annotation-quote"
-        ng-bind-html="selector.exact"
+        ng-bind-html="highlightSearchText(selector.exact,vm.searchController.query())"
         ng-repeat="selector in target.selector
           | filter : {'type': 'TextQuoteSelector'}
           track by $index">
@@ -292,6 +292,7 @@
       collapse="vm.collapseBody"
       collapsed-height="400"
       overflow-hysteresis="20"
+      ng-bind-html="highlightSearchText(vm.state().text,vm.searchController.query())"
       content-data="vm.state().text">
       <markdown text="vm.state().text"
         on-edit-text="vm.setText(text)"
@@ -300,7 +301,6 @@
     </excerpt>
   </section>
   <!-- / Body -->
-
   <!-- Tags -->
   <div class="annotation-body form-field" ng-if="vm.editing()">
     <tag-editor tags="vm.state().tags"
@@ -311,7 +311,7 @@
        ng-if="(vm.canCollapseBody || vm.state().tags.length) && !vm.editing()">
     <ul class="tag-list">
       <li class="tag-item" ng-repeat="tag in vm.state().tags">
-        <a ng-href="{{vm.tagStreamURL(tag)}}" target="_blank">{{tag}}</a>
+        <a ng-href="{{vm.tagStreamURL(tag)}}" target="_blank" ng-bind-html="highlightSearchText(tag,vm.searchController.query())"></a>
       </li>
     </ul>
     <div class="u-stretch"></div>

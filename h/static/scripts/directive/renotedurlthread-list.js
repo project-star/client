@@ -35,7 +35,7 @@ function getThreadHeight(id) {
 }
 
 // @ngInject
-function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$route,session,datacollect) {
+function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$route,session,datacollect,$sce) {
   // `visibleThreads` keeps track of the subset of all threads matching the
   // current filters which are in or near the viewport and the view then renders
   // only those threads, using placeholders above and below the visible threads
@@ -159,6 +159,15 @@ function RenotedUrlThreadListController($scope, UrlVirtualThreadList,urlUI,$rout
      return false
 
    }
+
+//  $scope.highlightSearchText = function(haystack, needle) {
+//    if(!needle) {
+//        return $sce.trustAsHtml(haystack);
+//    }
+//    return $sce.trustAsHtml(haystack.replace(new RegExp(needle, "gi"), function(match) {
+//        return '<span style="background-color: yellow;">' + match + '</span>';
+//    }));
+//};
   this.$onDestroy = function () {
     visibleThreads.detach();
   };
@@ -182,6 +191,7 @@ module.exports = function () {
        * Called when the user clicks a link to show an annotation that does not
        * match the current filter.
        */
+      searchController: '<',
       onForceVisible: '&',
       /** Called when the user focuses an annotation by hovering it. */
       onFocus: '&',

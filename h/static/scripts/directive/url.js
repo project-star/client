@@ -50,7 +50,7 @@ function updateModel(url,changes) {
 function UrlController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,$route,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,urlUI,urlMapper,urldrafts,
-  session, store, streamer,datacollect) {
+  session, store, streamer,datacollect,$sce) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -517,6 +517,15 @@ function UrlController(
     }, true);
   };
 
+ $scope.highlightSearchText = function(haystack, needle) {
+    if(!needle) {
+        return $sce.trustAsHtml(haystack);
+    }
+    return $sce.trustAsHtml(haystack.replace(new RegExp(needle, "gi"), function(match) {
+        return '<span style="background-color: yellow;">' + match + '</span>';
+    }));
+};
+
   init();
 }
 
@@ -534,6 +543,8 @@ function url() {
       replyCount: '<',
       isCollapsed: '<',
       onSharedStream: '<',
+      searchController: '<',
+      highlightSearchText: '&',
     },
     template: require('../../../templates/client/url.html'),
   };

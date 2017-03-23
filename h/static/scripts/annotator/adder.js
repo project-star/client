@@ -102,10 +102,29 @@ for (var i =0; i<iframe.length; i++){
 }
 
 
-function clickedbutton(){
+function findVideoOnYoutube(document_root,options) {
+    console.log(" in find VideoOnYoutube function")
+    console.log(document_root.location.href)
+    if (document_root.location.href.indexOf("youtube.com/watch")!= -1){
+         console.log("we are on youtube playing video")
+         var youtube_movie_player = document.getElementById("movie_player");
+         console.log(youtube_movie_player)
+         var vclass = "renote-class"
+         var newEl = document.createElement('div');
+         newEl.innerHTML = '<button  style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+         var att = document.createAttribute("class");
+         att.value = vclass
+         newEl.setAttributeNode(att);
+         youtube_movie_player.parentNode.insertBefore(newEl,youtube_movie_player)
+         newEl.addEventListener('click', function(){ clickedbutton(options)});
 
 
-//console.log("true")
+   }
+}
+function clickedbutton(options){
+options.onVidClick("1234")
+
+console.log("true")
 }
 
 function findVideos(document_root){
@@ -193,6 +212,7 @@ function createAdderDOM(container) {
 function Adder(container, options) {
   var element = createAdderDOM(container);
   findIframes(document)
+  findVideoOnYoutube(document,options)
 //  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
@@ -235,6 +255,17 @@ function Adder(container, options) {
     .addEventListener('click', handleCommand.bind(this, 'highlight'));
 //  element.querySelector('.trial')
 //    .addEventListener('click', handleCommand.bind(this, 'annotate'));
+
+   if (document.location.href.indexOf("youtube.com/watch")!= -1){
+         console.log("we are on youtube playing video")
+         var youtube_movie_player = document.getElementById("movie_player");
+         console.log(youtube_movie_player)
+
+         youtube_movie_player.addEventListener('click', handleCommand.bind(this,'videoiframe'));
+
+
+   }
+
 
   function myRenoteFunction(val){
     document.addEventListener('message', function (event) {console.log(event.data)}, false);

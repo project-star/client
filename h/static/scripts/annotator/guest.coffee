@@ -10,7 +10,7 @@ adder = require('./adder')
 highlighter = require('./highlighter')
 rangeUtil = require('./range-util')
 selections = require('./selections')
-
+annotationUI = require('../annotation-ui')
 animationPromise = (fn) ->
   return new Promise (resolve, reject) ->
     raf ->
@@ -69,6 +69,10 @@ module.exports = class Guest extends Annotator
         self.setVisibleHighlights(true)
         self.createSearch(renoted_id)
         Annotator.Util.getGlobal().getSelection().removeAllRanges()
+     onVidClick: (value) ->
+        console.log("in vidclick in guest.coffee")
+        console.log(value)
+        self.publish('videvent',value)
     })
    
     this.selections = selections(document).subscribe

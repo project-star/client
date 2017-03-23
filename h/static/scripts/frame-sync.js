@@ -104,7 +104,16 @@ function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
     bridge.on('beforeCreateAnnotation', function (event) {
       inFrame.add(event.tag);
       var annot = Object.assign({}, event.msg, {$$tag: event.tag});
+      console.log(true)
       $rootScope.$broadcast(events.BEFORE_ANNOTATION_CREATED, annot);
+    });
+    
+   bridge.on('videvent', function (event) {
+      inFrame.add(event.tag);
+      console.log(" in frame-sync function")
+      console.log(event)
+//      var annot = Object.assign({}, event.msg, {$$tag: event.tag});
+      $rootScope.$broadcast("vidEventSync", "4567");
     });
 
     // Anchoring an annotation in the frame completed

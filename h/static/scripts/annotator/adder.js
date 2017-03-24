@@ -115,14 +115,22 @@ function findVideoOnYoutube(document_root,options) {
          var att = document.createAttribute("class");
          att.value = vclass
          newEl.setAttributeNode(att);
-         youtube_movie_player.parentNode.insertBefore(newEl,youtube_movie_player)
-         newEl.addEventListener('click', function(){ clickedbutton(options)});
+         youtube_movie_player.addEventListener('onStateChange',function(){ clickedbutton(options,youtube_movie_player)});
+         //youtube_movie_player.parentNode.insertBefore(newEl,youtube_movie_player)
+         //newEl.addEventListener('click', function(){ clickedbutton(options)});
 
 
    }
 }
-function clickedbutton(options){
-options.onVidClick("1234")
+function clickedbutton(options,youtube_movie_player){
+console.log(youtube_movie_player.getCurrentTime())
+console.log(youtube_movie_player.getPlayerState())
+console.log(youtube_movie_player.getPlaybackRate())
+var vidObject = {}
+vidObject.curTime = youtube_movie_player.getCurrentTime()
+vidObject.curState = youtube_movie_player.getPlayerState()
+vidObject.curRate = youtube_movie_player.getPlaybackRate()
+options.onVidClick(vidObject)
 
 console.log("true")
 }

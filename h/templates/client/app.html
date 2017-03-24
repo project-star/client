@@ -17,7 +17,7 @@
   ng-cloak>
 </top-bar>
 <!--
-<button type="button" class="btn btn-default" ng-click="switchUpperTabs()" ng-if="isSidebar">Switch View</button>
+<button type="button" class="btn btn-default" ng-click="switchUpperTabs()" ng-if="isSidebar">Switch View {{testParam()}}  {{theTime}} {{vidParams()}}</button>
 -->
 <div class="create-account-banner" ng-if="isSidebar && auth.status === 'logged-out'" ng-cloak>
   <a href="" ng-click="login()">Log In</a>

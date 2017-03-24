@@ -32,7 +32,7 @@ function fetchSearch(store, query) {
 
 // @ngInject
 module.exports = function AppController(
-  $controller, $document, $location, $rootScope, $route, $scope,
+  $controller, $document, $location, $rootScope, $route, $scope,$interval,
   $window, annotationUI, auth, drafts, features, frameSync, groups,
   serviceUrl, session, settings, streamer, searchFilter,store,datacollect
 ) {
@@ -59,9 +59,13 @@ module.exports = function AppController(
   //
   //     if ($scope.feature('foo')) { ... }
   $scope.feature = features.flagEnabled;
-
+  $scope.theTime = new Date().toLocaleTimeString();
+  $interval(function () {
+        $scope.theTime = new Date().toLocaleTimeString();
+    }, 1000);
   // Allow all child scopes access to the session
   $scope.session = session;
+
 
   // App dialogs
   $scope.accountDialog = {visible: false};
@@ -79,6 +83,14 @@ module.exports = function AppController(
   
   $scope.sortKey = function () {
     return annotationUI.getState().sortKey;
+  };
+
+  $scope.testParam = function() {
+    return annotationUI.getState().testParam;
+  };
+
+  $scope.vidParams = function() {
+    return annotationUI.getState().vidParams;
   };
 
   $scope.sortKeysAvailable = function () {

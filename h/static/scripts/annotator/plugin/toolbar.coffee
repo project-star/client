@@ -122,6 +122,7 @@ makeButton = (item) ->
 module.exports = class Toolbar extends Annotator.Plugin
   HIDE_CLASS = 'annotator-hide'
   IDLIST = []
+  paramList = []
   #ytAnnot = []
   
   events:
@@ -174,7 +175,7 @@ module.exports = class Toolbar extends Annotator.Plugin
           matchSC = uri.includes("soundcloud.com")
           renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
           val={}
-          
+          params={}
           if matchSC
               scDomainURI = "https://soundcloud.com"
               scPlayer=document.getElementsByClassName("playbackTimeline__progressWrapper")
@@ -237,22 +238,24 @@ module.exports = class Toolbar extends Annotator.Plugin
               
               else
                    starttime=ytplayer.getCurrentTime()
-                   
+                                      
                    #set end time to duration by default
                    endtime = ytplayer.getDuration()
                    
                    val.id =renoted_id
                    val.starttime=starttime
-                   
+                   params.curTime = ytplayer.getCurrentTime()
+                   params.curRate = ytplayer.getPlaybackRate()
+                   params.curState = ytplayer.getPlayerState()
+                   paramList.push(params)
                    # resolving Bug#33
                    val.endtime = endtime
                    val.uri=uri
                    IDLIST.push(val) 
-                   
                    # Create a new annotation and get its reference
-                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST,params:paramList, $newMedia:true)
                    IDLIST = []
-
+                   paramList =[]
                    #state = true
                    #@toolbar.setVideoSnippetButton state
           else if iframeyoutubes.length > 0

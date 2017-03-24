@@ -54,7 +54,7 @@ module.exports = class AnnotationSync
     'beforeAnnotationCreated': (annotation) ->
       console.log(annotation)
       return if annotation.$$tag?
-      this._mkCallRemotelyAndParseResults('beforeCreateAnnotation')(annotation)
+      this._mkCallRemotelyAndParseResults('beforeCreateAnnotationxm')(annotation)
       #this._mkCallRemotelyAndParseResults('videvent')(annotation)
 
     'videvent': (value) ->
@@ -121,8 +121,9 @@ module.exports = class AnnotationSync
       tag: ann.$$tag
       msg: ann
     }
-  _formatnew: (ann) ->
+  _formatnew: (val) ->
+    this._tag(val)
     {
-      tag: ann
-      msg: ann
+      tag: val.$$tag
+      msg: val
     }

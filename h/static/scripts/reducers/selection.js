@@ -20,6 +20,11 @@ var util = require('./util');
 * Default starting tab.
 */
 var TAB_DEFAULT = uiConstants.TAB_ANNOTATIONS;
+var TestParam = true
+var VID_PARAMS  = {};
+VID_PARAMS['curTime'] = 0
+VID_PARAMS['curState'] = -1
+VID_PARAMS['curRate'] = 1
 
  /**
   * Default sort keys for each tab.
@@ -91,6 +96,8 @@ function init(settings) {
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     // Keys by which annotations can be sorted.
     sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[TAB_DEFAULT],
+    vidParams: VID_PARAMS,
+    testParam: TestParam,
   };
 }
 
@@ -117,6 +124,10 @@ var update = {
 
   HIGHLIGHT_ANNOTATIONS: function (state, action) {
     return {highlighted: action.highlighted};
+  },
+
+  SET_VID_PARAMS: function (state, action) {
+    return {vidParams: action.key};
   },
 
   SELECT_TAB: function (state, action) {
@@ -163,6 +174,9 @@ var update = {
 
   SET_SORT_KEY: function (state, action) {
     return {sortKey: action.key};
+  },
+  TEST_PARAM: function (state, action) {
+    return {testParam: action.key};
   },
 };
 
@@ -286,6 +300,19 @@ function setSortKey(key) {
   };
 }
 
+function setTestParam(key) {
+  return {
+    type: actions.TEST_PARAM,
+    key: key,
+  };
+}
+function setVidParams(key) {
+  return {
+    type: actions.SET_VID_PARAMS,
+    key: key,
+  };
+}
+
 /**
  * Returns true if the annotation with the given `id` is selected.
  */
@@ -335,6 +362,8 @@ module.exports = {
     setFilterQuery: setFilterQuery,
     setForceVisible: setForceVisible,
     setSortKey: setSortKey,
+    setTestParam: setTestParam,
+    setVidParams: setVidParams,
     toggleSelectedAnnotations: toggleSelectedAnnotations,
   },
 

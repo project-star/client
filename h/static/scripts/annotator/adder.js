@@ -223,13 +223,16 @@ function Adder(container, options) {
 
   findVideoOnYoutube(document,options)
   var currentState = "";
+  if (document.location.href.indexOf("youtube.com") !==-1){
     setInterval(function(){
+    console.log(document.location.href)
     if (currentState != history.state["spf-referer"]) {
         currentState = history.state["spf-referer"];
         console.log("Do Stuff!");
         findVideoOnYoutube(document,options)
      }
     },250)
+   }
 //  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`

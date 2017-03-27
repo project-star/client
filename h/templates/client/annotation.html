@@ -47,7 +47,7 @@
   </span>
 
   <span ng-if="vm.isAudio() && vm.editing()">
-     <br>
+     <br> 
      <b> Start Time: <vidmarkdown text="vm.getStarttime()"
         on-edit-text="vm.setStarttime(text)"
         read-only="!vm.editing()">
@@ -74,10 +74,35 @@
      <b> Start Time: <vidmarkdown text="vm.getStarttime()"
         on-edit-text="vm.setStarttime(text)"
         read-only="!vm.editing()">
-      </vidmarkdown> End Time:<vidmarkdown text="vm.getEndtime()"
+      </vidmarkdown></b>
+      <b ng-if="vm.editingendtime || !vm.newMedia()">End Time:</b>
+   <!--   <button class="btn btn-clean annotation-action-btn"
+        ng-show="vm.authorize('update') && !vm.isSaving && vm.newMedia() && vm.editingendtime"
+        ng-click="vm.canceleditendtime()"
+        ng-disabled="vm.isDeleted()"
+        aria-label="Cancel"
+        title="Cancel editing end time"
+        h-tooltip>
+        <i class="h-icon-cancel-outline publish-annotation-cancel-btn__icon btn-icon"></i>
+      </button> -->
+      <b><vidmarkdown text="vm.getEndtime()"
         on-edit-text="vm.setEndtime(text)"
-        read-only="!vm.editing()">
-      </vidmarkdown> </b>
+        read-only="!vm.editing()" ng-if="!vm.newMedia()">
+      </vidmarkdown> 
+       <vidmarkdown text="vm.getPlayertime()"
+        on-edit-text="vm.setEndtime(text)"
+        read-only="!vm.editing()" ng-if="vm.newMedia() && vm.editingendtime">
+      </vidmarkdown></b>
+      <b ng-if="vm.newMedia() && !vm.editingendtime"> End Time: {{vm.getPlayertime()}} </b>
+  <!--   <button class="btn btn-clean annotation-action-btn"
+        ng-show="vm.authorize('update') && !vm.isSaving && vm.newMedia() && !vm.editingendtime"
+        ng-click="vm.editendtime()"
+        ng-disabled="vm.isDeleted()"
+        aria-label="Edit"
+        title="Click to edit end time"
+        h-tooltip>
+        <i class="h-icon-annotation-edit btn-icon "></i>
+      </button> -->
      </span>
      <span ng-if="vm.isVideo() && !vm.editing()">
      <br>

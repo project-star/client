@@ -278,6 +278,10 @@ module.exports = function WidgetController(
     
   });
 
+  $scope.$on('videvent', function() {
+   datacollect.connectionsend('videvent');
+  });
+
   // If the user is logged in, we connect nevertheless
   if ($scope.auth.status === 'logged-in') {
     streamer.connect();

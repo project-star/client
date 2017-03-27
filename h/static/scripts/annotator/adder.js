@@ -15,7 +15,7 @@ var ARROW_POINTING_DOWN = 1;
  * selected text.
  */
 var ARROW_POINTING_UP = 2;
-
+var actual="id";
 function toPx(pixels) {
   return pixels.toString() + 'px';
 }
@@ -66,6 +66,90 @@ function DOMtoString(document_root,renoted_id) {
  //   xhr.send(data1);
     return "true";
  }
+
+function findIframes(document_root){
+var  iframe = document_root.getElementsByTagName('iframe');
+//console.log(iframe)
+var tag = document_root.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+for (var i =0; i<iframe.length; i++){
+ if (iframe[i].src.indexOf("youtube.com")!= -1 ){
+    var actualSrc = iframe[i].src
+    var newSrc = actualSrc.split("?")[0] + "?enablejsapi=1"
+    iframe[i].src = newSrc
+    ///console.log(iframe[i].src)
+    //console.log(true)
+   
+    var newEl = document.createElement('div');
+    //console.log(iframe[i].id)
+    actual = iframe[i].id
+    var vclass = "video-renote " + actual
+    newEl.innerHTML = '<button  style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    var att = document.createAttribute("class");
+    var att1 = document.createAttribute("id");
+    att1.value = "renoted-video"
+    iframe[i].setAttributeNode(att1)
+    att.value = vclass
+    newEl.setAttributeNode(att);
+//    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+}
+
+} 
+
+}
+
+
+function findVideoOnYoutube(document_root,options) {
+    //console.log(" in find VideoOnYoutube function")
+    //console.log(document_root.location.href)
+    if (document_root.location.href.indexOf("youtube.com/watch")!= -1){
+         //console.log("we are on youtube playing video")
+         var youtube_movie_player = document.getElementById("movie_player");
+         //console.log(youtube_movie_player)
+         var vclass = "renote-class"
+         var newEl = document.createElement('div');
+         newEl.innerHTML = '<button  style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+         var att = document.createAttribute("class");
+         att.value = vclass
+         newEl.setAttributeNode(att);
+         youtube_movie_player.addEventListener('onStateChange',function(){ clickedbutton(options,youtube_movie_player)});
+         //youtube_movie_player.parentNode.insertBefore(newEl,youtube_movie_player)
+         //newEl.addEventListener('click', function(){ clickedbutton(options)});
+
+
+   }
+}
+function clickedbutton(options,youtube_movie_player){
+//console.log(youtube_movie_player.getCurrentTime())
+//console.log(youtube_movie_player.getPlayerState())
+//console.log(youtube_movie_player.getPlaybackRate())
+var vidObject = {}
+vidObject.curTime = youtube_movie_player.getCurrentTime()
+vidObject.curState = youtube_movie_player.getPlayerState()
+vidObject.curRate = youtube_movie_player.getPlaybackRate()
+options.onVidClick(vidObject)
+
+//console.log("true")
+}
+
+function findVideos(document_root){
+var  iframe = document_root.getElementsByTagName('video');
+//console.log(iframe)
+for (var i =0; i<iframe.length; i++){
+ if (iframe[i].src.indexOf("youtube.com")!= -1 ){
+    //console.log(true)
+    var newEl = document.createElement('div');
+    newEl.innerHTML = '<p  class="video-renote" style="position: relative; z-index: 65535; color:red">Hello World!</p>';
+    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+}
+
+}
+
+}
+
 function attachShadow(element) {
   if (element.attachShadow) {
     // Shadow DOM v1 (Chrome v53, Safari 10)
@@ -134,9 +218,20 @@ function createAdderDOM(container) {
  *        event handlers.
  */
 function Adder(container, options) {
-
   var element = createAdderDOM(container);
+  findIframes(document)
 
+  findVideoOnYoutube(document,options)
+  var currentState = "";
+  if (document.location.href.indexOf("youtube.com") !==-1){
+    setInterval(function(){
+    if (currentState != history.state["spf-referer"]) {
+        currentState = history.state["spf-referer"];
+        findVideoOnYoutube(document,options)
+     }
+    },1000)
+   }
+//  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
     // property rather than `display` so that we can compute its size in order to
@@ -152,18 +247,83 @@ function Adder(container, options) {
     // page
     zIndex: 999,
   });
-
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   this.element = element;
-
   var view = element.ownerDocument.defaultView;
   var enterTimeout;
-
+  var playerE;
+  var vidEl = document.querySelector('.video-renote')
+//  document.querySelector('.video-renote').addEventListener('click', handleCommand.bind(this,'videoiframe'));
+  if (vidEl) {
+  //console.log(vidEl.getAttribute("class"))
+  var val = vidEl.getAttribute("class")
+  var newval= val.replace('video-renote ', '');
+ // var playerE = new YT.Player(newval,{ events: {
+ //           'onReady': onPlayerReady,
+ //           'onStateChange': onPlayerStateChange
+ //         }});
+  vidEl.addEventListener('click', function(){ myRenoteFunction(val)});
+  }
   element.querySelector('.js-annotate-btn')
     .addEventListener('click', handleCommand.bind(this, 'annotate'));
   element.querySelector('.js-highlight-btn')
     .addEventListener('click', handleCommand.bind(this, 'highlight'));
-  //element.querySelector('.js-search-btn')
-  //  .addEventListener('click', handleCommand.bind(this, 'search'));
+//  element.querySelector('.trial')
+//    .addEventListener('click', handleCommand.bind(this, 'annotate'));
+
+   if (document.location.href.indexOf("youtube.com/watch")!= -1){
+         //console.log("we are on youtube playing video")
+         var youtube_movie_player = document.getElementById("movie_player");
+         //console.log(youtube_movie_player)
+
+         youtube_movie_player.addEventListener('click', handleCommand.bind(this,'videoiframe'));
+
+
+   }
+
+
+  function myRenoteFunction(val){
+    document.addEventListener('message', function (event) {console.log(event.data)}, false);
+    var newval= val.replace('video-renote ', '');
+    console.log(newval)
+    var check = true
+    console.log(val)
+  
+    if (playerE == null){
+    console.log("new instance created")
+    playerE = new YT.Player("renoted-video",{ events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }});
+   }
+    console.log(playerE)
+    
+  }
+   function readyYoutube(){
+    if((typeof YT !== "undefined") && YT && YT.Player){
+        console.log("not ready")
+    }else{
+        setTimeout(readyYoutube, 100);
+    }
+}
+   function onPlayerReady(event){
+    console.log(playerE.getCurrentTime())
+    console.log(event.target)
+   }
+
+
+   function onPlayerStateChange(event){
+    console.log(playerE.getCurrentTime())
+    console.log(event.target)
+   }
+
+  function onPlayerS(player){
+    console.log(playerE.getCurrentTime())
+   }
+  
   function handleCommand(command, event) {
     event.preventDefault();
     event.stopPropagation();
@@ -176,6 +336,10 @@ function Adder(container, options) {
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id)
       options.onSearch(check2);
+    } else if (command === 'videoiframe'){
+      console.log(this)
+      renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
+      options.onVideoiframe(renoted_id);
     } else {
       renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
       DOMtoString(document,renoted_id);

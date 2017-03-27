@@ -309,7 +309,20 @@ module.exports = angular.module('h', [
       
     };
   })
-  
+  .provider('youtubeService', function() {
+    //constructor function of the Provider
+    var apiUrl = "https://www.youtube.com/iframe_api";
+    //$get gets automatically executed by AngularJS
+
+    this.$get = function() {
+
+      var tag = document.createElement('script');
+      tag.src = apiUrl;
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    };
+  })  
   .factory('store', require('./store'))
 
   .value('AnnotationUISync', require('./annotation-ui-sync'))

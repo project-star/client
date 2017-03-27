@@ -53,7 +53,11 @@ module.exports = class AnnotationSync
   _eventListeners:
     'beforeAnnotationCreated': (annotation) ->
       return if annotation.$$tag?
-      this._mkCallRemotelyAndParseResults('beforeCreateAnnotation')(annotation)
+      this._mkCallRemotelyAndParseResults('beforeCreateAnnotationxm')(annotation)
+      #this._mkCallRemotelyAndParseResults('videvent')(annotation)
+
+    'videvent': (value) ->
+      this._mkCallRemotelyAndParseResultsNew('vidEvent')(value)
 
   _mkCallRemotelyAndParseResults: (method, callBack) ->
     (annotation) =>
@@ -65,6 +69,18 @@ module.exports = class AnnotationSync
 
       # Call the remote method
       @bridge.call(method, this._format(annotation), wrappedCallback)
+#       @bridge.call(method, this._formatnew(annotation), wrappedCallback)
+
+
+  _mkCallRemotelyAndParseResultsNew: (method, callBack) ->
+    (value) =>
+      # Wrap the callback function to first parse returned items
+      wrappedCallbacknew = (failure, results) =>
+        unless failure?
+          this._parseResults results
+        callBack? failure, results
+      # Call the remote method
+      @bridge.call(method, this._formatnew(value), wrappedCallbacknew)
 
   # Parse returned message bodies to update cache with any changes made remotely
   _parseResults: (results) ->
@@ -95,4 +111,10 @@ module.exports = class AnnotationSync
     {
       tag: ann.$$tag
       msg: ann
+    }
+  _formatnew: (val) ->
+    this._tag(val)
+    {
+      tag: val.$$tag
+      msg: val
     }

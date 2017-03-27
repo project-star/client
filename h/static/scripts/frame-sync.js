@@ -101,10 +101,18 @@ function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
    */
   function setupSyncFromFrame() {
     // A new annotation, note or highlight was created in the frame
-    bridge.on('beforeCreateAnnotation', function (event) {
+    bridge.on('beforeCreateAnnotationxm', function (event) {
       inFrame.add(event.tag);
       var annot = Object.assign({}, event.msg, {$$tag: event.tag});
       $rootScope.$broadcast(events.BEFORE_ANNOTATION_CREATED, annot);
+    });
+    
+   bridge.on('vidEvent', function (event) {
+//      inFrame.add(event.tag);
+//      var annot = Object.assign({}, event.msg, {$$tag: event.tag});
+      annotationUI.setTestParam(false)
+      annotationUI.setVidParams(event.msg)
+      $rootScope.$broadcast("mediaStateChanged", event.msg);
     });
 
     // Anchoring an annotation in the frame completed

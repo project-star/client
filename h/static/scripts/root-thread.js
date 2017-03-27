@@ -171,6 +171,10 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
     annotationUI.removeAnnotations(annotations);
   });
 
+  $rootScope.$on("videvent", function (event, value) {
+    console.log(value);
+  });
+
   // Once the focused group state is moved to the app state store, then the
   // logic in this event handler can be moved to the annotations reducer.
   $rootScope.$on(events.GROUP_FOCUSED, function (event, focusedGroupId) {

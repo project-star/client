@@ -1,16 +1,97 @@
-
 Annotator = require('annotator')
 $ = Annotator.$
-
 isMedia = ->
   uri = document.location.href
   matchYT = uri.includes("youtube.com")
   matchSC = uri.includes("soundcloud.com")
-
   if matchYT or matchSC
     return true
   
   return false
+iframeyoutubes = []
+videoembeds = []
+eplayer=null
+countYT =false 
+initialYT=false
+YTinitialized=false
+isEmbedIframe = ->
+#  anyYTplayer=document.getElementById("article_body")
+#  iframe = document.getElementsByTagName('video')
+  iframes = document.getElementsByTagName('iframe')
+  videoiframes = document.getElementsByTagName('video')
+#  innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+  iframeyoutubes=[]
+  tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+#  innerDoc = iframe.contentWindow.postMessage(JSON.stringify({'event': 'command','func': 'playVideo'}), '*');
+#  pid = iframe.getAttribute('id');
+#  player = new YT.Player(pid, {
+#    events: {
+#      'onReady': onPlayerReady,
+#      'onStateChange': onPlayerStateChange
+#    }
+#  });
+#  anyYTplayer = document.getElementsByTagName("video")
+#  anyYTplayer=document.getElementsByClassName("html5-video-container")
+#  anyYTplayer =  document.querySelector('div[aria-label="YouTube Video Player"]');
+#  anystarttime=iframe.getDuration()
+#  console.log("+++this is on any page where anyYTplayer in instantiated+++++")
+#  console.log(iframe)
+#  console.log(innerDoc)
+#  anyYTplayer = document.getElementById("movie_player");
+#  anystarttime=anyYTplayer.getCurrentTime();
+  #player = new playerjs.Player('iframe');
+#  console.log(player)
+  #anystarttime=player.getDuration();
+  #console.log(anystarttime)
+  for iframe in iframes
+    if iframe.src.includes("youtube.com")
+        pid = iframe.getAttribute('id');
+#        innerDoc = iframe.contentWindow.postMessage(JSON.stringify({'event': 'command','func': 'playVideo'}), '*');
+#        console.log(innerDoc)
+#        videoelement = iframe.contentWindow.getElementById('video');
+#        console.log(videoelement)
+        iframe.addEventListener("click",onListener.bind(this))       
+#        console.log (pid)
+        if (YT?)
+          initialYT=true
+        else 
+          initialYT=false
+        if (initialYT)
+            eplayer = new YT.Player(pid, {
+            events: {
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
+              }
+            });
+         
+        
+            iframeyoutubes.push(eplayer)
+         else
+            iframeyoutubes.push(pid) 
+         break;
+#  console.log(iframeyoutubes)
+  return iframeyoutubes
+
+
+sleep = (ms) ->
+  start = new Date().getTime()
+  continue while new Date().getTime() - start < ms
+
+onListener = (event) ->
+#  console.log("in listener function")
+  if (YT?)
+      eplayer = new YT.Player(pid, {events: {'onStateChange': onPlayerStateChange } });
+      YTinitialized=true
+onPlayerStateChange = ->
+    countYT=true
+#  console.log("true")
+#  console.log(eplayer)
+onPlayerReady = (event) ->
+    countYT=true
+#  console.log(eplayer)
 
 makeButton = (item) ->
   anchor = $('<button></button>')
@@ -22,11 +103,12 @@ makeButton = (item) ->
   .addClass(item.class)
 
   if item.name.includes("insert-video-clip")
-    if not isMedia()
+    iframeyoutubes = isEmbedIframe()
+    if not isMedia() and iframeyoutubes.length == 0
       anchor.css('display', 'none');
       anchor.attr('disabled', 'true')
       anchor.css('color', '#969696')
-    else
+    else 
       anchor.attr('display', 'inline')
       anchor.css('color', 'red')
   
@@ -37,6 +119,7 @@ makeButton = (item) ->
 module.exports = class Toolbar extends Annotator.Plugin
   HIDE_CLASS = 'annotator-hide'
   IDLIST = []
+  paramList = []
   #ytAnnot = []
   
   events:
@@ -89,7 +172,7 @@ module.exports = class Toolbar extends Annotator.Plugin
           matchSC = uri.includes("soundcloud.com")
           renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
           val={}
-          
+          params={}
           if matchSC
               scDomainURI = "https://soundcloud.com"
               scPlayer=document.getElementsByClassName("playbackTimeline__progressWrapper")
@@ -152,24 +235,107 @@ module.exports = class Toolbar extends Annotator.Plugin
               
               else
                    starttime=ytplayer.getCurrentTime()
-                   
+                                      
                    #set end time to duration by default
                    endtime = ytplayer.getDuration()
                    
                    val.id =renoted_id
                    val.starttime=starttime
-                   
+                   params.curTime = ytplayer.getCurrentTime()
+                   params.curRate = ytplayer.getPlaybackRate()
+                   params.curState = ytplayer.getPlayerState()
+                   paramList.push(params)
                    # resolving Bug#33
                    val.endtime = endtime
                    val.uri=uri
                    IDLIST.push(val) 
-                   
                    # Create a new annotation and get its reference
-                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST,params:paramList, $newMedia:true)
                    IDLIST = []
-
+                   paramList =[]
                    #state = true
                    #@toolbar.setVideoSnippetButton state
+          else if iframeyoutubes.length > 0
+              for iframe in iframeyoutubes
+                   if (!initialYT)
+                       if (eplayer==null)
+                           #console.log(true)
+                           eplayer = new YT.Player(iframe, {events: {'onStateChange': onPlayerStateChange } });
+                       if !(eplayer.getCurrentTime?)
+                           sleep 1000
+                       if (eplayer.getCurrentTime?)
+                           #console.log(eplayer.getCurrentTime())
+                           if IDLIST.length > 0
+                               endtime=eplayer.getCurrentTime()
+                               IDLIST[0].endtime=endtime
+
+                               # FIX ME:Reset the endtime on clicking the end recording button
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST=[]
+                               #state = false
+                               #@toolbar.setVideoSnippetButton state
+
+                           else
+                               starttime=eplayer.getCurrentTime()
+
+                               #set end time to duration by default
+                               endtime = eplayer.getDuration()
+
+                               val.id =renoted_id
+                               val.starttime=starttime
+
+                               # resolving Bug#33
+                               val.endtime = endtime
+                               val.uri=eplayer.getVideoUrl()
+                               IDLIST.push(val)
+
+                               # Create a new annotation and get its reference
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST = []
+                       else if !countYT
+                            alert("You may need to press the button again if video has started or press this button after starting the video")
+                            #console.log("You may need to press the button again if video has started or press this button after starting the video")
+                            countYT = true
+                       else 
+                            #console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                            countYT = true
+                          
+                   else
+                       if (iframe.getCurrentTime?)
+                           #console.log(iframe.getCurrentTime())
+                           if IDLIST.length > 0
+                               endtime=iframe.getCurrentTime()
+                               IDLIST[0].endtime=endtime
+
+                               # FIX ME:Reset the endtime on clicking the end recording button
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST=[]
+                               #state = false
+                               #@toolbar.setVideoSnippetButton state
+
+                           else
+                               starttime=iframe.getCurrentTime()
+
+                               #set end time to duration by default
+                               endtime = iframe.getDuration()
+
+                               val.id =renoted_id
+                               val.starttime=starttime
+
+                               # resolving Bug#33
+                               val.endtime = endtime
+                               val.uri=iframe.getVideoUrl()
+                               IDLIST.push(val)
+
+                               # Create a new annotation and get its reference
+                               @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                               IDLIST = []
+                       else if !countYT
+                            #console.log("You may need to press the button again if video has started or press this button after starting the video")
+                            countYT=true
+                       else
+                            #console.log("If video has started and you sre seeing this message. You may need to refresh or site dosen't support it")
+                            countYT=true
           else
               alert("only works with Youtube and SoundCloud for now")
 

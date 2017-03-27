@@ -37,7 +37,7 @@ module.exports = class Sidebar extends Host
 
   _setupDocumentEvents: ->
     @element.on 'click', (event) =>
-      if !@selectedTargets?.length
+      if !@selectedTargets?.length && !document.location.href.includes("youtube.com")
         this.hide()
     return this
 

@@ -34,6 +34,28 @@ function errorMessage(reason) {
   return message;
 }
 
+function convertTime(val){
+  val = Math.floor(val);
+      var hr = Math.floor(val/3600);
+      var hr_mod = val % 3600;
+      var min = Math.floor(hr_mod/60);
+      var sec = hr_mod % 60;
+
+
+      if(hr < 10)
+        hr = "0"+hr;
+      if(min < 10)
+        min = "0"+min;
+      if(sec<10)
+        sec = "0"+sec;
+
+      // This formats your string to HH:MM:SS
+       var t = hr+":"+min+":"+sec;
+       if (hr=="00") {
+         t=min+":"+sec;}
+       return t;
+
+}
 /**
  * Return a copy of `annotation` with changes made in the editor applied.
  */
@@ -51,16 +73,20 @@ function updateModel(annotation, changes, permissions) {
 }
 // @ngInject
 function AnnotationController(
-  $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,
+  $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,$interval,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
   session, store, streamer, scService) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
   var newlyCreatedSearchCustom;
+  var newlyCreatedMedia;
   /** Save an annotation to the server. */
   function save(annot) {
     var saved;
+    if (annot.$newMedia){
+       annot.$newMedia=false;
+    }
     if (annot.id) {
       saved = store.annotation.update({id: annot.id}, annot);
     } else {
@@ -111,7 +137,7 @@ function AnnotationController(
 
     /** True if the annotation is currently being saved. */
     vm.isSaving = false;
-
+    vm.editingendtime = false;
     /** True if the 'Share' dialog for this annotation is currently open. */
     vm.showShareDialog = false;
 
@@ -127,7 +153,8 @@ function AnnotationController(
       * new client-side).
       */
     newlyCreatedByHighlightButton = vm.annotation.$highlight || false;
-
+    newlyCreatedMedia = vm.annotation.$newMedia || false;
+  
     // New annotations (just created locally by the client, rather then
     // received from the server) have some fields missing. Add them.
     vm.annotation.user = vm.annotation.user || session.state.userid;
@@ -143,6 +170,13 @@ function AnnotationController(
     vm.annotation.searchcustom = vm.annotation.$search || false
     vm.annotation.renoted_id = vm.annotation.$renoted_id || vm.annotation.renoted_id;
     newlyCreatedSearchCustom = vm.annotation.$search || false
+
+    if (newlyCreatedMedia) {
+      var newMediaParams = vm.annotation.params
+      vm.thePlayerTime = newMediaParams[0].curTime
+      vm.thePlayerRate = newMediaParams[0].curRate
+      vm.thePlayerState = newMediaParams[0].curState
+    }
 
     // Automatically save new highlights to the server when they're created.
     // Note that this line also gets called when the user logs in (since
@@ -212,6 +246,9 @@ function AnnotationController(
     // tokens for the access token).
     return permissions.permits(action, vm.annotation, session.state.userid);
   };
+  vm.newMedia = function() {
+    return vm.annotation.$newMedia || false;
+  };
 
   /**
     * @ngdoc method
@@ -234,6 +271,14 @@ function AnnotationController(
     }, true);
   };
 
+  var loadEvents = ["mediaStateChanged"];
+  loadEvents.forEach(function (event) {
+    $rootScope.$on(event, function (event, msg) {
+          vm.thePlayerTime = msg.curTime;
+          vm.thePlayerRate = msg.curRate;
+          vm.thePlayerState = msg.curState;
+    });
+  });
   /**
     * @ngdoc method
     * @name annotation.AnnotationController#edit
@@ -244,7 +289,13 @@ function AnnotationController(
       drafts.update(vm.annotation, vm.state());
     }
   };
+  vm.editendtime = function() {
+      vm.editingendtime = true;
+    }
 
+  vm.canceleditendtime = function() {
+     vm.editingendtime = false;
+  };
   /**
    * @ngdoc method
    * @name annotation.AnnotationController#editing.
@@ -378,6 +429,20 @@ function AnnotationController(
 
 
  //Modifying the function to keep it generic - handling any media - Audio OR Video
+   vm.thePlayerTime = annotationUI.getState().vidParams.curTime
+   vm.thePlayerRate = annotationUI.getState().vidParams.curRate
+   vm.thePlayerState = annotationUI.getState().vidParams.curState
+  $interval(function () {
+       if (vm.thePlayerState == 1){
+       vm.thePlayerTime = vm.thePlayerTime + vm.thePlayerRate;
+       }
+       else {
+       vm.thePlayerTime = vm.thePlayerTime;
+      }
+    }, vm.thePlayerRate*1000);
+   vm.getPlayertime = function() {
+      return convertTime(vm.thePlayerTime);
+   }
    vm.getStarttime = function() {
     //Process only if audio or video
     if(!vm.isVideo() && !vm.isAudio())
@@ -426,7 +491,6 @@ function AnnotationController(
 
      if (vm.annotation.hasOwnProperty('viddata')) {
        endtime=(vm.annotation.viddata[0].endtime);
-      
      }
      else if (vm.annotation.hasOwnProperty('auddata')) {
        endtime=(vm.annotation.auddata[0].endtime);
@@ -641,7 +705,7 @@ function AnnotationController(
       flash.info('Please log in to save your annotations.');
       return Promise.resolve();
     }
-    if (!vm.hasContent() && vm.isShared()) {
+    if (!vm.hasContent() && vm.isShared() && !vm.newMedia()) {
       flash.info('Please add text or a tag before publishing.');
       return Promise.resolve();
     }
@@ -654,6 +718,9 @@ function AnnotationController(
 //      recordButton[0].disabled = false;
     }
     */
+    if (vm.newMedia()){
+       vm.annotation.viddata[0].endtime = vm.thePlayerTime
+    }
     var updatedModel = updateModel(vm.annotation, vm.state(), permissions);
 
     // Optimistically switch back to view mode and display the saving
@@ -846,6 +913,7 @@ function AnnotationController(
      if(vm.isVideo()) {
 
       var viddata=vm.annotation.viddata;
+
       viddata[0].endtime = retendtime;
       drafts.update(vm.annotation, {
         isPrivate: vm.state().isPrivate,

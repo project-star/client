@@ -46,7 +46,6 @@ isEmbedIframe = ->
 #  console.log(player)
   #anystarttime=player.getDuration();
   #console.log(anystarttime)
-  console.log(videoiframes)
   for iframe in iframes
     if iframe.src.includes("youtube.com")
         pid = iframe.getAttribute('id');
@@ -57,10 +56,8 @@ isEmbedIframe = ->
         iframe.addEventListener("click",onListener.bind(this))       
 #        console.log (pid)
         if (YT?)
-          console.log ("YT is defined")
           initialYT=true
         else 
-          console.log("YT is not defined")
           initialYT=false
         if (initialYT)
             eplayer = new YT.Player(pid, {

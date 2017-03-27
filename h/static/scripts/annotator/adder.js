@@ -103,12 +103,12 @@ for (var i =0; i<iframe.length; i++){
 
 
 function findVideoOnYoutube(document_root,options) {
-    console.log(" in find VideoOnYoutube function")
-    console.log(document_root.location.href)
+    //console.log(" in find VideoOnYoutube function")
+    //console.log(document_root.location.href)
     if (document_root.location.href.indexOf("youtube.com/watch")!= -1){
-         console.log("we are on youtube playing video")
+         //console.log("we are on youtube playing video")
          var youtube_movie_player = document.getElementById("movie_player");
-         console.log(youtube_movie_player)
+         //console.log(youtube_movie_player)
          var vclass = "renote-class"
          var newEl = document.createElement('div');
          newEl.innerHTML = '<button  style="position: relative; z-index: 65535;">What is the time?</button><p style="position: relative; z-index: 65535; color:red">Hello World!</p>';
@@ -123,16 +123,16 @@ function findVideoOnYoutube(document_root,options) {
    }
 }
 function clickedbutton(options,youtube_movie_player){
-console.log(youtube_movie_player.getCurrentTime())
-console.log(youtube_movie_player.getPlayerState())
-console.log(youtube_movie_player.getPlaybackRate())
+//console.log(youtube_movie_player.getCurrentTime())
+//console.log(youtube_movie_player.getPlayerState())
+//console.log(youtube_movie_player.getPlaybackRate())
 var vidObject = {}
 vidObject.curTime = youtube_movie_player.getCurrentTime()
 vidObject.curState = youtube_movie_player.getPlayerState()
 vidObject.curRate = youtube_movie_player.getPlaybackRate()
 options.onVidClick(vidObject)
 
-console.log("true")
+//console.log("true")
 }
 
 function findVideos(document_root){
@@ -225,13 +225,11 @@ function Adder(container, options) {
   var currentState = "";
   if (document.location.href.indexOf("youtube.com") !==-1){
     setInterval(function(){
-    console.log(document.location.href)
     if (currentState != history.state["spf-referer"]) {
         currentState = history.state["spf-referer"];
-        console.log("Do Stuff!");
         findVideoOnYoutube(document,options)
      }
-    },250)
+    },1000)
    }
 //  findVideos(document)
   Object.assign(container.style, {
@@ -277,9 +275,9 @@ function Adder(container, options) {
 //    .addEventListener('click', handleCommand.bind(this, 'annotate'));
 
    if (document.location.href.indexOf("youtube.com/watch")!= -1){
-         console.log("we are on youtube playing video")
+         //console.log("we are on youtube playing video")
          var youtube_movie_player = document.getElementById("movie_player");
-         console.log(youtube_movie_player)
+         //console.log(youtube_movie_player)
 
          youtube_movie_player.addEventListener('click', handleCommand.bind(this,'videoiframe'));
 

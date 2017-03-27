@@ -70,8 +70,6 @@ module.exports = class Guest extends Annotator
         self.createSearch(renoted_id)
         Annotator.Util.getGlobal().getSelection().removeAllRanges()
      onVidClick: (value) ->
-        console.log("in vidclick in guest.coffee")
-        console.log(value)
         self.publish('videvent',value)
     })
    

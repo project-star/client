@@ -52,14 +52,11 @@ module.exports = class AnnotationSync
   # Handlers for events coming from this frame, to send them across the channel
   _eventListeners:
     'beforeAnnotationCreated': (annotation) ->
-      console.log(annotation)
       return if annotation.$$tag?
       this._mkCallRemotelyAndParseResults('beforeCreateAnnotationxm')(annotation)
       #this._mkCallRemotelyAndParseResults('videvent')(annotation)
 
     'videvent': (value) ->
-      console.log("in annotation sync file")
-      console.log(value)
       this._mkCallRemotelyAndParseResultsNew('vidEvent')(value)
 
   _mkCallRemotelyAndParseResults: (method, callBack) ->
@@ -71,7 +68,6 @@ module.exports = class AnnotationSync
         callBack? failure, results
 
       # Call the remote method
-      console.log(this._format(annotation))
       @bridge.call(method, this._format(annotation), wrappedCallback)
 #       @bridge.call(method, this._formatnew(annotation), wrappedCallback)
 
@@ -79,20 +75,15 @@ module.exports = class AnnotationSync
   _mkCallRemotelyAndParseResultsNew: (method, callBack) ->
     (value) =>
       # Wrap the callback function to first parse returned items
-      console.log (" in newly defined function in annotation-sync")
-      console.log (value)
       wrappedCallbacknew = (failure, results) =>
-        console.log(failure)
         unless failure?
           this._parseResults results
         callBack? failure, results
-      console.log(this._formatnew(value))
       # Call the remote method
       @bridge.call(method, this._formatnew(value), wrappedCallbacknew)
 
   # Parse returned message bodies to update cache with any changes made remotely
   _parseResults: (results) ->
-    console.log (results)
     for bodies in results
       bodies = [].concat(bodies) # Ensure always an array.
       this._parse(body) for body in bodies when body != null

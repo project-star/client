@@ -52,7 +52,6 @@ module.exports = class Host extends Guest
       # When a new non-highlight annotation is created, focus
       # the sidebar so that the text editor can be focused as
       # soon as the annotation card appears
-      console.log(value)
       app[0].contentWindow.focus()
 
   destroy: ->

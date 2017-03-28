@@ -197,6 +197,7 @@ module.exports = function AppController(
   };
 
   $scope.toggleSharedStream = function (flag) {
+    if (!urlUI.getState().urlLoading){
     datacollect.connectionsend("SharedStreamToggled")
 //    if (flag) {
 //       $rootScope.$emit(events.SHARING_CLEARED)
@@ -204,6 +205,7 @@ module.exports = function AppController(
     $scope.isSharedStream = flag;
     urlUI.setUrlFilterKey('all')
     urlUI.setUrlStackKey('serversideaddedstack')
+   }
   };
 
 

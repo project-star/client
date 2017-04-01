@@ -16,20 +16,20 @@ function config(window_) {
       document.querySelector('link[type="application/annotator+html"]').href,
   };
 
-  // Parse config from `<script class="js-hypothesis-config">` tags
+  // Parse config from `<script class="js-renoted-config">` tags
   try {
-    Object.assign(options, settings(window_.document, 'js-hypothesis-config'));
+    Object.assign(options, settings(window_.document, 'js-renoted-config'));
   } catch (err) {
-    console.warn('Could not parse settings from js-hypothesis-config tags',
+    console.warn('Could not parse settings from js-renoted-config tags',
       err);
   }
 
-  // Parse config from `window.hypothesisConfig` function
-  if (window_.hasOwnProperty('hypothesisConfig')) {
-    if (typeof window_.hypothesisConfig === 'function') {
-      Object.assign(options, window_.hypothesisConfig());
+  // Parse config from `window.renotedConfig` function
+  if (window_.hasOwnProperty('renotedConfig')) {
+    if (typeof window_.renotedConfig === 'function') {
+      Object.assign(options, window_.renotedConfig());
     } else {
-      throw new TypeError('hypothesisConfig must be a function, see: ' + docs);
+      throw new TypeError('renotedConfig must be a function, see: ' + docs);
     }
   }
 

@@ -115,6 +115,11 @@ function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
       $rootScope.$broadcast("mediaStateChanged", event.msg);
     });
 
+    bridge.on('spfevent', function (event,channel) {
+      $rootScope.$broadcast("spfevent", event.msg);
+      annotationUI.clearAnnotations()
+    });
+
     // Anchoring an annotation in the frame completed
     bridge.on('sync', function (events_) {
       events_.forEach(function (event) {
@@ -176,7 +181,6 @@ function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
     var discovery = new Discovery(window, {server: true});
     discovery.startDiscovery(bridge.createChannel.bind(bridge));
     bridge.onConnect(addFrame);
-
     setupSyncToFrame();
     setupSyncFromFrame();
   };

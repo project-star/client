@@ -59,6 +59,10 @@ module.exports = class AnnotationSync
     'videvent': (value) ->
       this._mkCallRemotelyAndParseResultsNew('vidEvent')(value)
 
+    'spfevent': (value) ->
+      console.log(value)
+      this._mkCallRemotelyAndParseResultsSpfEvent('spfevent')(value)
+
   _mkCallRemotelyAndParseResults: (method, callBack) ->
     (annotation) =>
       # Wrap the callback function to first parse returned items
@@ -81,6 +85,18 @@ module.exports = class AnnotationSync
         callBack? failure, results
       # Call the remote method
       @bridge.call(method, this._formatnew(value), wrappedCallbacknew)
+
+
+  _mkCallRemotelyAndParseResultsSpfEvent: (method, callBack) ->
+    (value) =>
+      # Wrap the callback function to first parse returned items
+      wrappedCallbacknew = (failure, results) =>
+        unless failure?
+          this._parseResults results
+        callBack? failure, results
+      # Call the remote method
+      console.log(this._formatspfevent(value))
+      @bridge.call(method, this._formatspfevent(value), wrappedCallbacknew)
 
   # Parse returned message bodies to update cache with any changes made remotely
   _parseResults: (results) ->
@@ -116,5 +132,11 @@ module.exports = class AnnotationSync
     this._tag(val)
     {
       tag: val.$$tag
+      msg: val
+    }
+  _formatspfevent: (val) ->
+    tag = window.btoa(Math.random())
+    {
+      tag: tag
       msg: val
     }

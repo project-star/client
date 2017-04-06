@@ -39,6 +39,7 @@ module.exports = function AppController(
   $controller('AnnotationUIController', {$scope: $scope});
   annotationUI.selectSharedTab('ownannotation')
   $scope.mainTab = true;
+  console.log("true")
   $scope.switchUpperTabs = function() {
       $scope.mainTab = !$scope.mainTab;
       if ($scope.mainTab){

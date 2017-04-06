@@ -71,6 +71,8 @@ module.exports = class Guest extends Annotator
         Annotator.Util.getGlobal().getSelection().removeAllRanges()
      onVidClick: (value) ->
         self.publish('videvent',value)
+     onSPFEvent: (value) ->
+        self.publish('spfevent',value)
     })
    
     this.selections = selections(document).subscribe
@@ -102,7 +104,7 @@ module.exports = class Guest extends Annotator
 
   # Get the document info
   getDocumentInfo: (annotation) ->
-    
+    console.log("in get DocumentInfo call")  
     if @plugins.PDF?
       metadataPromise = Promise.resolve(@plugins.PDF.getMetadata())
       uriPromise = Promise.resolve(@plugins.PDF.uri())

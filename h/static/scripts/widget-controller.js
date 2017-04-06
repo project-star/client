@@ -189,6 +189,7 @@ module.exports = function WidgetController(
       });
     });
     $scope.url=uris[0];
+    console.log(uris[0])
     searchClient.get({uri: uris, group: group});
   }
 
@@ -216,6 +217,7 @@ module.exports = function WidgetController(
           uris.push(uri);
         }
       }
+      console.log(uris)
       return uris;
     }, []);
 
@@ -293,6 +295,18 @@ module.exports = function WidgetController(
     streamer.reconnect();
     datacollect.reconnect();
     datacollect.connectionsend(events.USER_CHANGED);
+  });
+
+
+  $scope.$on('spfevent', function (event,val) {
+    streamer.reconnect();
+    var group = annotationUI.hasSelectedAnnotations() ?
+      null : groups.focused().id;
+    var tobeshownUris = []
+    tobeshownUris[0] = val
+    _loadAnnotationsFor(tobeshownUris,group);
+    streamFilter.resetFilter().addClause('/uri', 'one_of', tobeshownUris);
+    streamer.setConfig('filter', {filter: streamFilter.getFilter()});
   });
 
   $scope.$on(events.ANNOTATIONS_SYNCED, function (event, tags) {

@@ -164,7 +164,8 @@ module.exports = class Toolbar extends Annotator.Plugin
       "class": "annotator-frame-button--media_bar h-icon-media-record"
       "name": "insert-video-clip"
       "on":
-       "click": (event) =>
+       "keydown": (event) =>
+          console.log(event.which)
           event.preventDefault()
           event.stopPropagation()
           uri = document.location.href

@@ -228,6 +228,7 @@ function Adder(container, options) {
     if (currentState != history.state["spf-referer"]) {
         currentState = history.state["spf-referer"];
         findVideoOnYoutube(document,options)
+        options.onSPFEvent(document.location.href)
      }
     },1000)
    }

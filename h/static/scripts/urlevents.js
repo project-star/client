@@ -16,6 +16,8 @@ module.exports = {
    */
   SESSION_CHANGED: 'sessionChanged',
   STACK_DELETED: 'stackdeleted',
+  STACK_DEARCHIVED: 'stackdearchived',
+  STACK_ARCHIVED: 'stackarchived',
   STACK_EDITED: 'stackedited',
   // UI state changes
 

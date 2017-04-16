@@ -6,7 +6,7 @@ var events = require('./events');
 var parseAccountID = require('./filter/persona').parseAccountID;
 var scopeTimeout = require('./util/scope-timeout');
 var uiConstants = require('./ui-constants');
-
+var urlevents = require('./urlevents');
 function authStateFromUserID(userid) {
   if (userid) {
     var parsed = parseAccountID(userid);
@@ -78,6 +78,10 @@ module.exports = function AppController(
    $scope.setShowTutorials = function() {
     urlUI.setShowTutorials(true);
   };
+//  $scope.$on(urlevents.STACK_ARCHIVED, function (event, eventdata) {
+//          $route.reload()
+//     });
+
 
   //Variable to set Stream page
  // $scope.isSharedStream = false;

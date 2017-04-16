@@ -1,0 +1,38 @@
+<ul style="margin-bottom: 0px; border-bottom: 1px solid #d0d0d0; padding-bottom: 5px">
+      <li class="sidebar__stack" style="padding-bottom: 2px; font-size: 12px">Archived Stacks
+      <button class="btn btn-clean annotation-action-btn"
+               ng-click="vm.showStacks()"
+               ng-show="!vm.showArchives"
+               aria-label="Expand"
+               title="Click to view all annotations on the page"
+               h-tooltip>
+                <i class="h-icon-circle-down btn-icon"></i>
+              </button>
+              <button class="btn btn-clean annotation-action-btn"
+               ng-click="vm.showStacks()"
+               ng-show="vm.showArchives"
+               aria-label="Collapse"
+               title="Click to hide annotations"
+               h-tooltip>
+                <i class="h-icon-circle-up btn-icon"></i>
+              </button></li>
+      <!-- Create another directive here to handle all stack level actions --> 
+      <li class="sidebar__nav-label sidebar__stack"
+      	id="{{archivedName}}"
+        ng-mouseenter="visible=true"
+        ng-mouseleave="visible=false"
+        ng-if = "vm.showArchives"  
+      	ng-repeat="archivedName in vm.archivedList" 
+        style="padding-left: 35px"
+        title={{archivedName}}
+        >
+          <archive-item ng-if="vm.showArchives"
+            archived-name="archivedName"
+            archived-list="vm.archivedList"
+            visible="visible"
+          >
+          </archive-item>          
+      </li>
+
+
+</ul>

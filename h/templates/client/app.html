@@ -163,7 +163,9 @@
     <k-stack-list ng-if="auth.status === 'logged-in' && !isSharedStream">
     
     </k-stack-list>
+    <archived-list ng-if="auth.status === 'logged-in' && !isSharedStream">
 
+    </archived-list>
   </nav>
 
 

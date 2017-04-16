@@ -44,6 +44,8 @@ var URL_FILTER_KEYS_AVAILABLE = ['all','text','video','audio'];
 
 var AVAILABLE_STACK_LIST = []
 
+var ARCHIVED_STACK_LIST = []
+
 var URL_FILTER_DEFAULT = 'all';
 
 var URL_STACK_DEFAULT = 'serversideaddedstack';
@@ -99,6 +101,7 @@ function init(settings) {
     selectedUrlFilterKey: URL_FILTER_DEFAULT,
     selectedUrlStackKey:  URL_STACK_DEFAULT,
     availableStackList: AVAILABLE_STACK_LIST,
+    archivedStackList: ARCHIVED_STACK_LIST,
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     urlLoading: URL_LOADING,
@@ -186,6 +189,20 @@ var update = {
         state.availableStackList.push(action.key)
      }
     return {availableStackList: state.availableStackList};
+  },
+  REMOVE_FROM_ARCHIVED_STACK_LIST: function(state,action){
+     if (state.archivedStackList.indexOf(action.key) != -1){
+          var index = state.archivedStackList.indexOf(action.key);
+          state.archivedStackList.splice(index,1);
+     }
+    return {archivedStackList: state.archivedStackList};
+  },
+
+  ADD_TO_ARCHIVED_STACK_LIST: function(state,action){
+     if (state.archivedStackList.indexOf(action.key) == -1){
+        state.archivedStackList.push(action.key)
+     }
+    return {archivedStackList: state.archivedStackList};
   },
   SET_URL_STACK_KEY: function (state, action) {
     return {selectedUrlStackKey: action.key};
@@ -325,6 +342,20 @@ function removeFromAvailableStackList(key) {
   };
 }
 
+function addToArchivedStackList(key) {
+  return {
+    type: actions.ADD_TO_ARCHIVED_STACK_LIST,
+    key: key,
+  };
+}
+
+function removeFromArchivedStackList(key) {
+  return {
+    type: actions.REMOVE_FROM_ARCHIVED_STACK_LIST,
+    key: key,
+  };
+}
+
 function setUrlStackKey(key) {
   return {
     type: actions.SET_URL_STACK_KEY,
@@ -397,6 +428,8 @@ module.exports = {
     setForceVisible: setForceVisible,
     addToAvailableStackList: addToAvailableStackList,
     removeFromAvailableStackList: removeFromAvailableStackList,
+    addToArchivedStackList: addToArchivedStackList,
+    removeFromArchivedStackList: removeFromArchivedStackList,
     setSortKey: setSortKey,
     setUrlFilterKey: setUrlFilterKey,
     setUrlStackKey: setUrlStackKey,

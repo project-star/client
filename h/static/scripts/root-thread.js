@@ -239,7 +239,6 @@ function RootThread($rootScope, annotationUI, drafts, features, searchFilter, vi
   $rootScope.$on(events.ANNOTATION_DELETED, function (event, annotation) {
     annotationUI.removeAnnotations([annotation]);
     annotationUI.removeSelectedAnnotation(annotation);
-    datacollect.connectionsend(event.name);
   });
   $rootScope.$on(events.ANNOTATIONS_UNLOADED, function (event, annotations) {
     annotationUI.removeAnnotations(annotations);

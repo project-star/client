@@ -15,6 +15,7 @@ module.exports = class NewStreamController
   ) ->
     urlUI.setAppIsSidebar(false)
     toSort = true
+    toLoad = false
     offset = 0
     fetch = (limit) ->
       options = {offset, limit}
@@ -73,7 +74,17 @@ module.exports = class NewStreamController
        datacollect.connectionsend("searchOnWebsite")
        urlUI.clearUrls()
        $route.reload()
+    $scope.$on 'stackarchived', ->
+      urlUI.clearUrls()
+      urlUI.setUrlLoading(true)
+      setTimeout (->urlUI.setUrlLoading(false)) , 10000
+      $route.reload()
 
+    $scope.$on 'stackdearchived', ->
+      urlUI.clearUrls()
+      urlUI.setUrlLoading(true)
+      setTimeout (->urlUI.setUrlLoading(false)) , 10000
+      $route.reload()
     # Initialize the base filter
     streamFilter
       .resetFilter()

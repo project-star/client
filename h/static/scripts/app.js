@@ -197,6 +197,7 @@ module.exports = angular.module('h', [
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
   .directive('windowScroll', require('./directive/window-scroll'))
+  .directive('videoFrame', require('./directive/video-frame'))
   .directive('scWidget',['scService', function(scService) {
     return {
       restrict: 'E',

@@ -10,6 +10,7 @@ isMedia = ->
   return false
 iframeyoutubes = []
 videoembeds = []
+videoiframes=[]
 eplayer=null
 countYT =false 
 initialYT=false
@@ -19,6 +20,9 @@ isEmbedIframe = ->
 #  iframe = document.getElementsByTagName('video')
   iframes = document.getElementsByTagName('iframe')
   videoiframes = document.getElementsByTagName('video')
+  console.log(videoiframes)
+  if videoiframes.length > 0
+      console.log(videoiframes[0])
 #  innerDoc = iframe.contentDocument || iframe.contentWindow.document;
   iframeyoutubes=[]
   tag = document.createElement('script');
@@ -104,7 +108,7 @@ makeButton = (item) ->
 
   if item.name.includes("insert-video-clip")
     iframeyoutubes = isEmbedIframe()
-    if not isMedia() and iframeyoutubes.length == 0
+    if not isMedia() and iframeyoutubes.length == 0 and videoiframes.length == 0
       anchor.css('display', 'none');
       anchor.attr('disabled', 'true')
       anchor.css('color', '#969696')
@@ -164,7 +168,7 @@ module.exports = class Toolbar extends Annotator.Plugin
       "class": "annotator-frame-button--media_bar h-icon-media-record"
       "name": "insert-video-clip"
       "on":
-       "keydown": (event) =>
+       "click": (event) =>
           console.log(event.which)
           event.preventDefault()
           event.stopPropagation()
@@ -174,6 +178,11 @@ module.exports = class Toolbar extends Annotator.Plugin
           renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
           val={}
           params={}
+          videoiframes = document.getElementsByTagName('video')
+          console.log(videoiframes)
+          if videoiframes.length > 0
+              console.log(videoiframes[0])
+              console.log(videoiframes[0].currentTime);
           if matchSC
               scDomainURI = "https://soundcloud.com"
               scPlayer=document.getElementsByClassName("playbackTimeline__progressWrapper")
@@ -260,8 +269,9 @@ module.exports = class Toolbar extends Annotator.Plugin
               for iframe in iframeyoutubes
                    if (!initialYT)
                        if (eplayer==null)
-                           #console.log(true)
+                           console.log(true)
                            eplayer = new YT.Player(iframe, {events: {'onStateChange': onPlayerStateChange } });
+                           console.log(eplayer)
                        if !(eplayer.getCurrentTime?)
                            sleep 1000
                        if (eplayer.getCurrentTime?)

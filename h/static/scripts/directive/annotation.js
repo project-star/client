@@ -249,6 +249,10 @@ function AnnotationController(
   vm.newMedia = function() {
     return vm.annotation.$newMedia || false;
   };
+  vm.iframeId = function(){
+      var val = document.getElementsById('212973707')
+      return val
+    }
 
   /**
     * @ngdoc method

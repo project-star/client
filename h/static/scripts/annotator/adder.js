@@ -137,16 +137,34 @@ options.onVidClick(vidObject)
 
 function findVideos(document_root){
 var  iframe = document_root.getElementsByTagName('video');
-//console.log(iframe)
+console.log(iframe)
 for (var i =0; i<iframe.length; i++){
- if (iframe[i].src.indexOf("youtube.com")!= -1 ){
     //console.log(true)
     var newEl = document.createElement('div');
     newEl.innerHTML = '<p  class="video-renote" style="position: relative; z-index: 65535; color:red">Hello World!</p>';
-    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+//    iframe[i].parentNode.insertBefore(newEl,iframe[i])
+    var videoframe1 = iframe[i]
+    iframe[i].addEventListener('playing',function(){ clickedbutton4(iframe[i])});
+//    iframe[i].addEventListener('timeupdate',function(){ clickedbutton5(videoframe1)});
+    console.log(iframe[i])
 }
 
 }
+
+function clickedbutton4(videoframe1){
+    console.log("in clickbutton 4")
+    console.log(true)
+
+}
+
+function clickedbutton5(videoframe1){
+    console.log(videoframe1)
+    console.log("in clickbutton 5")
+    console.log(true)
+    console.log(videoframe1.currentTime)
+    if (videoframe1.currentTime > 20){
+//       videoframe1.pause()
+   }
 
 }
 
@@ -232,7 +250,7 @@ function Adder(container, options) {
      }
     },1000)
    }
-//  findVideos(document)
+  findVideos(document)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
     // property rather than `display` so that we can compute its size in order to

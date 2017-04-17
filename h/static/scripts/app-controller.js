@@ -51,7 +51,7 @@ module.exports = function AppController(
   $scope.showIntro = function () {
     return urlUI.getState().showTutorials
    };
-  $scope.totalIntroItems = 5;
+  $scope.totalIntroItems = 6;
   $scope.currentIntroItem = 1; //Skip condition
 
     $scope.dcrIntroCount = function() {

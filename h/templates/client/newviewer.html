@@ -42,9 +42,13 @@
 <span>
 
   <div ng-show="isLoading" ng-hide="auth.status === 'logged-out'">
+   
    <button type="button" class="simple-loading-icon btn btn-clean">
-    <span class="btn-icon"><span class="spinner" style="font-size: 100px; display: block"></span></span>
-  </button>
+    <span class="btn-icon">
+    <img src="assets/images/loader.gif"/>
+<!--     <span class="spinner" style="font-size: 100px; display: block"></span>
+ -->    </span>
+  </button> 
   </div>
   <renotedurlthread-list
     ng-show="!isLoading || auth.status === 'logged-out'"

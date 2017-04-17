@@ -41,7 +41,6 @@ module.exports = class CrossFrame extends Annotator.Plugin
       bridge.on(event, fn)
 
     this.call = (message, args...) ->
-      console.log(message)
       bridge.call(message, args...)
 
     this.onConnect = (fn) ->

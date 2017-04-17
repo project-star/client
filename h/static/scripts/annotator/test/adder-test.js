@@ -51,7 +51,7 @@ describe('adder', function () {
       new adder.Adder(adderEl, adderCallbacks);
 
       assert.called(adderEl[testCase.attachFn]);
-      assert.equal(shadowEl.childNodes[0].tagName.toLowerCase(), 'hypothesis-adder-toolbar');
+      assert.equal(shadowEl.childNodes[0].tagName.toLowerCase(), 'renoted-adder-toolbar');
 
       adderEl.remove();
     },[{

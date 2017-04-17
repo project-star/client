@@ -71,7 +71,6 @@ function reloadExternalStyleSheets(changed) {
 function connect(url) {
   var conn = new Socket(url);
   conn.on('open', function () {
-    console.log('Live reload client listening');
   });
   conn.on('message', function (event) {
     var message = JSON.parse(event.data);

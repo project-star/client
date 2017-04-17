@@ -24,7 +24,6 @@ module.exports = function () {
 
       this.cancelEditing = function() {
 
-        console.log("New Name: " + this.newName);
         urlUI.setUrlStackKey(currentStackFilter)
         this.isEditing=false;
         this.newName="";
@@ -40,10 +39,8 @@ module.exports = function () {
           var result = store.stack.edit({}, payload);
         //On success
         result.then(function(response) {
-          console.log("New Name is " + self.newName);
           urlUI.addToAvailableStackList(self.newName)
           urlUI.removeFromAvailableStackList(self.stackName);
-          console.log(urlUI.getState().availableStackList)
           if (currentStackFilter == self.stackName){
                  urlUI.setUrlStackKey(self.newName)
              }
@@ -57,7 +54,6 @@ module.exports = function () {
           eventdata["oldstackname"] = self.stackName
           eventdata["newstackname"] = self.newName                      
           $rootScope.$broadcast(urlevents.STACK_EDITED, eventdata);
-          console.log("Stack list now " + self.stackList);
 
           //self.newName="";
           self.isEditing=false;
@@ -84,7 +80,6 @@ module.exports = function () {
 
             var index = self.stackList.indexOf(self.stackName);
             urlUI.removeFromAvailableStackList(self.stackName);
-            console.log(urlUI.getState().availableStackList)
             if (currentStackFilter == self.stackName){
                  urlUI.setUrlStackKey("serversideaddedstack")
              }
@@ -97,13 +92,42 @@ module.exports = function () {
             var eventdata={}
             eventdata["stackname"] = self.stackName
             $rootScope.$broadcast(urlevents.STACK_DELETED, eventdata);
-            console.log("Stack list now " + self.stackList);
 
           }, function(failure) {
-            console.log("Unable to delete stack");
 
           });
        
+      };
+     this.archiveStack = function() {
+          //TODO:
+          //Make API call to delete the stack
+          //On success remove the stackname from the kStackList
+          var toSendStack = []
+          toSendStack.push(self.stackName)
+          var payload = {"stacks":toSendStack};
+          var currentStackFilter = urlUI.getState().selectedUrlStackKey;
+          var result = store.onTopArchive({}, payload);
+          result.then(function(response) {
+
+            var index = self.stackList.indexOf(self.stackName);
+            urlUI.addToArchivedStackList(self.stackName);
+            //urlUI.removeFromAvailableStackList(self.stackName);
+            if (currentStackFilter == self.stackName){
+                 urlUI.setUrlStackKey("serversideaddedstack")
+             }
+             else{
+                  urlUI.setUrlStackKey(currentStackFilter)
+             }
+            if( index > -1)
+              self.stackList.splice(index, 1);
+            var eventdata={}
+            eventdata["stackname"] = self.stackName
+            $rootScope.$broadcast(urlevents.STACK_ARCHIVED, eventdata);
+
+          }, function(failure) {
+
+          });
+
       };     
      
     },

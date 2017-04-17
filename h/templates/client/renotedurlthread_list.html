@@ -98,15 +98,15 @@
 
 
 <ul class="thread-list">
- 
    <li id="{{child.id}}"
       class="thread-list__card"
       ng-mouseenter="vm.onFocus({url: child.url})"
       ng-click="vm.onSelect({url: child.url})"
       ng-mouseleave="vm.onFocus({url: null})"
-      ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | filter:onUrlFilter | limitTo:displayedNumber track by child.id">
+      ng-repeat="child in vm.UrlVirtualThreadList.visibleThreads | filter:onUrlFilter | limitTo:displayedNumber as shownItems track by child.id">
       <url ng-class="vm.urlClasses()"
            url="child.url"
+           search-controller="vm.searchController"
            on-shared-stream="vm.onSharedStream">    
       </url>
   </li>
@@ -114,6 +114,8 @@
 <!-- <div class="btn-group top-bar__inner" style="margin-bottom: 7px; padding-right: 0px">
  <div class="btn-group" style="justify-content: flex-end;">
  -->
-  <button class="btn-group primary-action-btn" ng-click="loadMore()" ng-if="vm.loggedin() && vm.hasAnnotations()" title="Click to load more ReNotes">More</button>
+  <button class="btn-group primary-action-btn" ng-show="vm.UrlVirtualThreadList.visibleThreads.length > displayedNumber && shownItems.length >= displayedNumber" ng-click="loadMore()" ng-if="vm.loggedin() && vm.hasAnnotations()" title="Click to load more ReNotes">More</button>
+  <button class="btn-group primary-action-btn" ng-show="shownItems.length < displayedNumber && shownItems.length > 0" ng-if="vm.loggedin() && vm.hasAnnotations()" title="No More ReNotes to Show">No More Renotes to Show</button>
+  <button class="btn-group primary-action-btn" ng-show="shownItems.length < displayedNumber && shownItems.length <= 0" ng-if="vm.loggedin() && vm.hasAnnotations()" title="No ReNotes to Show">No Renotes to Show</button>
 <!-- </div>
  </div> -->

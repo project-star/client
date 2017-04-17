@@ -132,6 +132,7 @@ function session($http, $resource, $rootScope, flash, raven, settings) {
       $rootScope.$broadcast(events.USER_CHANGED, {
         initialLoad: isInitialLoad,
         userid: model.userid,
+        showTutorial: model.showTutorial,
       });
 
       // associate error reports with the current user in Sentry

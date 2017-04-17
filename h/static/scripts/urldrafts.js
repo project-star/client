@@ -66,8 +66,6 @@ function UrlDraftStore() {
   this.get = function get(urlmodel) {
     for (var i = 0; i < this._urldrafts.length; i++) {
       var urldraft = this._urldrafts[i];
-      console.log("++++in get function in urldraft++++")
-      console.log(urldraft)
       if (match(urldraft, urlmodel)) {
         return {
           tags: urldraft.tags,
@@ -95,10 +93,8 @@ function UrlDraftStore() {
       urlmodel: {id: urlmodel.id, $$tag: urlmodel.$$tag},
       tags: changes.tags,
     };
-    console.log(newurlDraft)
     this.remove(urlmodel);
     this._urldrafts.push(newurlDraft);
-    console.log(this._urldrafts)
   };
 
   /** Remove the draft version of an annotation. */

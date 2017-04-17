@@ -21,6 +21,8 @@ var util = require('./util');
 */
 var TAB_DEFAULT = uiConstants.TAB_ANNOTATIONS;
 
+var SHOW_TUTORIALS = true;
+
  /**
   * Default sort keys for each tab.
   */
@@ -41,6 +43,8 @@ TAB_SORTKEYS_AVAILABLE[uiConstants.TAB_ORPHANS] = ['Newest', 'Oldest', 'Location
 var URL_FILTER_KEYS_AVAILABLE = ['all','text','video','audio'];
 
 var AVAILABLE_STACK_LIST = []
+
+var ARCHIVED_STACK_LIST = []
 
 var URL_FILTER_DEFAULT = 'all';
 
@@ -97,11 +101,13 @@ function init(settings) {
     selectedUrlFilterKey: URL_FILTER_DEFAULT,
     selectedUrlStackKey:  URL_STACK_DEFAULT,
     availableStackList: AVAILABLE_STACK_LIST,
+    archivedStackList: ARCHIVED_STACK_LIST,
     // Key by which annotations are currently sorted.
     sortKey: TAB_SORTKEY_DEFAULT[TAB_DEFAULT],
     urlLoading: URL_LOADING,
     // Keys by which annotations can be sorted.
     sortKeysAvailable: TAB_SORTKEYS_AVAILABLE[TAB_DEFAULT],
+    showTutorials: SHOW_TUTORIALS,
   };
 }
 
@@ -160,6 +166,9 @@ var update = {
   SET_SORT_KEY: function (state, action) {
     return {sortKey: action.key};
   },
+  SET_SHOW_TUTORIALS: function (state, action) {
+    return {showTutorials: action.key};
+  },
   SET_URL_LOADING: function (state,action) {
     return {urlLoading: action.key};
   },
@@ -180,6 +189,20 @@ var update = {
         state.availableStackList.push(action.key)
      }
     return {availableStackList: state.availableStackList};
+  },
+  REMOVE_FROM_ARCHIVED_STACK_LIST: function(state,action){
+     if (state.archivedStackList.indexOf(action.key) != -1){
+          var index = state.archivedStackList.indexOf(action.key);
+          state.archivedStackList.splice(index,1);
+     }
+    return {archivedStackList: state.archivedStackList};
+  },
+
+  ADD_TO_ARCHIVED_STACK_LIST: function(state,action){
+     if (state.archivedStackList.indexOf(action.key) == -1){
+        state.archivedStackList.push(action.key)
+     }
+    return {archivedStackList: state.archivedStackList};
   },
   SET_URL_STACK_KEY: function (state, action) {
     return {selectedUrlStackKey: action.key};
@@ -293,6 +316,12 @@ function setUrlFilterKey(key) {
   };
 }
 
+function setShowTutorials(key) {
+  return {
+    type: actions.SET_SHOW_TUTORIALS,
+    key: key,
+  };
+}
 function setUrlLoading(key) {
   return {
     type: actions.SET_URL_LOADING,
@@ -309,6 +338,20 @@ function addToAvailableStackList(key) {
 function removeFromAvailableStackList(key) {
   return {
     type: actions.REMOVE_FROM_AVAILABLE_STACK_LIST,
+    key: key,
+  };
+}
+
+function addToArchivedStackList(key) {
+  return {
+    type: actions.ADD_TO_ARCHIVED_STACK_LIST,
+    key: key,
+  };
+}
+
+function removeFromArchivedStackList(key) {
+  return {
+    type: actions.REMOVE_FROM_ARCHIVED_STACK_LIST,
     key: key,
   };
 }
@@ -385,10 +428,13 @@ module.exports = {
     setForceVisible: setForceVisible,
     addToAvailableStackList: addToAvailableStackList,
     removeFromAvailableStackList: removeFromAvailableStackList,
+    addToArchivedStackList: addToArchivedStackList,
+    removeFromArchivedStackList: removeFromArchivedStackList,
     setSortKey: setSortKey,
     setUrlFilterKey: setUrlFilterKey,
     setUrlStackKey: setUrlStackKey,
     setUrlLoading: setUrlLoading,
+    setShowTutorials: setShowTutorials,
     toggleSelectedUrls: toggleSelectedUrls,
   },
 

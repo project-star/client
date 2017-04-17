@@ -78,8 +78,6 @@ var update = {
     var nextTag = state.nextTag;
 
     action.urls.forEach(function (url) {
-      console.log("+++++in action add annotations+++++")
-      console.log(url)
       var existing;
       if (url.id) {
         existing = findByID(state.urls, url.id);
@@ -109,8 +107,6 @@ var update = {
         unchanged.push(url);
       }
     });
-    console.log("+++before returning from add_annotations+++")
-    console.log(added.concat(updated).concat(unchanged))
     return {
       urls: added.concat(updated).concat(unchanged),
       nextTag: nextTag,
@@ -157,10 +153,6 @@ var actions = util.actionTypes(update);
 /** Add annotations to the currently displayed set. */
 function addUrls(urls, now) {
   now = now || new Date();
-  console.log("+++++++++in reducers add annoation++++++++++")
-  console.log(now)
-  console.log("++++++++++++++++++++++++++++")
-  console.log(urls)
   // Add dates to new annotations. These are ignored by the server but used
   // when sorting unsaved annotation cards.
   urls = urls.map(function (url) {
@@ -180,8 +172,6 @@ function addUrls(urls, now) {
 
   return function (dispatch, getState) {
     var added = urls.filter(function (url) {
-      console.log("+++++in filter call in reducers++++++")
-      console.log(url)
       return !findByID(getState().urls, url.id);
     });
 
@@ -189,8 +179,6 @@ function addUrls(urls, now) {
       type: actions.ADD_URLS,
       urls: urls,
     });
-   // console.log(dispatch)
-    console.log(!getState().isSidebar)
     if (!getState().isSidebar) {
       return;
     }
@@ -201,8 +189,6 @@ function addUrls(urls, now) {
     var ANCHORING_TIMEOUT = 500;
 
     var anchoringUrls = added.filter(metadata.isWaitingToAnchor);
-    console.log("++++anchoring Url++++++")
-    console.log (anchoringUrls)
     if (anchoringUrls.length) {
       setTimeout(function () {
         arrayUtil

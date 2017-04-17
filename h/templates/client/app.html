@@ -41,7 +41,7 @@
 
 <button class="primary-action-btn" ng-click="toggleLeftNav()" style="position: fixed; left: 0; top: 0;" ng-disabled="urlLoading()">Nav Drawer</button>
 
-<div id="myModal" class="modal" ng-if="auth.status === 'logged-in' && !isSharedStream && showIntro">
+<div id="myModal" class="modal" ng-if="auth.status === 'logged-in' && showIntro()">
   <div style="position: fixed">
     <div class="intro_content">
       <span class="close">
@@ -148,7 +148,11 @@
         </a>
       </li>
       <li><a class="sidebar__nav-label" ng-href="{{urlLoading() ? '' : '/shared'}}" ng-click="toggleSharedStream(true)" ng-class="{sidebar__active: isSharedStream && !urlLoading()}" title="Received Notes">
-      <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li>      
+      <i class="h-icon-users2"></i> Shared With Me {{sharedUpdates}} {{hasSharingUpdates}}</a> <span class="badge" ng-if="ifShared()">{{numberShared()}}</span></li> 
+     <li> <a class="sidebar__nav-label" ng-click="setShowTutorials()" title="Getting Started">
+       <i class="h-icon-star-full"></i> Getting Started
+        </a> 
+      </li>    
     </ul>
 
     <!-- INSERT the code for Stacks here -->
@@ -159,7 +163,9 @@
     <k-stack-list ng-if="auth.status === 'logged-in' && !isSharedStream">
     
     </k-stack-list>
+    <archived-list ng-if="auth.status === 'logged-in' && !isSharedStream">
 
+    </archived-list>
   </nav>
 
 

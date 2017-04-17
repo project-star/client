@@ -34,7 +34,6 @@ function Socket(url) {
   function sendMessages() {
     while (messageQueue.length > 0) {
       var messageString = JSON.stringify(messageQueue.shift());
-      console.log(messageString)
       socket.send(messageString);
     }
   }

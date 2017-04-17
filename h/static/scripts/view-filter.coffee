@@ -111,8 +111,6 @@ module.exports = ['unicode', (unicode) ->
           e
 
     for annotation in annotations
-      console.log("+++++in view filter+++++")
-      console.log(annotation)
       break if count >= limit
 
       match = true

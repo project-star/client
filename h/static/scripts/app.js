@@ -172,7 +172,7 @@ module.exports = angular.module('h', [
   })
 
   // The root component for the application
-  .directive('hypothesisApp', require('./directive/app'))
+  .directive('renotedApp', require('./directive/app'))
 
   // UI components and helpers
   .directive('annotation', require('./directive/annotation').directive)
@@ -216,7 +216,9 @@ module.exports = angular.module('h', [
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
   .directive('kStackList', require('./directive/k-stack-list'))
+  .directive('archivedList', require('./directive/archived-list'))
   .directive('stackItem', require('./directive/stack-item'))
+  .directive('archiveItem', require('./directive/archive-item'))
   .directive('windowScroll', require('./directive/window-scroll'))
   .directive('annotationActions', require('./directive/annotation-actions'))
   .directive('scWidget',['scService', function(scService) {
@@ -325,14 +327,12 @@ module.exports = angular.module('h', [
     //$get gets automatically executed by AngularJS
     
     this.$get = function() {
-      console.log("...Instantiating the scService ...");
       
       var tag = document.createElement('script');
       tag.src = apiUrl;
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       
-      console.log("Injected the sound Cloud widget script in the document");
     };
   })
   
@@ -362,5 +362,5 @@ module.exports = angular.module('h', [
 
 processAppOpts();
 
-var appEl = document.querySelector('hypothesis-app');
+var appEl = document.querySelector('renoted-app');
 angular.bootstrap(appEl, ['h'], {strictDi: true});

@@ -6,7 +6,7 @@ var events = require('./events');
 var parseAccountID = require('./filter/persona').parseAccountID;
 var scopeTimeout = require('./util/scope-timeout');
 var uiConstants = require('./ui-constants');
-
+var urlevents = require('./urlevents');
 function authStateFromUserID(userid) {
   if (userid) {
     var parsed = parseAccountID(userid);
@@ -34,7 +34,6 @@ module.exports = function AppController(
   // logged-in or not, so it has an initial status of 'unknown'. This can be
   // used by templates to show an intermediate or loading state.
   $scope.auth = {status: 'unknown'};
-  console.log(urlUI.getState().urlLoading)
   // Allow all child scopes to look up feature flags as:
   //
   //     if ($scope.feature('foo')) { ... }
@@ -49,7 +48,9 @@ module.exports = function AppController(
   $scope.helpPanel = {visible: false};
 
   //Intro variable
-  $scope.showIntro = true;
+  $scope.showIntro = function () {
+    return urlUI.getState().showTutorials
+   };
   $scope.totalIntroItems = 5;
   $scope.currentIntroItem = 1; //Skip condition
 
@@ -65,19 +66,25 @@ module.exports = function AppController(
       $scope.currentIntroItem = $scope.currentIntroItem + 1;
     else {
       $scope.currentIntroItem = 1; //Skip condition
-      $scope.showIntro = false; //Also set intro completed in user profile (backend)
+      urlUI.setShowTutorials(false); //Also set intro completed in user profile (backend)
     }
   };
 
   $scope.skipIntro = function() {
     $scope.currentIntroItem = 1;
-    $scope.showIntro = false; //Do not set intro completed; user will see the intro till the time he doesn't finish it
+    urlUI.setShowTutorials(false);
   };
+
+   $scope.setShowTutorials = function() {
+    urlUI.setShowTutorials(true);
+  };
+//  $scope.$on(urlevents.STACK_ARCHIVED, function (event, eventdata) {
+//          $route.reload()
+//     });
+
 
   //Variable to set Stream page
  // $scope.isSharedStream = false;
-  console.log($location.path())
-  console.log(urlUI.getState().urlLoading)
   if ($location.path() == "/renote"){
     $scope.isSharedStream = false;
   }
@@ -119,21 +126,17 @@ module.exports = function AppController(
   $scope.setSortKey = urlUI.setSortKey;
   $scope.setUrlFilterKeyAll = function(value) {
       urlUI.setUrlFilterKey('all')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
   $scope.setUrlFilterKeyText = function(value) {
       urlUI.setUrlFilterKey('text')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
 
  $scope.setUrlFilterKeyVideo = function(value) {
       urlUI.setUrlFilterKey('video')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
 
  $scope.setUrlFilterKeyAudio = function() {
       urlUI.setUrlFilterKey('audio')
-      console.log(urlUI.getState().selectedUrlFilterKey);
   }
 
 
@@ -141,7 +144,7 @@ module.exports = function AppController(
   $scope.$on(events.USER_CHANGED, function (event, data) {
     $scope.auth = authStateFromUserID(data.userid);
     $scope.accountDialog.visible = false;
-
+    urlUI.setShowTutorials(data.showTutorial)
     if (!data || !data.initialLoad) {
       $route.reload();
     }
@@ -152,7 +155,7 @@ module.exports = function AppController(
     // update the auth info in the top bar and show the login form
     // after first install of the extension.
     $scope.auth = authStateFromUserID(state.userid);
-
+    urlUI.setShowTutorials(state.showTutorial)
     if (!state.userid && settings.openLoginForm) {
       $scope.login();
     }
@@ -184,8 +187,6 @@ module.exports = function AppController(
   $scope.filterByStack = function(stackName) {
     if (!urlUI.getState().urlLoading){
     urlUI.setUrlStackKey(stackName)
-    console.log("I am in the app-controller printing the stackname of the clicked stack " + stackName);
-    console.log("uiselectedstack " + urlUI.getState().selectedUrlStackKey)
    }
   };
 
@@ -200,15 +201,15 @@ module.exports = function AppController(
   };
 
   $scope.toggleSharedStream = function (flag) {
-    console.log("Entering here to switch stream page with flag " + flag);
+    if (!urlUI.getState().urlLoading){
     datacollect.connectionsend("SharedStreamToggled")
-    console.log(datacollect.hasSharingUpdates())
 //    if (flag) {
 //       $rootScope.$emit(events.SHARING_CLEARED)
 //      }
     $scope.isSharedStream = flag;
     urlUI.setUrlFilterKey('all')
     urlUI.setUrlStackKey('serversideaddedstack')
+   }
   };
 
 
@@ -273,5 +274,4 @@ module.exports = function AppController(
   $scope.applyPendingUpdates = streamer.applyPendingUpdates;
   $scope.hasSharingUpdates = datacollect.hasSharingUpdates;
   $scope.sharedUpdates = datacollect.sharedUpdates.sharecount;
-  console.log(urlUI.getState().urlLoading)  
 };

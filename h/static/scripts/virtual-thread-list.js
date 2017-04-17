@@ -142,9 +142,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
   var newallThreads = []
   for (var i = 0; i < allThreads.length; i++) {
       thread=allThreads[i];
-      console.log("++++in first for loop virtual thread list++++")
 
-      console.log("This is uri_id for the annotation: " + thread.annotation.uri_id)
       if (urllist.indexOf(thread.annotation.uri_id) == -1){
           thread.annotation.type="first";
           urllist.push(thread.annotation.uri_id); //this is pushing each unique URI into the urllist object
@@ -184,12 +182,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
        sortval.value=startposition
        sortArr.push(sortval)
   }
-    console.log("+++in extended virtualthreadlist+++++")
-    console.log(sortArr)
     sortArr.sort(function(a, b) { return a.value - b.value; });
-    console.log("+++in extended virtualthreadlist+++++")
-    console.log(sortArr)
-    console.log(urllist)
     
     for (var m=0; m< sortArr.length; m++) {
          for (var k=0; k < medievalallThreads.length; k++){
@@ -213,9 +206,7 @@ VirtualThreadList.prototype._updateVisibleThreads = function () {
 
   for (var i = 0; i < newallThreads.length; i++) {
     thread = newallThreads[i];
-    console.log("++++in virtual thread list++++")
     
-    console.log(thread)
     var threadHeight = this._height(thread.id);
 
     if (usedHeight + threadHeight < this.window.pageYOffset - MARGIN_ABOVE) {

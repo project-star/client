@@ -28,9 +28,6 @@ module.exports = class SharedStreamController
 
     fetchurllist = () ->
         searchParams = searchFilter.toObject($routeParams.q)
-        console.log(searchParams)
-        console.log(toSort)
-        console.log(Object.keys(searchParams).length)
         if searchParams.hasOwnProperty('any')
             toSort = false
         query = angular.extend(searchParams)
@@ -40,8 +37,6 @@ module.exports = class SharedStreamController
         #call the shared urls query
 
     loadurllist = ({total,urllist}) ->
-        console.log("+++in new loadurllist function++++")
-        console.log(urllist)
         $scope.isLoading = false;
         urlUI.setUrlLoading(false)
         urlMapper.loadUrls(urllist)
@@ -50,36 +45,26 @@ module.exports = class SharedStreamController
         store.url({id: urlid}).then(loadurl).catch((err) -> console.error err)
  
     loadurl = ({rows,replies}) ->
-        console.log("+++in new loadurl function++++")
-        console.log(rows.annotations)
     #    annotationMapper.loadAnnotations(rows.annotations)
      
 
      
     load = ({rows, replies}) ->
       offset += rows.length
-      console.log("++++in new stream-filter-controller++++")
       urllist=[]
       rowsnew=[]
-      console.log(rows)
       for val in rows
-          console.log(val.uri_id)
           if (val.uri_id) not in urllist
               val.type='first'
               val.recall='first'
               urllist.push(val.uri_id)
           else
               val.type='second'
-      console.log("printing the urllist in new stream controller")
-      console.log(urllist)
       fetchurllist()      
       for urlvalue in urllist
           for val1 in rows
               if val1.uri_id == urlvalue
-                  console.log("+++++in load function in new stream controller++++++")
-                  console.log(val1.uri_id)
                   rowsnew.push(val1)
-      console.log(rowsnew)
     #  annotationMapper.loadAnnotations(rowsnew, replies)
 
     # Reload on query change (ignore hash change)

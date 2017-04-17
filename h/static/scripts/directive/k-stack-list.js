@@ -7,7 +7,7 @@ module.exports = function () {
     controllerAs: 'vm',
     
     //@ngInject
-    controller: function ($scope,store,urlUI) {
+    controller: function (store,urlUI) {
       var self=this;
       this.isUrlLoading = urlUI.getState().urlLoading;
       this.kStackList = []; //empty list
@@ -50,10 +50,7 @@ module.exports = function () {
         });
 
       };
-      
-      $scope.$on(urlevents.STACK_DEARCHIVED, function (event, eventdata) {
-          self.kStackList.push(eventdata["stackname"])
-     });
+
       this.setKStackForPageOnSave = function() {
         //TODO:
         //Make API call to update URL stack property with supplied stack name

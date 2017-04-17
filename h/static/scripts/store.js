@@ -165,12 +165,7 @@ function store($http, settings) {
       get: createAPICall($http, links, 'stack.read'),
       edit: createAPICall($http, links, 'stack.edit'),
       delete: createAPICall($http, links, 'stack.delete'),
-    },
-   stackService: {
-      read: createAPICall($http,links,'stackService'),
-   },
-   onTopDearchive: createAPICall($http, links, 'ontopDearchive'),
-   onTopArchive: createAPICall($http, links, 'ontopArchive'),
+    }
   };
 }
 

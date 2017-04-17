@@ -97,37 +97,6 @@ module.exports = function () {
 
           });
        
-      };
-     this.archiveStack = function() {
-          //TODO:
-          //Make API call to delete the stack
-          //On success remove the stackname from the kStackList
-          var toSendStack = []
-          toSendStack.push(self.stackName)
-          var payload = {"stacks":toSendStack};
-          var currentStackFilter = urlUI.getState().selectedUrlStackKey;
-          var result = store.onTopArchive({}, payload);
-          result.then(function(response) {
-
-            var index = self.stackList.indexOf(self.stackName);
-            urlUI.addToArchivedStackList(self.stackName);
-            //urlUI.removeFromAvailableStackList(self.stackName);
-            if (currentStackFilter == self.stackName){
-                 urlUI.setUrlStackKey("serversideaddedstack")
-             }
-             else{
-                  urlUI.setUrlStackKey(currentStackFilter)
-             }
-            if( index > -1)
-              self.stackList.splice(index, 1);
-            var eventdata={}
-            eventdata["stackname"] = self.stackName
-            $rootScope.$broadcast(urlevents.STACK_ARCHIVED, eventdata);
-
-          }, function(failure) {
-
-          });
-
       };     
      
     },

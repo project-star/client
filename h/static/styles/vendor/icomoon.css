@@ -248,21 +248,6 @@
 .h-icon-border-color:before {
   content: "\e60e";
 }
-.h-icon-insertarchive:before {
-  content: "\e960";
-}
-.h-icon-deinsertarchive:before {
-  content: "\e961";
-}
-.h-icon-archives:before {
-  content: "\ea72";
-}
-.h-icon-dots-three-vertical2:before {
-  content: "\e920";
-}
-.h-icon-dots-three-vertical:before {
-  content: "\e921";
-}
 .h-icon-clipboard2:before {
   content: "\e90e";
 }
@@ -391,6 +376,9 @@
 }
 .h-icon-IE2:before {
   content: "\eae2";
+}
+.h-icon-safari2:before {
+  content: "\eae3";
 }
 .h-icon-opera2:before {
   content: "\eae4";
@@ -709,5 +697,11 @@
 }
 .h-icon-checkbox-unchecked:before {
   content: "\ea55";
+}
+.h-icon-dots-three-vertical2:before {
+  content: "\e920";
+}
+.h-icon-dots-three-vertical:before {
+  content: "\e921";
 }
 

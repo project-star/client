@@ -4,7 +4,8 @@ isMedia = ->
   uri = document.location.href
   matchYT = uri.includes("youtube.com")
   matchSC = uri.includes("soundcloud.com")
-  if matchYT or matchSC
+  matchDM = uri.includes("dailymotion.com")
+  if matchYT or matchSC or matchDM
     return true
   
   return false
@@ -170,10 +171,24 @@ module.exports = class Toolbar extends Annotator.Plugin
           uri = document.location.href
           matchYT = uri.includes("youtube.com")
           matchSC = uri.includes("soundcloud.com")
+          matchDM = uri.includes("dailymotion.com")
           renoted_id = new Date().getTime().toString() + Math.floor((Math.random() * 10000) + 1).toString();
           val={}
           params={}
-          if matchSC
+          if matchDM
+              #Add the code to read the start and end times and create annotation
+              console.log "in the DM match condition on toolbar.coffee"
+              val.id =renoted_id
+              val.starttime=5
+              val.endtime = 10
+              val.uri = "http://www.dailymotion.com/video/x5hw0xz_khalifa-st-fort-girls-under-20-100-m_sport"
+              val.title = "check"
+              IDLIST.push(val) 
+              @annotator.createAnnotation($renoted_id : IDLIST[0].id, dmdata: IDLIST)
+                  
+              IDLIST = []
+
+          else if matchSC
               scDomainURI = "https://soundcloud.com"
               scPlayer=document.getElementsByClassName("playbackTimeline__progressWrapper")
 

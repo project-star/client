@@ -208,6 +208,17 @@ module.exports = angular.module('h', [
     };
   }
   ])
+  .directive('dmPlayer',['dmService', function(dmService) {
+    return {
+      restrict: 'E',
+      scope: {
+        trackId : '=',
+        playerId : '=',
+      },
+      template: require('../../templates/client/dm_player.html'),      
+    };
+  }
+  ])  
   .directive('youtube', function($window) {
   return {
     restrict: "E",
@@ -300,13 +311,29 @@ module.exports = angular.module('h', [
     var apiUrl = "https://w.soundcloud.com/player/api.js";
     //$get gets automatically executed by AngularJS
     
-    this.$get = function() {
-      
+    this.$get = function() {      
       var tag = document.createElement('script');
       tag.src = apiUrl;
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       
+    };
+  })
+  .provider('dmService', function() {
+    //constructor function of the Provider
+    var apiUrl = "https://api.dmcdn.net/all.js";
+    //$get gets automatically executed by AngularJS
+    
+    this.$get = function() {
+
+      //DM.init({ apiKey: '7bfd31f1d9129b3a9be0', status: true, cookie: true });
+        var e = document.createElement('script');
+        e.async = true;
+        e.src = "https://api.dmcdn.net/all.js";
+
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(e, s);
+           
     };
   })
   .provider('youtubeService', function() {
@@ -343,7 +370,10 @@ module.exports = angular.module('h', [
     //TODO: Set the SC Widget API here
 
   }])
-  
+  .config(['dmServiceProvider', function(dmServiceProvider) {
+    //TODO: Set the Dailymotion player API here
+
+  }])   
   .run(setupHttp);
 
 processAppOpts();

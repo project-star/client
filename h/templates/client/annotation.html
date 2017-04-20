@@ -62,12 +62,18 @@
      <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
   </span>
     <!-- YOUTUBE EMBEDDING CODE -->
+
+    <div id='dmFrame'></div>
+    <button class="primary-action-btn" ng-click="vm.loadDMPlayer()">Load/Reload</button>
+    <dm-player></dm-player>
+
     <iframe ng-if="vm.isVideo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
                 frameborder='0'
                 allowfullscreen ></iframe >
     <div>
       <button class="primary-action-btn" ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button>
     </div>
+
 
      <span ng-if="vm.isVideo() && vm.editing()">
      <br>

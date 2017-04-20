@@ -75,7 +75,7 @@ function updateModel(annotation, changes, permissions) {
 function AnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,$interval,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
-  session, store, streamer, scService) {
+  session, store, streamer, scService, dmService) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -360,6 +360,70 @@ function AnnotationController(
     else
       return "error";
   }
+
+  
+
+  vm.loadDMPlayer = function() {
+
+    DM.init({ apiKey: '7bfd31f1d9129b3a9be0', status: true, cookie: true });
+
+    console.log("DM player initialised!");
+
+    var playerId = 'dmFrame';
+    var startTime = 10;
+    var endTime = 15;
+    var player = DM.player(playerId, {
+    video: 'xwr14q',
+    params: {
+      autoplay: false,
+      start: startTime //Time where the video should start
+    }
+    });
+
+    player.addEventListener('apiready', function(event) {
+    console.log("received" );
+    //player.seek(5);
+    });
+
+    //flag to determine if the player should be paused, based on the starting point of play
+    var doPause = true;
+
+    // handleTimeUpdate = function(e) {
+
+    //   console.log("the time has updated... DO something");
+    //   var startPoint = player.currentTime;
+
+    //   if(startPoint < endTime)
+    //     doPause = true;
+
+
+    //   //Get the current time of the playback
+    //   if( doPause && startPoint >= endTime)
+    //   {
+    //     player.pause();
+    //     doPause = false;
+    //   }
+    // };
+
+    player.addEventListener('timeupdate', function(e) {
+
+      console.log("the time has updated... DO something");
+      var startPoint = player.currentTime;
+
+      if(startPoint < endTime)
+        doPause = true;
+
+
+      //Get the current time of the playback
+      if( doPause && startPoint >= endTime)
+      {
+        player.pause();
+        doPause = false;
+      }
+    });
+
+
+};
 
   //Load the soundcloud Widget with correct settings
   vm.loadAudioWidget = function() {

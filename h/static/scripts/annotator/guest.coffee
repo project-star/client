@@ -112,8 +112,8 @@ module.exports = class Guest extends Annotator
       docURI = document.location.href
       tempYT = docURI.includes("youtube.com")
       tempSC = docURI.includes("soundcloud.com")
-
-      if tempYT
+      tempDM = docURI.includes("dailymotion.com")
+      if tempYT or tempDM
         uriPromise = Promise.resolve(decodeURIComponent(window.location.href))
         metadataPromise = Promise.resolve({
           title: document.title

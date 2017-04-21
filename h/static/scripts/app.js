@@ -197,7 +197,17 @@ module.exports = angular.module('h', [
   .directive('timestamp', require('./directive/timestamp'))
   .directive('topBar', require('./directive/top-bar'))
   .directive('windowScroll', require('./directive/window-scroll'))
-  .directive('videoFrame', require('./directive/video-frame'))
+  .directive('videoFrame',['vidService', function(vidService) {
+    return {
+      restrict: 'E',
+      scope: {
+        trackUrl : '=',
+        playerId : '=',
+      },
+      template: require('../../templates/client/video_frame.html'),
+    };
+  }
+  ])
   .directive('scWidget',['scService', function(scService) {
     return {
       restrict: 'E',
@@ -318,6 +328,21 @@ module.exports = angular.module('h', [
     this.$get = function() {
 
       var tag = document.createElement('script');
+      tag.src = apiUrl;
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    };
+  })
+  .provider('vidService', function() {
+    //constructor function of the Provider
+    var apiUrl = "https://player.vimeo.com/api/player.js";
+    //$get gets automatically executed by AngularJS
+
+    this.$get = function() {
+
+      var tag = document.createElement('script');
+      tag.async = true;
       tag.src = apiUrl;
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);

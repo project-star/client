@@ -75,7 +75,7 @@ function updateModel(annotation, changes, permissions) {
 function AnnotationController(
   $document, $q, $rootScope, $scope, $timeout, $window, annotationUI,$interval,
   annotationMapper, drafts, flash, features, groups, permissions, serviceUrl,
-  session, store, streamer, scService) {
+  session, store, streamer, scService,vidService) {
 
   var vm = this;
   var newlyCreatedByHighlightButton;
@@ -143,7 +143,6 @@ function AnnotationController(
 
     /** if True the Video frame will be loaded*/
     vm.loadVideo = true;
-
     /**
       * `true` if this AnnotationController instance was created as a result of
       * the highlight button being clicked.
@@ -154,7 +153,6 @@ function AnnotationController(
       */
     newlyCreatedByHighlightButton = vm.annotation.$highlight || false;
     newlyCreatedMedia = vm.annotation.$newMedia || false;
-  
     // New annotations (just created locally by the client, rather then
     // received from the server) have some fields missing. Add them.
     vm.annotation.user = vm.annotation.user || session.state.userid;
@@ -249,10 +247,6 @@ function AnnotationController(
   vm.newMedia = function() {
     return vm.annotation.$newMedia || false;
   };
-  vm.iframeId = function(){
-      var val = document.getElementsById('212973707')
-      return val
-    }
 
   /**
     * @ngdoc method
@@ -340,6 +334,7 @@ function AnnotationController(
     else
        return false;
    } 
+     
 
   $scope.trustSrcurl = function(data) 
   {
@@ -399,27 +394,91 @@ function AnnotationController(
     });
   }
 
+  
+ vm.getVideoType = function(uri) {
+   if (uri.includes("vimeo.com")){
+      return "vimeo"
+   }
+  else if (uri.includes("dailymotion.com")){
+      return "dailymotion"
+   }
+  else
+      return "unknown"
+
+}
+ 
+vm.getVideoId = function(){
+  if (vm.annotation.hasOwnProperty('viddata')){
+       if (vm.annotation.viddata[0].hasOwnProperty('newPlatform')) {
+         var urival=vm.annotation.viddata
+         var annotateduri=urival[0].uri
+         if (annotateduri.includes("vimeo.com")){
+       var videoId = annotateduri.split("https://vimeo.com/")[1]
+       console.log (videoId)
+       return videoId
+    }
+   }
+   else
+      return "unknown"
+    
+}
+}
+
+vm.isVimeo = function(){
+   if (vm.annotation.hasOwnProperty('viddata')){
+       if (vm.annotation.viddata[0].hasOwnProperty('newPlatform')) {
+           var urival=vm.annotation.viddata
+           var annotateduri=urival[0].uri
+           if (annotateduri.includes("vimeo.com")){
+              return true
+           }
+         }
+     }
+     return false
+  }
+
+vm.isNewPlatform = function(){
+   if (vm.annotation.hasOwnProperty('viddata')){
+       if (vm.annotation.viddata[0].hasOwnProperty('newPlatform')) {
+              return true
+           }
+        else
+              return false
+     }
+   else
+     return false
+  }
+
 
   //URL to be embedded into Video player
   vm.videoembedurl = function() {    
      if (vm.annotation.hasOwnProperty('viddata')){
-       var urival=vm.annotation.viddata
-       var annotateduri=urival[0].uri
-       var id=annotateduri.split('v=')[1]
-       id = id.split('&')[0]
-       var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
-       var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
-       var val="https://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
-       if(vm.loadVideo)
-        return val;
-       else
-        {
-          //FIXME: This is a hack to reload the iframe on clicking the load/reload button
-          //needs to be fixed with a directive level watch implementation
-          var val2="https://youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime;
-          return val2;
-      }
-      }
+       if (vm.annotation.viddata[0].hasOwnProperty('newPlatform')) {
+           var urival=vm.annotation.viddata
+           var annotateduri=urival[0].uri
+           if (annotateduri.includes("vimeo.com")){
+             var vimeourl = "https://player.vimeo.com/video/" + vm.getVideoId()
+             console.log(vimeourl)
+             return vimeourl
+           }
+         }
+           var urival=vm.annotation.viddata
+           var annotateduri=urival[0].uri
+           var id=annotateduri.split('v=')[1]
+           id = id.split('&')[0]
+           var starttime=Math.round(vm.annotation.viddata[0].starttime).toString()
+           var endtime=Math.round(vm.annotation.viddata[0].endtime).toString()
+           var val="https://www.youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime
+           if(vm.loadVideo)
+            return val;
+           else
+           {
+              //FIXME: This is a hack to reload the iframe on clicking the load/reload button
+              //needs to be fixed with a directive level watch implementation
+              var val2="https://youtube.com/embed/"+id+"?start="+starttime+"&end=" + endtime;
+              return val2;
+          }
+     }
      else {
        return "success"
       }
@@ -959,6 +1018,53 @@ function AnnotationController(
   vm.documentMeta = function () {
     return documentMeta(vm.annotation);
   };
+
+vm.createVMPlayer = function() {
+  var startTime = vm.annotation.viddata[0].starttime;
+  var endTime = vm.annotation.viddata[0].endtime;
+
+ // var iframe = document.querySelector(‘iframe’);
+  // var player = new Vimeo.Player(iframe);
+
+ var options = {
+      id: vm.getVideoId(),
+      width: 350
+  };
+
+ var player = new Vimeo.Player(vm.getPlayerId(), options);
+
+ var onPlay = function() {
+    console.log("Now the video is playing");
+    player.setCurrentTime(startTime).then(function(seconds) {})
+    
+ };
+
+ player.on('play', onPlay);
+
+ var doPause = true;
+
+ var onPlaying = function(e) {
+
+   player.getCurrentTime().then(function(startPoint) {
+
+     if(startPoint < endTime)
+        doPause = true;
+
+     //Get the current time of the playback
+      if( doPause && startPoint >= endTime)
+      {
+        player.pause();
+        doPause = false;
+        player.off('play');
+      }
+
+   });
+
+   console.log("the time has updated... DO something " + startPoint);
+  };
+
+ player.on('timeupdate', onPlaying);
+};  
 
   init();
 }

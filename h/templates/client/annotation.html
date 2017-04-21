@@ -38,8 +38,6 @@
         </span>
       </span>
       -->
-  <iframe id="212973707" src="https://player.vimeo.com/video/212973707" width="320" height="240" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<div>  {{vm.iframeId()}} </div>
   <span ng-if=vm.isAudio()>
     <sc-widget ng-if=vm.isAudio() track-url=vm.audioEmbedUrl() player-id="vm.getPlayerId()">  
     </sc-widget>
@@ -47,7 +45,10 @@
       <button class="primary-action-btn" ng-if=vm.isAudio() ng-click="vm.loadAudioWidget()">Load/Reload</button>
     </div>
   </span>
-
+   <video-frame ng-if="vm.isVideo() && vm.isVimeo()"  track-url=vm.videoembedurl() player-id="vm.getPlayerId()"></video-frame>  
+    <div>
+    <button class="primary-action-btn" ng-click="vm.createVMPlayer()" ng-if="vm.isVideo() && vm.isVimeo()" track-url=vm.videoembedurl() player-id="vm.getPlayerId()">Load/Reload</button>
+    </div>
   <span ng-if="vm.isAudio() && vm.editing()">
      <br> 
      <b> Start Time: <vidmarkdown text="vm.getStarttime()"
@@ -64,11 +65,11 @@
      <b> Start Time: {{ vm.getStarttime() }}  &nbsp; &nbsp; End Time: {{ vm.getEndtime() }} &nbsp; &nbsp; Duration: {{ vm.getDuration() }}</b>
   </span>
     <!-- YOUTUBE EMBEDDING CODE -->
-    <iframe ng-if="vm.isVideo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
+    <iframe ng-if="vm.isVideo() && !vm.isVimeo()" src='{{ vm.videoembedurl() }}' id="vm.getPlayerId()"
                 frameborder='0'
                 allowfullscreen ></iframe >
     <div>
-      <button class="primary-action-btn" ng-if=vm.isVideo() ng-click=vm.setLoadVideo()>Load/Reload</button>
+      <button class="primary-action-btn" ng-if="vm.isVideo() && !vm.isVimeo()" ng-click=vm.setLoadVideo()>Load/Reload</button>
     </div>
 
      <span ng-if="vm.isVideo() && vm.editing()">

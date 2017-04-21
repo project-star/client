@@ -135,7 +135,7 @@ options.onVidClick(vidObject)
 //console.log("true")
 }
 
-function findVideos(document_root){
+function findVideos(document_root,options){
 var  iframe = document_root.getElementsByTagName('video');
 console.log(iframe)
 for (var i =0; i<iframe.length; i++){
@@ -144,28 +144,46 @@ for (var i =0; i<iframe.length; i++){
     newEl.innerHTML = '<p  class="video-renote" style="position: relative; z-index: 65535; color:red">Hello World!</p>';
 //    iframe[i].parentNode.insertBefore(newEl,iframe[i])
     var videoframe1 = iframe[i]
-    iframe[i].addEventListener('playing',function(){ clickedbutton4(iframe[i])});
-//    iframe[i].addEventListener('timeupdate',function(){ clickedbutton5(videoframe1)});
+    iframe[i].addEventListener('playing',function(){ clickedbutton4(options,iframe[i])});
+    iframe[i].addEventListener('timeupdate',function(){ clickedbutton5(options,videoframe1)});
+    iframe[i].addEventListener('pause',function(){ clickedbutton6(options,videoframe1)});
+    iframe[i].addEventListener('play',function(){ clickedbutton5(options,videoframe1)});
+    iframe[i].addEventListener('playing',function(){ clickedbutton5(options,videoframe1)});
+    iframe[i].addEventListener('seeked',function(){ clickedbutton5(options,videoframe1)});
     console.log(iframe[i])
 }
 
 }
 
-function clickedbutton4(videoframe1){
+function clickedbutton4(options,videoframe1){
     console.log("in clickbutton 4")
     console.log(true)
 
 }
 
-function clickedbutton5(videoframe1){
+function clickedbutton5(options,videoframe1){
     console.log(videoframe1)
     console.log("in clickbutton 5")
     console.log(true)
     console.log(videoframe1.currentTime)
-    if (videoframe1.currentTime > 20){
-//       videoframe1.pause()
-   }
+    var vidObject = {}
+    vidObject.curTime = videoframe1.currentTime              
+vidObject.curState = 2                                    
+vidObject.curRate = videoframe1.playbackRate
+options.onVidClick(vidObject)
 
+}
+
+function clickedbutton6(options,videoframe1){
+    console.log(videoframe1)
+    console.log("in clickbutton 6")
+    console.log(true)
+    console.log(videoframe1.currentTime)
+    var vidObject = {}
+vidObject.curTime = videoframe1.currentTime
+vidObject.curState = 2
+vidObject.curRate = videoframe1.playbackRate
+options.onVidClick(vidObject)
 }
 
 function attachShadow(element) {
@@ -241,7 +259,7 @@ function Adder(container, options) {
 
   findVideoOnYoutube(document,options)
   var currentState = "";
-  if (document.location.href.indexOf("youtube.com") !==-1){
+  if (document.location.href.indexOf("youtube.com") !==-1 || document.location.href.indexOf("dailymotion.com") !==-1){
     setInterval(function(){
     if (currentState != history.state["spf-referer"]) {
         currentState = history.state["spf-referer"];
@@ -250,7 +268,7 @@ function Adder(container, options) {
      }
     },1000)
    }
-  findVideos(document)
+  findVideos(document,options)
   Object.assign(container.style, {
     // Set initial style. The adder is hidden using the `visibility`
     // property rather than `display` so that we can compute its size in order to

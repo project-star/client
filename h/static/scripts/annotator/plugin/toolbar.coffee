@@ -183,7 +183,46 @@ module.exports = class Toolbar extends Annotator.Plugin
           if videoiframes.length > 0
               console.log(videoiframes[0])
               console.log(videoiframes[0].currentTime);
-          if matchSC
+              console.log(videoiframes[0].duration)
+              console.log(videoiframes[0].readyState)
+              if IDLIST.length > 0
+                   endtime=videoiframes[0].currentTime
+                   IDLIST[0].endtime=endtime
+
+                   # FIX ME:Reset the endtime on clicking the end recording button
+                   @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST)
+                   IDLIST=[]
+                   #state = false
+                   #@toolbar.setVideoSnippetButton state
+
+              else
+                   starttime=videoiframes[0].currentTime
+
+                   #set end time to duration by default
+                   endtime = videoiframes[0].duration
+
+                   val.id =renoted_id
+                   val.starttime=starttime
+                   val.newPlatform = true
+                   params.curTime = videoiframes[0].currentTime
+                   params.curRate = videoiframes[0].playbackRate
+                   params.curState = 1
+                   paramList.push(params)
+                   # resolving Bug#33
+                   val.endtime = endtime
+                   console.log (uri)
+                   val.uri=uri
+                   if (videoiframes[0].readyState > 2)
+                       IDLIST.push(val)
+                       # Create a new annotation and get its reference
+                       @annotator.createAnnotation($renoted_id : IDLIST[0].id, viddata: IDLIST,params:paramList, $newMedia:true)
+                       IDLIST = []
+                       paramList =[]
+                    else
+                       alert("Please play the video as not enough information is available at this point")                       
+                   #state = true
+                   #@toolbar.setVideoSnippetButton state
+          else  if matchSC
               scDomainURI = "https://soundcloud.com"
               scPlayer=document.getElementsByClassName("playbackTimeline__progressWrapper")
 
@@ -294,7 +333,6 @@ module.exports = class Toolbar extends Annotator.Plugin
 
                                val.id =renoted_id
                                val.starttime=starttime
-
                                # resolving Bug#33
                                val.endtime = endtime
                                val.uri=eplayer.getVideoUrl()
@@ -332,7 +370,6 @@ module.exports = class Toolbar extends Annotator.Plugin
 
                                val.id =renoted_id
                                val.starttime=starttime
-
                                # resolving Bug#33
                                val.endtime = endtime
                                val.uri=iframe.getVideoUrl()
